@@ -19,7 +19,7 @@ Our Discord Bot List v3 project is a comprehensive and feature-rich platform for
 <a href="https://discord.gg/sQQFSnQhdt"><img src="https://discordapp.com/api/guilds/793149744847257600/widget.png?style=banner2"/></a>
 
 # Startup
-- Clone repository
+- Clone repository [fork](https://github.com/Astra-Development/Discord-Bot-List-v3/fork)
 - fill the `config.js` file
 - `npm install`
 - `node client.js`
