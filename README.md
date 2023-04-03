@@ -22,7 +22,7 @@ Our Discord Bot List v3 project is a comprehensive and feature-rich platform for
 - Clone repository
 - fill the `config.js` file
 - `npm install`
-- `node index`
+- `node client.js`
 **Have Fun**, Don't forget to leave a star to expand our services
 
 ### Theme-Options
