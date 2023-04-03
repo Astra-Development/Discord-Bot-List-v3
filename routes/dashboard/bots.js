@@ -11,7 +11,7 @@ app.get("/dashboard/bots", async (req, res) => {
         message: "You need to be logged in to view this page."
     });
 
-    if (req.user.id != "857177733398265876") return res.render("404", {
+    if (!global.config.client.owners.includes(req.user.id)) return res.render("404", {
         bot: global.client ? global.client : null,
         path: req.path,
         user: req.isAuthenticated() ? req.user : null,
