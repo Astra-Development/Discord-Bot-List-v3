@@ -15,7 +15,7 @@ module.exports = {
     },
 
     database: {
-        url: '',
+        url: '', // Mongo url
     },
 
     website: {
