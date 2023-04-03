@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+  <title> <%- botdata.username %> | Astra Bot List </title>
+  <link rel="shortcut icon" href="<%= bot.users.cache.get(botdata.botID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>">
+  <meta property="og:url" content="https://astrabots.xyz/bot/<%=botdata.botID%>">
+  <meta property="og:type" content="website">
+  <meta property="og:image:alt" content="<%= bot.users.cache.get(botdata.botID)?.username || 'Undefined' %>">
+  <meta property="og:title" content="<%=bot.users.cache.get(botdata.botID)?.username %> | astrabots.xyz">
+  <meta property="og:description" content="<%= botdata.shortDesc %>">
+  <meta property="og:image" content="<%= bot.users.cache.get(botdata.botID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>">
+  <meta property="og:site_name" content="astrabots.xyz">
+  <meta property="og:image:type" content="image/png">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#5024f3">
+</head>
+
+<%- include('../partials/head') %>
+
+<body>
+  <%- include('../partials/spinner') %>
+  <main class="page-wrapper">
+    <%- include('../partials/header') %>
+
+    <section class="container mt-4 mb-5 pt-2 pb-lg-5">
+      <div class="row gy-4"></div>
+    </section>
+
+    <section class="container pb-lg-5 border-bottom">
+      <div class="row gy-md-5 gy-4">
+
+        <!-- Player + Timeline -->
+        <div class="col-lg-9 col-md-8 order-md-1">
+          <div class="mb-4 mb-lg-5">
+            <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+              <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                <img src="<%= bot.users.cache.get(botdata.botID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="Bot Avatar">
+                <div class="ps-3">
+                  <h6 class="fw-semibold lh-base mb-0">
+                    <%= botdata.username %>
+                  </h6>
+                  <% if (bot.guilds.cache.get(config.server.id).members.cache.get(botdata.botID)?.presence?.status == 'online') { %>
+                  <span class="badge bg-faded-success text-success me-2 mb-2">Online</span>&nbsp;|&nbsp;&nbsp;
+                  <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(botdata.botID)?.presence?.status == 'idle') { %>
+                  <span class="badge bg-faded-warning text-warning me-2 mb-2">Idle</span>&nbsp;|&nbsp;&nbsp;
+                  <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(botdata.botID)?.presence?.status == 'dnd') { %>
+                  <span class="badge bg-faded-danger text-danger me-2 mb-2">Do Not Disturb</span>&nbsp;|&nbsp;&nbsp;
+                  <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(botdata.botID)?.presence?.status == 'offline') { %>
+                  <span class="badge bg-faded-light text-secondary me-2 mb-2">Offline</span>&nbsp;|&nbsp;&nbsp;
+                  <% } else { %>
+                  <span class="badge bg-faded-light text-secondary me-2 mb-2">Offline</span>&nbsp;|&nbsp;&nbsp;
+                  <% } %>
+                  <span class="fs-sm text-muted"><%= botdata.shortDesc %></span>
+                </div>
+              </figcaption>
+            </div>
+          </div>
+
+          <div class="text-center5">
+            <a href="#botDetails" class="btn btn-primary fw-semibold w-100 d-md-none mb-3" data-scroll>
+              <i class="bx bxs-chevron-down align-middle me-2 "></i>
+              Click to view bot information
+            </a>
+          </div>
+
+          <% if (botdata.status === 'UnApproved') { %>
+          <div class="card card-body border-0 shadow-sm position-relative overflow-hidden ps-sm-5 mb-5">
+            <div class="position-absolute top-0 start-0 w-3 h-100 bg-danger"></div>
+            <h2 class="h4 fw-normal lh-base">
+              <span class="fw-semibold">This bot is currently unapproved.</span>
+            </h2>
+            <p class="fs-lg mb-1">
+              This bot is currently unapproved. This means that it is not yet ready for public use. Be careful when using this bot, as it may not be stable.
+          </div>
+          <% } else if (botdata.promote === 'Promoted') { %>
+          <div class="card card-body border-0 shadow-sm position-relative overflow-hidden ps-sm-5 mb-5">
+            <div class="position-absolute top-0 start-0 w-3 h-100 bg-warning"></div>
+            <h2 class="h4 fw-normal lh-base">
+              <span class="fw-semibold">This bot is currently promoted.</span>
+            </h2>
+            <p class="fs-lg mb-1">
+              The bot owner has chosen to promote this bot!
+          </div>
+          <% } %>
+
+          <h3 class="h4 mb-4 pt-2 pt-md-0">Description</h3>
+          <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding:10px;">
+            <p class="card-footer d-flex align-items-center border-0  mt-lg-0">
+              <%- bot.md.render(botdata.longDesc)
+              .replace(/url\(['"]?(?:(?!['"]?\)).)+['"]?\)/gi, '')
+              .replace(/<iframe/gi, '<iframe style="width: 100%; height:100vh;"') %>
+            </p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 order-md-2 position-relative" id="botDetails">
+          <div class="sticky-top ps-lg-4" style="top: 105px !important;">
+            <div class="d-flex align-items-center position-relative mb-lg-5 mb-4">
+              <img src="<%= owner.avatarURL() %>" class="rounded-circle me-3" width="60" alt="Avatar">
+              <div>
+                <h4 class="h6 mb-1">Created by</h4>
+                <a href="/profile/<%=owner.id%>" class="fw-semibold stretched-link"><%= owner.username %>#<%= owner.discriminator %></a>
+              </div>
+            </div>
+            <% if (coowners.length > 0) { %>
+            <ol class="list-group mb-3" style="max-width: 25rem;">
+              <li class="list-group-item active">Co-Owners</li>
+              <% coowners.map(x => { %>
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="d-flex align-items-center position-relative">
+                  <img src="https://cdn.discordapp.com/avatars/<%= x.id %>/<%= x.avatar %>" class="rounded-circle me-3" width="30" alt="Avatar">
+                  <div>
+                    <a href="/profile/<%= x.id %>" class="fw-semibold stretched-link"><%= x.username %>#<%= x.discriminator %></a>
+                  </div>
+                </div>
+              </li>
+              <% }) %>
+            </ol>
+            <% } %>
+            <% if (botdata.inviteURL) { %>
+            <a href="<%= botdata.inviteURL %>" target="_blank" class="btn btn-lg btn-outline-secondary mb-3" style="width: -webkit-fill-available;">
+              <i class="bx bx-plus me-2 lead"></i>Invite
+            </a>
+            <% } %>
+            <% if (botdata.supportURL) { %>
+            <a href="<%= botdata.supportURL %>" target="_blank" class="btn btn-lg btn-outline-secondary mb-3" style="width: -webkit-fill-available;">
+              <i class="bx bx-support me-2 lead"></i>Support
+            </a>
+            <% } %>
+            <% if (botdata.websiteURL) { %>
+            <a href="<%= botdata.websiteURL %>" target="_blank" class="btn btn-lg btn-outline-secondary mb-3" style="width: -webkit-fill-available;">
+              <i class="bx bx-link-external me-2 lead"></i>Website
+            </a>
+            <% } %>
+            <% if (botdata.githubURL) { %>
+            <a href="<%= botdata.githubURL %>" target="_blank" class="btn btn-lg btn-outline-secondary mb-3" style="width: -webkit-fill-available;">
+              <i class="bx bxl-github me-2 lead"></i>Github
+            </a>
+            <% } %>
+            <button class="btn btn-lg btn-outline-secondary mb-3" id="voteBot" style="width: -webkit-fill-available;">
+              <i class="bx bx-like me-2 lead"></i>Vote
+              <span class="badge bg-primary shadow-primary ms-3"><%= botdata.votes.toLocaleString() %></span>
+            </button>
+            <div id="result"></div>
+
+            <div class="border rounded-3 mb-4 mb-lg-5">
+              <div class="g-0">
+                <div class="col d-flex align-items-center border-end-sm border-bottom p-3">
+                  <i class="bx bx-text text-primary fs-4"></i>
+                  <div class="ps-2 ms-1">
+                    <h3 class="h6 mb-0">Prefix</h3>
+                    <p class="fs-xs mb-0"><%= botdata.prefix %></p>
+                  </div>
+                </div>
+                <% if (botdata.serverCount) { %>
+                <div class="col d-flex align-items-center border-end-sm border-bottom p-3">
+                  <i class="bx bx-server text-primary fs-4"></i>
+                  <div class="ps-2 ms-1">
+                    <h3 class="h6 mb-0">Servers</h3>
+                    <p class="fs-xs mb-0"><%= botdata.serverCount.toLocaleString() %></p>
+                  </div>
+                </div>
+                <% } %>
+                <div class="col d-flex align-items-center border-end-sm border-bottom p-3">
+                  <i class="bx bx-purchase-tag text-primary fs-4"></i>
+                  <div class="ps-2 ms-1">
+                    <h3 class="h6 mb-0">Tags</h3>
+                    <% botdata.tags.forEach(tag => { %>
+                    <a href="/bots/<%= tag %>" class="badge bg-secondary me-2 mb-2"><%= tag %></a>
+                    <% }) %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% if (req.user) { %>
+            <% if (req.user.id == botdata.ownerID || botdata.coowners.includes(req.user.id)) { %>
+            <div class="card card-body border-0 shadow-sm position-relative overflow-hidden">
+              <div class="position-absolute top-0 start-0 w-3 h-100 bg-danger"></div>
+              <a href="/bots/edit/<%= botdata.botID %>" class="btn btn-lg btn-outline-secondary mb-3" style="width: -webkit-fill-available;">
+                <i class="bx bx-edit me-2 lead"></i>Edit
+              </a>
+              <button type="button" data-bs-toggle="modal" data-bs-target="#deleteBot" class="btn btn-lg btn-outline-secondary mb-3" style="width: -webkit-fill-available;">
+                <i class="bx bx-trash me-2 lead"></i>Delete
+              </button>
+            </div>
+            <% } %>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4793022343319587" crossorigin="anonymous"></script>
+      <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-gw-22-2r-9d+199" data-ad-client="ca-pub-4793022343319587" data-ad-slot="7366836311"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </section>
+
+    <% if (req.user) { %>
+    <% if (req.user.id == botdata.ownerID || botdata.coowners.includes(req.user.id)) { %>
+    <div class="modal fade" id="deleteBot" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Are you sure?</h5>
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>When you delete your bot, it is removed from the database and no one will be able to visit it again.</p>
+          </div>
+          <p id="botDeleteError"></p>
+          <div class="modal-footer">
+            <button class="btn btn-secondary btn-sm" type="button" data-bs-dismiss="modal">Close</button>
+            <button class="btn btn-danger btn-sm" type="button" id="botDeletebtn">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $('#botDeletebtn').click(function() {
+        fetch('/bots/delete/<%= botdata.botID %>', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json()).then(data => {
+          if (data.error == false) {
+            $('#botDeleteError').html('<div class="alert alert-success" role="alert">Bot deleted successfully! Redirecting in 5 seconds...</div>');
+            setTimeout(function() {
+              window.location.href = '/';
+            }, 5000);
+          } else if (data.error == true) {
+            $('#botDeleteError').html(`<div class="alert alert-danger" role="alert">${data.message}</div>`);
+          }
+        })
+      })
+    </script>
+    <% } %>
+    <% } %>
+
+    <!-- <section class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <h2 class="h3 mb-4">More Like This</h2>
+            <div class="row">
+              <% botsdata.filter(x => x.botID != botdata.botID && x.tags.includes(botdata.tags[0])).forEach(x => { %>
+              <div class="col-lg-4 col-md-6 mb-4">
+                <a href="/bot/<%= x.botID %>" class="stretched-link text-reset" style="text-decoration: none;">
+                  <div class="d-flex shadow-sm align-items-center accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px; width:100%">
+                    <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                      <img src="<%= bot.users.cache.get(x.botID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="Bot Avatar">
+                      <div class="ps-3">
+                        <h6 class="fw-semibold lh-base mb-0">
+                          <%= x.username %>
+                        </h6>
+                        <span class="fs-sm text-muted">
+                          <%= x.shortDesc.length > 70 ? x.shortDesc.slice(0, 70) + '...' : x.shortDesc %>
+                        </span>
+                      </div>
+                    </figcaption>
+                  </div>
+                </a>
+              </div>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <section class="container mb-4 pb-lg-3">
+      <% if (botdata.rates && botdata.rates?.length > 0) { %>
+      <h2 class="h1 py-4"><span id="commentsCount"><%= botdata.rates?.length %></span> Reviews</h2>
+      <% } else { %>
+      <h2 class="h1 py-4"><span id="commentsCount">0</span> Reviews</h2>
+      <% } %>
+      <% if (req.user) { %>
+      <div class="position-relative ps-4 mt-4">
+        <span class="position-absolute top-0 start-0 w-1 h-100 bg-primary"></span>
+        <div class="d-flex align-items-center justify-content-between ps-3 pb-2 mb-1">
+          <div class="d-flex align-items-center me-3">
+            <img src="<%= `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}` %>" class="rounded-circle" width="40" height="40" alt="avatar">
+            <div class="ps-3">
+              <h6 class="fw-semibold mb-0"><%= req.user.username %></h6>
+              <span class="fs-sm text-muted"><a href="#" class="fw-semibold text-decoration-none">@<%- bot.guilds.cache.get(global.config.server.id)?.members.cache.get(req.user.id)?.roles.highest.name || "Default" %></a></span>
+            </div>
+          </div>
+          <button class="btn btn-outline-secondary my-1 me-1" id="postComment">Post</button>
+        </div>
+        <div class=d-flex align-items-center justify-content-between ps-3 pb-2 mb-1">
+          <div class="rating">
+            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+          </div>
+        </div>
+        <textarea class="form-control" rows="3" name="botComment" id="botComment" required></textarea>
+      </div>
+      <% } else { %>
+      <div class="position-relative ps-4 mt-4">
+        <span class="position-absolute top-0 start-0 w-1 h-100 bg-primary"></span>
+        <div class="d-flex align-items-center justify-content-between ps-3 pb-2 mb-1">
+          <div class="d-flex align-items-center me-3">
+            <img src="https://cdn.discordapp.com/embed/avatars/0.png" class="rounded-circle" width="40" height="40" alt="avatar">
+            <div class="ps-3">
+              <h6 class="fw-semibold mb-0">Guest</h6>
+              <span class="fs-sm text-muted"><a href="#" class="fw-semibold text-decoration-none">@Guest</a></span>
+            </div>
+          </div>
+          <button class="btn btn-outline-secondary my-1 me-1" type="button">Post</button>
+        </div>
+        <textarea class="form-control" rows="3" placeholder="You cannot comment because you are not logged in." disabled></textarea>
+      </div>
+      <% } %>
+
+      <!-- Reviews -->
+      <div class="position-relative ps-4 mt-4">
+        <div id="successComment"></div>
+      </div>
+
+      <div class="border-bottom ps-lg-2 ps-xxl-0" style="padding-bottom: 3rem !important">
+        <% { %>
+        <% for (let i = 5; i > 0; i--) { %>
+        <% let rates = botdata.rates?.filter(rate => rate.star_rate == i).length %>
+        <div class="d-flex align-items-center mb-2">
+          <div class="text-nowrap me-3">
+            <span class="d-inline-block align-middle">
+              <% if (i == 1) {%>
+              1&nbsp;
+              <% } else {%>
+              <%= i %>
+              <% } %>
+            </span>
+            <i class="bx bx-star opacity-70 align-middle ms-1"></i>
+          </div>
+          <div class="progress w-100">
+            <% let numberRate = botdata.rates?.filter(r => r.star_rate == i)?.length / botdata.rates?.length * 100 ? botdata.rates?.filter(r => r.star_rate == i)?.length / botdata.rates?.length * 100 : 0 %>
+            <div class="progress-bar bg-gradient-primary" role="progressbar" style="width: <%= numberRate %>%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+              <%= rates %>
+            </div>
+          </div>
+        </div>
+        <% } %>
+        <% } %>
+      </div>
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4793022343319587" crossorigin="anonymous"></script>
+      <!-- Horizontal Ad -->
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4793022343319587" data-ad-slot="4795431729" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+      <div id="newComment"></div>
+
+      <% if (botdata.rates && botdata.rates?.length > 0) { %>
+      <% botdata.rates?.sort(function(a, b) {return new Date(b.date) - new Date(a.date)}); %>
+      <% botdata.rates?.map(rate => { %>
+      <% let rateAuthor = rateAuthors.find(author => {return author.id === rate.author;}); %>
+      <div class="position-relative ps-4 mt-4" id="commentID_<%= rate.id %>">
+        <span class="position-absolute top-0 start-0 w-1 h-100 bg-primary"></span>
+        <div class="d-flex align-items-center justify-content-between ps-3 pb-2 mb-1">
+          <div class="d-flex align-items-center me-3">
+            <img src="https://cdn.discordapp.com/avatars/<%= rateAuthor.id %>/<%= rateAuthor.avatar %>.png" class="rounded-circle" width="48" alt="Avatar">
+            <div class="ps-3">
+              <h6 class="fw-semibold mb-0">
+                <%= rateAuthor.username %>#<%= rateAuthor.discriminator %>
+                <% for (let i = 0; i < rate.star_rate; i++) { %>
+                <i class="bx bxs-star text-warning"></i>
+                <% } %>
+              </h6>
+              <span class="fs-sm text-muted"><%= moment(rate.date).fromNow() %></span>
+            </div>
+          </div>
+        </div>
+        <p class="ps-3 mb-0"><a href="/profile/<%= rateAuthor.id %>" class="fw-semibold text-decoration-none">@<%= rateAuthor.username %>#<%= rateAuthor.discriminator %></a> <%= rate.message %></p>
+      </div>
+      <% }) %>
+      <% } else { %>
+      <div class="py-4">
+        <div class="d-flex align-items-center justify-content-between pb-2 mb-1">
+          <div class="d-flex align-items-center me-3">
+            <div class="ps-3">
+              <h6 class="mb-0" id="noReviewsYet">No comments yet</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4793022343319587" crossorigin="anonymous"></script>
+      <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-gw-22-2r-9d+199" data-ad-client="ca-pub-4793022343319587" data-ad-slot="7366836311"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </section>
+
+
+
+  </main>
+  <%- include('../partials/footer') %>
+</body>
+
+</html>
+
+<style>
+  .rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: left;
+  }
+
+  .rating>input {
+    display: none;
+  }
+
+  .rating>label {
+    position: relative;
+    width: 1.1em;
+    font-size: 30px;
+    color: #FFD700;
+    cursor: pointer;
+  }
+
+  .rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0;
+  }
+
+  .rating>label:hover:before,
+  .rating>label:hover~label:before {
+    opacity: 1 !important;
+  }
+
+  .rating>input:checked~label:before {
+    opacity: 1;
+  }
+
+  .rating:hover>input:checked~label:before {
+    opacity: 0.4;
+  }
+</style>
+
+
+<script>
+  $('#voteBot').click(function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '/bot/<%= botdata.botID %>/vote',
+      success: function(data) {
+        if (data.error == false) {
+          document.getElementById("voteBot").classList.add("disabled");
+          document.getElementById("voteBot").innerHTML = '<i class="bx bx-like me-2 lead"></i>Voted'
+          $('#result').html('<div class="alert alert-success" role="alert">' + data.message + '</div>');
+          setTimeout(function() {
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("voteBot").classList.remove("disabled");
+            document.getElementById("voteBot").innerHTML = '<i class="bx bx-like me-2 lead"></i>Vote <span class="badge bg-primary shadow-primary ms-3"><%= botdata.votes + 1 %></span>'
+          }, 5000);
+        } else if (data.error == true) {
+          document.getElementById("voteBot").classList.add("disabled");
+          document.getElementById("voteBot").innerHTML = '<i class="bx bx-like me-2 lead"></i>Voted <span class="badge bg-primary shadow-primary ms-3">Disabled</span>'
+          $('#result').html('<div class="alert alert-danger" role="alert">' + data.message + '</div>');
+          setTimeout(function() {
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("voteBot").classList.remove("disabled");
+            document.getElementById("voteBot").innerHTML = '<i class="bx bx-like me-2 lead"></i>Vote <span class="badge bg-primary shadow-primary ms-3"><%= botdata.votes + 1 %></span>'
+          }, 5000);
+        }
+      },
+    });
+  });
+</script>
+
+<% if (req.user) { %>
+<script>
+  document.onclick = function(e) {
+    if (e.target.id == "postComment") {
+      e.preventDefault();
+      let botID = '<%= botdata.botID %>';
+      let comment = document.getElementById("botComment").value;
+      let stars = document.querySelector('input[name="rating"]:checked')?.value || "0";
+      fetch("/bots/comment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          botID,
+          comment,
+          stars
+        })
+      }).then(res => res.json()).then(data => {
+        if (data.error == false) {
+          document.getElementById("successComment").innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert"><div class="d-flex align-items-center"><i class="bx bxs-check-circle text-success fs-4 me-2"></i><span>' + data.message + '</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+          document.getElementById("newComment").innerHTML = `
+          <div class="position-relative ps-4 mt-4" id="commentID_${data.id}">
+          <div class="d-flex align-items-center justify-content-between ps-3 pb-2 mb-1">
+            <span class="position-absolute top-0 start-0 w-1 h-100 bg-primary"></span>
+            <div class="d-flex align-items-center me-3">
+              <img src="https://cdn.discordapp.com/avatars/<%= req.user.id %>/<%= req.user.avatar %>.png" class="rounded-circle" width="48" alt="Avatar">
+              <div class="ps-3">
+                <h6 class="fw-semibold mb-0">
+                  <%= req.user.username %>
+                  <span id="newstars"></span>
+                </h6>
+                <span class="fs-sm text-muted"><%= moment().fromNow() %></span>
+              </div>
+            </div>
+          </div>
+          <p class="ps-3 mb-0"><a href="/profile/<%= req.user.id %>" class="fw-semibold text-decoration-none">@<%= req.user.username %></a> ` + comment + `</p>
+          </div>`;
+          document.getElementById("botComment").value = "";
+          document.getElementById("noReviewsYet")?.remove();
+          document.querySelector('input[name="rating"]:checked').checked = false;
+
+          data.stars.forEach(star => {
+            document.getElementById(`${star}stars`).style.width = "100%";
+          });
+
+          document.getElementById("commentsCount").innerHTML = parseInt(document.getElementById("commentsCount").innerHTML) + 1;
+          setTimeout(function() {
+            document.getElementById("successComment").classList.add("d-none");
+          }, 5000);
+        } else if (data.error == true) {
+          document.getElementById("successComment").innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><div class="d-flex align-items-center"><i class="bx bxs-error-circle text-danger fs-4 me-2"></i><span>' + data.message + '</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+        }
+      });
+    }
+  }
+</script>
+<% } %>

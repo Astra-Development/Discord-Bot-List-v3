@@ -1,0 +1,109 @@
+<html lang="en" class="dark-mode">
+
+<%- include('../partials/head.ejs') %>
+
+
+<body>
+
+  <%- include('./partials/header.ejs') %>
+  <%- include('./partials/aside.ejs') %>
+
+  <!-- Page container -->
+  <main class="docs-container pt-5 pb-3 pb-lg-4" style="padding-right: 0px;">
+    <div class="container-fluid px-xxl-5 px-lg-4 pt-4 pt-lg-5 pb-4">
+
+      <!-- Page title -->
+      <h1 class="ps-lg-2 ps-xxl-0 mt-2 mt-lg-0 pt-4 pb-2 mb-3 mb-xl-4">General Statistics</h1>
+      <div class="border-0 shadow-sm position-relative overflow-hidden">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Databases</th>
+                <th>Document Length</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Total Bots</td>
+                <td><%= botsdata.length ? botsdata.length : 0 %></td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Bot Owners / Co-Owners</td>
+                <td><%= botsdata.filter(b => b.ownerID).length ? botsdata.filter(b => b.ownerID).length : 0 %> / <%= botsdata.reduce((c,b) => c + b.coowners.length, 0) %></td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Total Servers</td>
+                <td><%= serversdata.length ? serversdata.length : 0 %></td>
+              </tr>
+              <tr>
+                <th scope="row">4</th>
+                <td>Guild Members</td>
+                <td><%= bot.guilds.cache.reduce((a, g) => a + g.memberCount, 0) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-item rounded-3">
+          <h3 class="accordion-header" id="headingFour">
+            <button class="accordion-button shadow-none rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">Site Analytics</button>
+          </h3>
+          <div class="accordion-collapse collapse show" id="collapseFour" aria-labelledby="headingFour" data-bs-parent="#accordionAlt">
+            <div class="table-responsive">
+              <table class="table table-striped-columns" style="margin-bottom:0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Country [Total: <%= siteanalytics.length ? siteanalytics.length : 0 %>]</th>
+                    <th>Visitors [Total: <%= siteanalytics.reduce((c,b) => c + b.visitors, 0) %>]</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for (let i = 0; i < siteanalytics.length; i++) { %>
+                  <tr>
+                    <th scope="row"><%= i + 1 %></th>
+                    <td>[<%= siteanalytics[i].code %>]&nbsp; <img src="https://flagcdn.com/16x12/<%= siteanalytics[i].code.toLowerCase() %>.png">&nbsp; <%= siteanalytics[i].name %></td>
+                    <td><%= siteanalytics[i].visitors %></td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="border-bottom py-3 ps-lg-2 ps-xxl-0">
+        <h2 class="h4">Badges</h2>
+        <span class="badge bg-faded-warning text-warning me-2 mb-2">Promoted</span>
+        <span class="badge bg-faded-primary text-primary me-2 mb-2">TOP!</span>
+        <span class="badge bg-faded-success text-success me-2 mb-2">NEW!</span>
+        <span class="badge bg-faded-info text-info me-2 mb-2">Votes: 0</span>
+        <span class="badge bg-secondary me-2 mb-2">Tag</span>
+      </section>
+
+      <section class="border-bottom py-3 ps-lg-2 ps-xxl-0">
+        <h2 class="h4">Responses</h2>
+        <div class="alert alert-danger" role="alert">Error!</div>
+        <div class="alert alert-success" role="alert">Success!</div>
+      </section>
+
+      <h2 class="h3 pt-3">Next Goals</h2>
+      <ol>
+        <li>Increase the number of members</li>
+        <li>Increase the number of conversation participants.</li>
+        <li>Make yourself more "known" among other developers and servers.</li>
+      </ol>
+    </div>
+  </main>
+
+</body>
+
+</html>

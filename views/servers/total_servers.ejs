@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<%- include('../partials/head') %>
+
+<body>
+  <%- include('../partials/spinner') %>
+  <main class="page-wrapper">
+    <%- include('../partials/header') %>
+
+    <!-- Hero -->
+    <section class="position-relative py-5 border-bottom">
+
+      <div class="container mt-4 mb-lg-5 pt-lg-2 pb-5">
+        <div class="align-items-end gy-3 mb-4 pb-lg-3 pb-1">
+          <h1 class="mb-2 mb-md-0">Total Servers</h1>
+          <span class="text-muted">Find the best <%= req.params.tag %> servers!<strong> <%= servers.length %></strong> servers found.</span>
+        </div>
+
+        <div class="input-group mb-4">
+          <input class="form-control" type="text" id="searchServer" placeholder="Search for a server" aria-label="Search for a server">
+          <button class="btn btn-secondary" type="button" id="searchServerBtn">Search</button>
+        </div>
+        <div class="accordion border-bottom" style="margin-bottom: 100px;" id="foundBot"></div>
+        <script>
+          document.getElementById('searchServerBtn').addEventListener('click', (e) => {
+            let searchServer = document.getElementById('searchServer').value;
+            if (searchServer == '') return document.getElementById('foundBot').innerHTML = '';
+            if (searchServer.length < 3) return document.getElementById('foundBot').innerHTML = '<div class="alert alert-danger" role="alert">Please enter at least 3 characters</div>';
+            document.getElementById('searchServerBtn').innerHTML = `<span class="spinner-grow spinner-grow-sm me-2" role="status" aria-hidden="true"><span class="visually-hidden">Searching</span></span>Searching...`;
+            fetch("/servers/find/" + searchServer, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              }
+            }).then(res => res.json()).then(data => {
+              if (data.error == false) {
+                document.getElementById('searchServerBtn').innerHTML = 'Search';
+                document.getElementById('foundBot').innerHTML = '';
+                data.servers.map(a => {
+                  document.getElementById('foundBot').innerHTML += `
+                    <a href="/server/${a.serverID}" style="text-decoration: none; color: inherit">
+                      <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+                        <figcaption class="card-footer d-flex align-items-center border-0 mt-lg-0" style="padding: 3px;">
+                          <img src="${a.icon}" width="60" class="rounded-circle" alt="${a.name}">
+                          <div class="ps-3">
+                            <h6 class="fw-semibold lh-base mb-0">
+                              ${a.name}
+                              <span class="badge bg-faded-warning text-warning mx-1">Promoted</span>
+                              <span class="badge bg-faded-info text-info me-2 mb-2">Votes: ${a.votes}</span>
+                            </h6>
+                            <span class="fs-sm text-muted">${a.shortDesc}</span>
+                          </div>
+                        </figcaption>
+                      </div>
+                    </a>`
+                })
+              } else if (data.error == true) {
+                document.getElementById('searchServerBtn').innerHTML = 'Search';
+                document.getElementById('foundBot').innerHTML = '';
+                document.getElementById('foundBot').innerHTML = '<div class="alert alert-danger" role="alert">' + data.message + '</div>';
+              }
+            });
+          })
+        </script>
+
+        <div class="accordition">
+          <% for (let i = (page - 1) * 10; i < servers.length; i++) {
+            if (i === 10 * page) break;
+            let a = servers.sort((a, b) => b.votes - a.votes)[i] %>
+          <a href="/server/<%= a.serverID %>" style="text-decoration: none; color: inherit">
+            <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+              <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                <img src="<%= sbot.guilds.cache.get(a.serverID)?.iconURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="<%= a.username %>">
+                <div class="ps-3">
+                  <h6 class="fw-semibold lh-base mb-0">
+                    <span class="fw-semibold me-2 mb-2">
+                      <%= sbot.guilds.cache.get(a.serverID)?.name || a.name %>
+                    </span>
+                    <% if (a.Date > Date.now() - 604800000) { %>
+                    <span class="badge bg-faded-success text-success me-2 mb-2">NEW!</span>
+                    <% } %>
+                    <span class="badge bg-faded-info text-info me-2 mb-2">Votes: <%= a.votes.toLocaleString() %></span>
+                    <% a.tags.slice(0, 3).map(t => { %>
+                    <span class="badge bg-secondary me-2 mb-2"><%= t %></span>
+                    <% }) %>
+                    <% if (a.tags.length > 3) { %>
+                    <span class="badge bg-secondary me-2 mb-2"><i class="bx bx-plus-circle"></i> <%= a.tags.length - 3 %> more</span>
+                    <% } %>
+                  </h6>
+                  <span class="fs-sm text-muted"><%= a.shortDesc %></span>
+                </div>
+              </figcaption>
+            </div>
+          </a>
+          <% } %>
+        </div>
+
+        <nav aria-label="Page navigation">
+          <ul class="pagination mb-4" style="justify-content: center">
+
+            <% if (page != 1) {%>
+            <li class="page-item">
+              <a href="/servers/<%= req.params.tag %>?page=0 %>" class="page-link"><i class="bx bx-chevrons-left ms-n1 me-1"></i></a>
+            </li>
+            <% } else { %>
+            <% if (page > 1) { %>
+            <li class="page-item disabled">
+              <a class="page-link"><i class="bx bx-chevrons-left ms-n1 me-1"></i></a>
+            </li>
+            <% } %>
+            <% } %>
+
+            <% if (page > 1) { %>
+            <li class="page-item">
+              <a class="page-link" href="/servers/<%= req.params.tag %>?<%= page - 1 %>" aria-label="Previous"><i class="bx bx-chevron-left"></i></a>
+            </li>
+            <% } %>
+
+            <% if (page > 1) { %>
+            <li class="page-item">
+              <a href="/servers/<%= req.params.tag %>?page=<%= page - 1 %>" class="page-link">
+                <%= page - 1 %>
+              </a>
+            </li>
+            <% } %>
+            <li class="page-item d-none d-sm-block disabled">
+              <a href="#" class="page-link"><%= page %></a>
+            </li>
+            <% if (page != Math.ceil(servers.length / 10) && servers.length > 0) { %>
+            <li class="page-item d-none d-sm-block">
+              <a href="/servers/<%= req.params.tag %>?page=<%= Number(page)+ Number(1); %>" class="page-link"><%= Number(page)+ Number(1); %></a>
+            </li>
+            <% } %>
+
+            <!-- add next button -->
+            <% if (page != Math.ceil(servers.length / 10) && servers.length > 0) { %>
+            <li class="page-item">
+              <a href="/servers/<%= req.params.tag %>?page=<%= Number(page)+ Number(1); %>" class="page-link"><i class="bx bx-chevron-right"></i>
+              </a>
+            </li>
+            <% } else { %>
+            <li class="page-item disabled">
+              <a class="page-link"><i class="bx bx-chevron-right ms-1 me-n1"></i>
+              </a>
+            </li>
+            <% } %>
+            <% if (page != Math.ceil(servers.length / 10) && servers.length > 0) { %>
+            <li class="page-item">
+              <a href="/servers/<%= req.params.tag %>?page=<%= Math.ceil(servers.length / 10); %>" class="page-link"><i class="bx bx-chevrons-right"></i></a>
+            </li>
+            <% } else { %>
+            <li class="page-item disabled">
+              <a class="page-link"><i class="bx bx-chevrons-right"></i>
+              </a>
+            </li>
+            <% } %>
+          </ul>
+        </nav>
+
+        <ul class="nav nav-tabs mb-3">
+          <% tags.sort((a, b) => b.count - a.count).map(t => { %>
+          <li class="nav-item">
+            <a href="/servers/<%= t.tag %>" class="nav-link"><%= t.tag %> <span class="badge bg-faded-primary text-primary mx-1"><%= t.count %></span></a>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+
+
+    </section>
+
+
+
+
+    <%- include('../partials/footer') %>
+</body>
+
+</html>

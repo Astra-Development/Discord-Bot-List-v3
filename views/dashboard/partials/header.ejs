@@ -1,0 +1,116 @@
+<head>
+  <title>Astra Bots | Discord Community</title>
+  <link rel="shortcut icon" href="<%= bot.guilds.cache.get(config.server.id)?.iconURL() || "https://cdn.discordapp.com/embed/avatars/0.png" %>" type="image/x-icon">
+  <meta name="title" content="Astra Bots | Discord Community">
+  <meta name="keywords" content="astrabots, astra. bots. discordbots. astra community, astrabots.xyz, discord bot list, dicord server list, bot list, server list, discord">
+  <meta name="description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta name="theme-color" content="#5024f3">
+  <meta name="og:site_name" content="Astrabots.xyz">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= config.website.url %>">
+  <meta property="og:title" content="Asta Bots | Discord Community">
+  <meta property="og:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="og:image" content="/assets/img/banner.jpg">
+  <meta property="og:image:secure_url" content="/assets/img/banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="<%= config.website.url %>">
+  <meta property="twitter:title" content="Asta Bots | Discord Community">
+  <meta property="twitter:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="twitter:image" content="/assets/img/banner.jpg">
+  <meta property="twitter:image:width" content="1200">
+  <meta property="twitter:image:height" content="360">
+  <meta property="summary_large_image" content="/assets/img/banner.jpg">
+</head>
+
+<header class="header navbar navbar-expand bg-light border-bottom border-light shadow fixed-top" data-scroll-header="">
+  <div class="container-fluid pe-lg-4">
+    <div class="d-flex align-items-center">
+      <a href="/dashboard" class="navbar-brand flex-shrink-0 py-1 py-lg-2">
+        <img src="<%= bot.guilds.cache.get(global.config.server.id)?.iconURL() %>" width="47" alt="logo">
+        Astra Dash
+      </a>
+    </div>
+    <div class="d-flex align-items-center w-100">
+      <ul class="navbar-nav d-none d-lg-flex" style="padding-left: 11.75rem;">
+        <li class="nav-item">
+          <a href="/dashboard" class="nav-link">
+            <i class="bx bx-desktop opacity-70 fs-lg me-1"></i>
+            &nbsp;Home
+          </a>
+        </li>
+      </ul>
+      <button type="button" class="navbar-toggler d-block d-lg-none ms-auto me-4" data-bs-toggle="offcanvas" data-bs-target="#docsNav" aria-controls="docsNav" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="form-check form-switch mode-switch pe-lg-1 ms-lg-auto" data-bs-toggle="mode">
+        <input type="checkbox" class="form-check-input" id="theme-mode">
+      </div>
+      <% if (user) { %>
+      <div class="nav dropdown d-block order-lg-3 ms-4">
+        <a href="#" class="d-flex nav-link p-0" data-bs-toggle="dropdown">
+          <img src="<%= `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}` %>" class="rounded-circle" width="40" alt="User">
+          <div class="d-none d-sm-block ps-2">
+            <div class="fs-xs lh-1 opacity-60">Hello,</div>
+            <div class="fs-sm dropdown-toggle"><%= user.username %></div>
+          </div>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end my-1" style="width: 14rem;">
+          <li>
+            <a href="/profile" class="dropdown-item d-flex align-items-center">
+              <i class="bx bx-user-circle fs-base opacity-60 me-2"></i>
+              Profile
+            </a>
+          </li>
+          <% if (req.user.id == "857177733398265876") { %>
+          <li>
+            <a href="/dashboard" class="dropdown-item d-flex align-items-center">
+              <i class="bx bx-cog fs-base opacity-60 me-2"></i>
+              Dashboard
+            </a>
+          </li>
+          <% } %>
+          <li class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="/logout">
+              <i class="bx bx-log-out fs-base opacity-60 me-2"></i>
+              Sign out
+            </a>
+          </li>
+        </ul>
+      </div>
+      <% } else { %>
+      <a href="/login" class="btn btn-secondary btn-sm fs-sm rounded d-none order-lg-3 d-lg-inline-flex">
+        <i class="bx bx-log-in fs-lg me-2"></i>
+        Login
+      </a>
+      <% } %>
+    </div>
+  </div>
+</header>
+
+<a href="#top" class="btn-scroll-top" data-scroll>
+  <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span>
+  <i class="btn-scroll-top-icon bx bx-chevron-up"></i>
+</a>
+
+<script src="/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+<script src="/assets/vendor/rellax/rellax.min.js"></script>
+<script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="/assets/vendor/parallax-js/dist/parallax.min.js"></script>
+<script src="/assets/vendor/prismjs/components/prism-core.min.js"></script>
+<script src="/assets/vendor/prismjs/components/prism-markup.min.js"></script>
+<script src="/assets/vendor/prismjs/components/prism-clike.min.js"></script>
+<script src="/assets/vendor/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+<script src="/assets/vendor/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+<script src="/assets/vendor/prismjs/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+<link rel="stylesheet" media="screen" href="/assets/vendor/boxicons/css/boxicons.min.css" />
+<link rel="stylesheet" media="screen" href="/assets/vendor/swiper/swiper-bundle.min.css" />
+<link rel="stylesheet" media="screen" href="/assets/css/theme.min.css">
+
+<script src="/assets/js/theme.min.js"></script>

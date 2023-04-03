@@ -1,0 +1,95 @@
+<html lang="en" class="dark-mode">
+
+<%- include('../partials/head.ejs') %>
+
+
+<body>
+
+  <%- include('./partials/header.ejs') %>
+  <%- include('./partials/aside.ejs') %>
+
+  <!-- Page container -->
+  <main class="docs-container pt-5 pb-3 pb-lg-4" style="padding-right: 0px;">
+    <div class="container-fluid px-xxl-5 px-lg-4 pt-4 pt-lg-5 pb-4">
+
+      <!-- Page title -->
+      <h1 class="ps-lg-2 ps-xxl-0 mt-2 mt-lg-0 pt-4 pb-2 mb-3 mb-xl-4">General Statistics</h1>
+      <div class="border-0 shadow-sm position-relative overflow-hidden mb-5">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Databases</th>
+                <th>Document Length</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Total Servers</td>
+                <td><%= serversdata.length ? serversdata.length : 0 %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h2 class="h3 pt-3">Bot List</h2>
+      <p>Here is a list of all the bots on the site.</p>
+      <div class="input-group mb-3">
+        <input class="form-control" type="text" id="searchUser" placeholder="Search for a user or bot" aria-label="Search for a user or bot">
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped-columns">
+          <thead;>
+            <tr>
+              <th>#</th>
+              <th>Developer</th>
+              <th>Servers</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+              <% for (let i = 0; i < serversdata.length; i++) { %>
+              <tr id="user<%= serversdata[i].ownerID %>">
+                <th scope="row"><%= i + 1 %></th>
+                <td>
+                  <%= sbot.users.cache.get(serversdata[i].ownerID) ? sbot.users.cache.get(serversdata[i].ownerID).tag : "Unknown" %>
+                  <span class="fs-xs mb-md-0">(<%= serversdata[i].ownerID %>)</span>
+                </td>
+                <td>
+                  <%- serversdata.filter(b => b.ownerID == serversdata[i].ownerID).map(b => `${sbot.guilds.cache.get(b.serverID).name} <span class="fs-xs mb-md-0">(${b.serverID})</span>`).join(', ') %>
+                </td>
+                <td style="text-align: center;">
+                  <a href="/profile/<%= serversdata[i].ownerID %>" class="badge bg-faded-success text-success">View Profile</a>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+        </table>
+      </div>
+      <script>
+        document.getElementById("searchUser").addEventListener("keyup", function() {
+          let search = document.getElementById("searchUser").value.toLowerCase();
+          let users = document.getElementsByTagName("tr");
+          for (let i = 0; i < users.length; i++) {
+            let user = users[i].id;
+            if (user.startsWith("user")) {
+              let username = document.getElementById(user).children[1].innerHTML.toLowerCase();
+              let botname = document.getElementById(user).children[2].innerHTML.toLowerCase();
+              if (username.includes(search) || botname.includes(search)) {
+                document.getElementById(user).style.display = "table-row";
+              } else {
+                document.getElementById(user).style.display = "none";
+              }
+            }
+          }
+        });
+      </script>
+    </div>
+  </main>
+
+</body>
+
+</html>

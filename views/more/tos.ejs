@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+  <title>Astra Bots | Discord Community</title>
+  <link rel="shortcut icon" href="<%= bot.guilds.cache.get(config.server.id)?.iconURL() || "https://cdn.discordapp.com/embed/avatars/0.png" %>" type="image/x-icon">
+  <meta name="title" content="Astra Bots | Discord Community">
+  <meta name="keywords" content="astrabots, astra. bots. discordbots. astra community, astrabots.xyz, discord bot list, dicord server list, bot list, server list, discord">
+  <meta name="description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta name="theme-color" content="#5024f3">
+  <meta name="og:site_name" content="Astrabots.xyz">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= config.website.url %>">
+  <meta property="og:title" content="Asta Bots | Discord Community">
+  <meta property="og:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="og:image" content="/assets/img/banner.jpg">
+  <meta property="og:image:secure_url" content="/assets/img/banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="<%= config.website.url %>">
+  <meta property="twitter:title" content="Asta Bots | Discord Community">
+  <meta property="twitter:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="twitter:image" content="/assets/img/banner.jpg">
+  <meta property="twitter:image:width" content="1200">
+  <meta property="twitter:image:height" content="360">
+  <meta property="summary_large_image" content="/assets/img/banner.jpg">
+</head>
+
+<%- include('../partials/head') %>
+
+<body>
+  <%- include('../partials/spinner') %>
+  <main class="page-wrapper">
+    <%- include('../partials/header') %>
+
+    <section class="container mb-5 pb-2 pb-md-4 pb-lg-5 py-5">
+      <div class="card border-0 bg-secondary p-md-5 px-sm-2 pt-4 pb-3">
+        <div class="card-body">
+          <h2 class="h1 mb-4 text-center">Terms of Service</h2>
+
+          
+          <h3>Terms of Service</h3>
+          <hr>
+          <h4>What is ToS?</h4>
+          <p>Terms of service (ToS) are a sort of document that specifies what a service provider is liable for as well as user duties that must be met in order for the service to continue. Users who violate the terms of service are subject to termination. Many websites and applications make their terms of service available.</p>
+          <p>A Terms of Service can outline what consumers can anticipate from the service, preventing them from claiming ignorance about something they subsequently object to. Similarly, identifying unacceptable actions makes it easier for a service provider to get rid of problematic customers, who could otherwise complain that they were unfairly removed. Deplatforming is the process of removing someone from a service that gives a conduit to an audience.</p>
+          <p>ToS are often offered to customers for review, frequently in the form of a pop-up, although the service provider may not need users to confirm having read them. In this situation, continuous use of the service is deemed to be acceptance of the conditions. Even though the user is required to declare that they have read the terms of service, they typically do not since the agreements are lengthy and critical facts are not readily shown.</p>
+          <p>User rights organizations advocate for making terms of service more readable. ToS;DR is one such endeavor that breaks down ToS for popular websites and services.</p>
+          <hr>
+          <div class="options">
+            <h4>1. Using Our Website</h4>
+            <h6>a. Who can use astrabots</h6>
+            <p>This website is for Discord developers and users who want to grow their Discord servers. We conduct several updates on a daily and weekly basis to boost the security that you can have while also improving your experience with our website. You must provide us with accurate and complete information when creating your account.</p>
+            <h4>2. Your Content</h4>
+            <h6>a. Posting content</h6>
+            <p>From the moment you post something on website we save your profile picture, user ID, username, and discriminator.</p>
+            <h6>b. How long do we retain your data?</h6>
+            <p>We keep your data when you just have posted content on our website; when you don't have any content or delete them, our programmed system automatically deletes everything. This is not a cause for concern because the information obtained is obtained for security purposes as well as for a future scheduled backup.</p>
+            <h4>3. Security</h4>
+            <p>We are concerned about everyone's security, thus we have a database that no one has access to, so no one can read your information other than you, who just post content to the website.</p>
+            <h4>Νo excuses</h4>
+            <p>We announce anything and write details about it; you also read the aforementioned information, so if you violate the ToS, you will be punished.</p>
+            <h4>More details</h4>
+            <p>The Greek owner <strong>LuckyDev#1269</strong> is the website's main brain, and everything is handcrafted by smart and pleasant developers. This website began in the year 2021, and we continue to do all in our power to create not only a more welcoming but also a better experience with our website.</p>
+
+            <h4>If you need assistance, you can consult these staff members</h4>
+            <div class="cards">
+              <!-- shwo first the one with the top role, then the second one, and so on -->
+              <% bot.guilds.cache.get(config.server.id).members.cache.filter(member => member.roles.cache.has("858687204526915595")).sort((a, b)=> b.roles.highest.position-a.roles.highest.position).map(member => { %>
+              <div class="accordion">
+                <a href="/profile/<%= member.id %>" style="text-decoration: none; color: inherit">
+                  <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+                    <figcaption class="card-footer d-flex align-items-center border-0" style="padding: 3px;">
+                      <img src="https://cdn.discordapp.com/avatars/<%= member.id %>/<%= member.user.avatar %>.png" width="60" class="rounded-circle" alt="Reaction Roles">
+                      <div class="ps-3">
+                        <h6 class="fw-semibold lh-base mb-0">
+                          <%=member.user.username%>#<%=member.user.discriminator%>
+                          <span class="badge bg-faded-warning text-warning mx-1"><%= bot.guilds.cache.get(config.server.id).roles.cache.get(member.roles.highest.id).name %></span>
+                        </h6>
+                        <span class="fs-sm text-muted">React to a message to get a role! Add as many reaction roles as you want to your message!</span>
+                      </div>
+                    </figcaption>
+                  </div>
+                </a>
+              </div>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <%- include('../partials/footer') %>
+</body>
+
+</html>

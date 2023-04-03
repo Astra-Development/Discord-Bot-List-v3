@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+  <title>Astra Bots | Discord Community</title>
+  <link rel="shortcut icon" href="<%= bot.guilds.cache.get(config.server.id)?.iconURL() || "https://cdn.discordapp.com/embed/avatars/0.png" %>" type="image/x-icon">
+  <meta name="title" content="Astra Bots | Discord Community">
+  <meta name="keywords" content="astrabots, astra. bots. discordbots. astra community, astrabots.xyz, discord bot list, dicord server list, bot list, server list, discord">
+  <meta name="description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta name="theme-color" content="#5024f3">
+  <meta name="og:site_name" content="Astrabots.xyz">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= config.website.url %>">
+  <meta property="og:title" content="Asta Bots | Discord Community">
+  <meta property="og:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="og:image" content="/assets/img/banner.jpg">
+  <meta property="og:image:secure_url" content="/assets/img/banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="<%= config.website.url %>">
+  <meta property="twitter:title" content="Asta Bots | Discord Community">
+  <meta property="twitter:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="twitter:image" content="/assets/img/banner.jpg">
+  <meta property="twitter:image:width" content="1200">
+  <meta property="twitter:image:height" content="360">
+  <meta property="summary_large_image" content="/assets/img/banner.jpg">
+</head>
+
+<%- include('../partials/head') %>
+
+<body>
+  <%- include('../partials/spinner') %>
+  <main class="page-wrapper">
+    <%- include('../partials/header') %>
+
+    <section class="container mt-4 mb-5 pt-2 pb-lg-5">
+      <div class="row gy-4"></div>
+    </section>
+
+    <section class="container mb-5 pb-lg-5">
+      <div class="mb-4 mb-lg-5">
+        <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+          <figcaption class="card-footer d-flex align-items-center border-0" style="padding: 3px;">
+            <img src="<%= sbot.guilds.cache.get(serverdata.serverID)?.iconURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="Reaction Roles">
+            <div class="ps-3">
+              <h6 class="fw-semibold lh-base mb-0">
+                <%= sbot.guilds.cache.get(serverdata.serverID)?.name || 'Unknown Server' %>
+              </h6>
+              <span class="fs-sm text-muted"><%= serverdata.shortDesc %></span>
+            </div>
+          </figcaption>
+        </div>
+      </div>
+
+      <div class="alert d-flex alert-warning" role="alert">
+        <i class="bx bx-error lead me-3"></i>
+        <div>
+          <h6 class="alert-heading mb-1">Warning!</h6>
+          <p class="mb-0">
+            You are about to edit the server <strong><%= sbot.guilds.cache.get(serverdata.serverID)?.name || 'Unknown Server' %></strong>. Please make sure you are editing the correct server.
+          </p>
+        </div>
+      </div>
+
+      <div class="alert d-flex alert-primary d-none" role="alert">
+        <i class="bx bx-bell lead me-3"></i>
+        <div>
+          <h6 class="alert-heading mb-1">Changes!</h6>
+          <p class="mb-0">
+            By changing your server's information, you are agreeing to the <a href="/tos">Terms of Service</a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="border-bottom py-5 ps-lg-2 ps-xxl-0">
+
+        <form class="needs-validation">
+          <div class="mb-4 row align-items-center">
+            <label class="col-md-2 col-form-label fs-sm" for="text-input">Server Name</label>
+            <div class="col-md-10">
+              <input class="form-control" type="text" value="<%= sbot.guilds.cache.get(serverdata.serverID)?.name || 'Unknown Server' %>" disabled>
+              <div class="form-text">The name of your bot.</div>
+            </div>
+          </div>
+
+          <div class="mb-4 row align-items-center">
+            <label class="col-md-2 col-form-label fs-sm" for="text-input">Client ID</label>
+            <div class="col-md-10">
+              <input class="form-control" type="text" value="<%= serverdata.serverID %>" disabled>
+              <div class="form-text">The client ID of your bot.</div>
+            </div>
+          </div>
+
+          <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <span class="fw-bold">Warning alert:</span> By filling wrong information, you may get your server banned from the website.
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <div class="d-sm-flex">
+            <div class="w-100 me-4">
+              <div class="mb-3">
+                <label class="col-md-2 col-form-label fs-sm" for="text-input">InviteURL</label>
+                <div class="form-text">The invite URL of your bot.</div>
+              </div>
+              <div class="mb-3 mb-sm-0">
+                <input class="form-control mb-4" type="text" name="inviteURL" id="inviteURL" value="<%= serverdata.inviteURL %>" placeholder="https://discord.gg/invite">
+              </div>
+            </div>
+          </div>
+
+
+          <section class="ps-lg-2 ps-xxl-0">
+            <h2 class="h4">Tags</h2>
+            <div class="form-text">
+              Tags are used to categorize your bot. You can select up to 5 tags for your bot. If you do not see a tag that you think your bot should have, please <a href="/discord" target="_blank">contact us</a>.
+            </div>
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row row-cols-sm-4 row-cols-2 gy-2 mb-3">
+                  <% for (let i = 0; i < global.config.website.serverTags.length; i++) { %>
+                  <div class="col">
+                    <div class="form-check mb-0">
+                      <input type="checkbox" class="form-check-input" id="tag<%= global.config.website.serverTags[i] %>" name="tags" value="<%= global.config.website.serverTags[i] %>" <% if (serverdata.tags.includes(global.config.website.serverTags[i])) { %> checked <% } %>>
+                      <label for="s-daily-newsletter" class="form-check-label"><%= global.config.website.serverTags[i] %></label>
+                    </div>
+                  </div>
+                  <% } %>
+                </div>
+                <h5 class="h5">Selected Tags</h5>
+                <div class="row row-cols-sm-4 row-cols-2 gy-2 mb-3" id="selectedTags"></div>
+                <Script>
+                  document.querySelectorAll('[name="tags"]').forEach(item => {
+                    if (item.checked) {
+                      let div = document.createElement('div');
+                      div.className = 'col';
+                      div.innerHTML = `
+                      <div class="form-check mb-0">
+                        <input type="checkbox" class="form-check-input" id="tag${item.value}" name="tags" value="${item.value}" checked disabled>
+                        <label for="s-daily-newsletter" class="form-check-label">${item.value}</label>
+                      </div>
+                      `;
+                      document.getElementById('selectedTags').appendChild(div);
+                    }
+                  });
+
+                  document.querySelectorAll('[name="tags"]').forEach(item => {
+                    item.addEventListener('change', event => {
+                      let tags = document.getElementById('selectedTags');
+                      let tag = item.value;
+                      if (item.checked == true) {
+                        let div = document.createElement('div');
+                        div.className = 'col';
+                        div.innerHTML = `
+                        <div class="form-check mb-0">
+                          <input type="checkbox" class="form-check-input" id="tag${tag}" name="tags" value="${tag}" checked disabled>
+                          <label for="s-daily-newsletter" class="form-check-label">${tag}</label>
+                        </div>
+                        `;
+                        tags.appendChild(div);
+                      } else {
+                        // remove it from the panel
+                        let div = document.getElementById('selectedTags').children;
+                        for (let i = 0; i < div.length; i++) {
+                          if (div[i].children[0].children[1].innerHTML == tag) {
+                            div[i].remove();
+                          }
+                        }
+                      }
+                    })
+                  });
+
+                  // if 0 selected show a message "no tags selected"
+                  if (document.getElementById('tags').children.length == 0) {
+                    let div = document.createElement('div');
+                    div.className = 'col';
+                    div.innerHTML = `
+                    <div class="form-check mb-0">
+                      <label for="s-daily-newsletter" class="form-check-label">No tags selected</label>
+                    </div>
+                    `;
+                    document.getElementById('tags').appendChild(div);
+                  }
+                </Script>
+              </div>
+            </div>
+          </section>
+
+          <section class="ps-lg-2 ps-xxl-0 was-validated mb-3">
+            <h2 class="h4">Short Description <code>*</code></h2>
+            <div class="form-text">A short description of your bot. (Do not support markdown)</div>
+            <textarea class="form-control" style="height: 10rem" name="shortDesc" id="shortDesc" minLength="50" maxlength="200" required><%= serverdata.shortDesc %></textarea>
+          </section>
+
+          <section class="ps-lg-2 ps-xxl-0 mb-3 was-validated">
+            <h2 class="h4">Long Description <code>*</code></h2>
+            <div class="form-text">A long description of your bot. (Supports markdown)</div>
+            <textarea class="form-control" style="height: 30rem" name="longDesc" id="longDesc" minlength="400" maxlength="5000" required><%= bot.md.render(serverdata.longDesc) %></textarea>
+          </section>
+          <div id="results"></div>
+          <div class="tab-pane fade show active" id="preview1" role="tabpanel">
+            <button class="btn btn-primary" type="submit" id="saveChanges">Submit Form</button>
+            <a href="/bot/<%= serverdata.serverID %>" class="btn btn-secondary my-1 me-1 d-none" type="button" id="secondButton"></a>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+
+  
+  <%- include('../partials/footer') %>
+</body>
+
+</html>
+
+<script>
+  document.onclick = function(e) {
+    if (e.target.id == 'saveChanges') {
+      e.preventDefault();
+      let coowner = [];
+      document.querySelectorAll('[id^="removeCoowners"]').forEach(item => {
+        let id = item.id.replace('removeCoowners', '');
+        coowner.push(id);
+      });
+
+      let tags = [];
+      // get selected tags from 'selectedTags'
+      document.querySelectorAll('[id^="tag"]').forEach(item => {
+        if (item.checked) {
+          tags.push(item.value);
+        }
+      });
+      tags = [...new Set(tags)];
+
+      let data = {
+        inviteURL: document.getElementById('inviteURL').value,
+        shortDesc: document.getElementById('shortDesc').value,
+        longDesc: document.getElementById('longDesc').value,
+        tags: tags,
+      }
+
+      fetch('/servers/edit/<%= serverdata.serverID %>', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }).then(res => res.json()).then(json => {
+        if (json.error == false) {
+          document.getElementById('results').innerHTML = `<div class="alert alert-success" role="alert">${json.message}</div>`;
+          document.getElementById('secondButton').innerHTML = `Go to <%= sbot.guilds.cache.get(serverdata.serverID)?.name || 'Unknown Server' %>`;
+          document.getElementById('secondButton').classList.remove('d-none');
+        } else if (json.error == true) {
+          document.getElementById('results').innerHTML = `<div class="alert alert-danger" role="alert">${json.message}</div>`;
+          document.getElementById('secondButton').innerHTML = `Go to <%= sbot.guilds.cache.get(serverdata.serverID)?.name || 'Unknown Server' %>`;
+          document.getElementById('secondButton').classList.remove('d-none');
+        }
+      });
+    }
+  }
+</script>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+
+<head>
+  <title>Error | Discord Community</title>
+  <link rel="shortcut icon" href="<%= bot.guilds.cache.get(config.server.id)?.iconURL() || "https://cdn.discordapp.com/embed/avatars/0.png" %>" type="image/x-icon">
+  <meta name="title" content="Error | Discord Community">
+  <meta name="keywords" content="astrabots, astra. bots. discordbots. astra community, astrabots.xyz, discord bot list, dicord server list, bot list, server list, discord">
+  <meta name="description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta name="theme-color" content="#7289da">
+  <meta name="og:site_name" content="Astrabots.xyz">
+</head>
+
+
+
+<%- include('partials/head') %>
+
+<body>
+  <%- include('partials/spinner') %>
+  <main class="page-wrapper">
+    <%- include('partials/header') %>
+
+    <section class="d-flex align-items-center min-vh-100 py-5 bg-light" style="background: radial-gradient(144.3% 173.7% at 71.41% 94.26%, rgba(99, 102, 241, 0.1) 0%, rgba(218, 70, 239, 0.05) 32.49%, rgba(241, 244, 253, 0.07) 82.52%);">
+      <div class="container my-5 text-md-start text-center">
+        <div class="row align-items-center">
+
+          <!-- Animation -->
+          <div class="col-xl-6 col-md-7 order-md-2 ms-n5">
+            <lottie-player src="assets/json/animation-404-v1.json" background="transparent.html" speed="1" loop="" autoplay=""></lottie-player>
+          </div>
+
+          <!-- Text -->
+          <div class="col-md-5 offset-xl-1 order-md-1">
+            <h1 class="display-1 mb-sm-4 mt-n4 mt-sm-n5">Error!</h1>
+            <p class="mb-md-5 mb-4 mx-md-0 mx-auto pb-2 lead"><%= message %></p>
+            <% if (!user) { %>
+            <a href="/login" class="btn btn-lg btn-dark shadow-dark w-sm-auto w-100">
+              <i class="bx bx-log-in-circle me-2"></i>
+              Login
+            </a>
+            <% } %>
+            <a href="/" class="btn btn-lg btn-primary shadow-primary w-sm-auto w-100">
+              <i class="bx bx-home-alt me-2 ms-n1 lead"></i>
+              Go to homepage
+            </a>
+            <!-- go back button -->
+            <a href="javascript:history.back()" class="btn btn-lg w-sm-auto w-100">
+              <i class="bx bx-left-arrow-alt me-2 ms-n1 lead"></i>
+              Go back
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <%- include('partials/footer') %>
+</body>
+
+</html>

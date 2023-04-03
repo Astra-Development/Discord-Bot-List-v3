@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+  <title>Astra Bots | Discord Community</title>
+  <link rel="shortcut icon" href="<%= bot.guilds.cache.get(config.server.id)?.iconURL() || "https://cdn.discordapp.com/embed/avatars/0.png" %>" type="image/x-icon">
+  <meta name="title" content="Astra Bots | Discord Community">
+  <meta name="keywords" content="astrabots, astra. bots. discordbots. astra community, astrabots.xyz, discord bot list, dicord server list, bot list, server list, discord">
+  <meta name="description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta name="theme-color" content="#5024f3">
+  <meta name="og:site_name" content="Astrabots.xyz">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= config.website.url %>">
+  <meta property="og:title" content="Asta Bots | Discord Community">
+  <meta property="og:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="og:image" content="/assets/img/banner.jpg">
+  <meta property="og:image:secure_url" content="/assets/img/banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="<%= config.website.url %>">
+  <meta property="twitter:title" content="Asta Bots | Discord Community">
+  <meta property="twitter:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="twitter:image" content="/assets/img/banner.jpg">
+  <meta property="twitter:image:width" content="1200">
+  <meta property="twitter:image:height" content="360">
+  <meta property="summary_large_image" content="/assets/img/banner.jpg">
+</head>
+
+<%- include('../partials/head') %>
+
+<body>
+  <%- include('../partials/spinner') %>
+  <main class="page-wrapper">
+    <%- include('../partials/header') %>
+
+    <section class="container mb-5 pb-2 pb-md-4 pb-lg-5 py-5">
+      <div class="card border-0 bg-secondary p-md-5 px-sm-2 pt-4 pb-3">
+        <div class="card-body">
+          <h2 class="h1 mb-4 text-center">Privacy Policy</h2>
+          <p>Your data is absolutely confidential; no one can see your personal information while you are authenticating or utilizing the procedure. Everyone has a unique ID, which allows us to keep track of your processes and assist you whenever you need it!<br>To avoid abuse, we gather data from you such as your userID, server ID, and the commands you execute. During your processes, data is automatically collected. When you cease using our services, the data is automatically deleted.</p>
+          <hr>
+          <div class="options">
+            <h4>1. Location of your Data</h4>
+            <p>All saved information is in our database, and the only people who have access to it are the owner of the botlist and anybody else who has given them permission. We save your information so that we can identify you when you need assistance with the bot or server.</p>
+            <h4>2. Security</h4>
+            <p>Astra Bots takes reasonable precautions to safeguard your information against unauthorized access, loss, misuse, or modification by third parties. Although we make good faith attempts to maintain information gathered on the Service in a secure operating environment that is not accessible to the public, we cannot guarantee the total security of that information during transmission or storage on our systems. Furthermore, while we make every effort to preserve the integrity and security of our network and systems, we cannot guarantee that our security measures will prevent third-party "hackers" from illegally accessing this information.</p>
+            <h4>3. Information Utilization?</h6>
+            <p>We utilize the information you supply in accordance with our Privacy Policy. If you give information for a specific reason, we may use the information in connection with that reason. If you contact us by email, for example, we will use the information you supply to answer your question or handle your problem. In addition, if you supply information in order to gain access to the Services, we will use such information to provide you with access to those services as well as to track your usage of those services.</p>
+            <h4>4. Legal</h4>
+            <p>Our primary motive for processing personal data is to fulfill our contractual responsibilities to our users, or to take actions at the request of users in advance of entering into a contract with them. For example, in order to create your account and deliver our Services, we process personal data on this basis.</p>
+
+            <h4>If you need assistance, you can consult these staff members</h4>
+            <div class="cards">
+              <!-- shwo first the one with the top role, then the second one, and so on -->
+              <% bot.guilds.cache.get(config.server.id).members.cache.filter(member => member.roles.cache.has("858687204526915595")).sort((a, b)=> b.roles.highest.position-a.roles.highest.position).map(member => { %>
+              <div class="accordion">
+                <a href="/profile/<%= member.id %>" style="text-decoration: none; color: inherit">
+                  <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+                    <figcaption class="card-footer d-flex align-items-center border-0" style="padding: 3px;">
+                      <img src="https://cdn.discordapp.com/avatars/<%= member.id %>/<%= member.user.avatar %>.png" width="60" class="rounded-circle" alt="Reaction Roles">
+                      <div class="ps-3">
+                        <h6 class="fw-semibold lh-base mb-0">
+                          <%=member.user.username%>#<%=member.user.discriminator%>
+                          <span class="badge bg-faded-warning text-warning mx-1"><%= bot.guilds.cache.get(config.server.id).roles.cache.get(member.roles.highest.id).name %></span>
+                        </h6>
+                        <span class="fs-sm text-muted">React to a message to get a role! Add as many reaction roles as you want to your message!</span>
+                      </div>
+                    </figcaption>
+                  </div>
+                </a>
+              </div>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <%- include('../partials/footer') %>
+</body>
+
+</html>

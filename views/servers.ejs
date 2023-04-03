@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+  <title>Astra Servers | Discord Community</title>
+  <link rel="shortcut icon" href="<%= bot.guilds.cache.get(config.server.id)?.iconURL() || "https://cdn.discordapp.com/embed/avatars/0.png" %>" type="image/x-icon">
+  <meta name="title" content="Astra Servers | Discord Community">
+  <meta name="keywords" content="astrabots, astra. bots. discordbots. astra community, astrabots.xyz, discord bot list, dicord server list, bot list, server list, discord">
+  <meta name="description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta name="theme-color" content="#5024f3">
+  <meta name="og:site_name" content="Astrabots.xyz">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= config.website.url %>">
+  <meta property="og:title" content="Astra Servers | Discord Community">
+  <meta property="og:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="og:image" content="/assets/img/banner.jpg">
+  <meta property="og:image:secure_url" content="/assets/img/banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="<%= config.website.url %>">
+  <meta property="twitter:title" content="Astra Servers | Discord Community">
+  <meta property="twitter:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="twitter:image" content="/assets/img/banner.jpg">
+  <meta property="twitter:image:width" content="1200">
+  <meta property="twitter:image:height" content="360">
+  <meta property="summary_large_image" content="/assets/img/banner.jpg">
+</head>
+
+<%- include('partials/head') %>
+
+<body>
+  <%- include('partials/spinner') %>
+  <main class="page-wrapper border-bottom">
+    <%- include('partials/header') %>
+
+    <!-- Hero -->
+    <section class="position-relative py-5">
+
+      <!-- Gradient BG -->
+      <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-10"></div>
+
+      <!-- Content -->
+      <div class="container position-relative zindex-2 py-lg-4" style="text-align: center">
+        <div class="d-flex flex-column pt-lg-4 pt-xl-5">
+          <h5 class="my-2">Welcome!</h5>
+          <h1 class="display-3 mb-4">Start using <span class="text-primary">Astra Bots</span> with No Limits</h1>
+          <p class="fs-lg mb-5">Astra Bots is a free platform to advertise your Discord bots and servers. We provide a simple and easy to use interface to help you get started.</p>
+          <div class="d-flex align-items-center mb-3 mb-lg-0 pb-4 pb-lg-0 pb-xl-5" style="justify-content: center; flex-wrap: wrap;">
+            <div class="d-flex me-3">
+              <% for (let i = 0; i < 3; i++) { %>
+              <div class="d-flex align-items-center justify-content-center bg-light rounded-circle" style="width: 52px; height: 52px;">
+                <img src="<%= bot.users.cache.filter(u => !u.bot && u.avatar).random().displayAvatarURL({ format: 'png', size: 128 }) %>" class="rounded-circle" style="width: 48px; height: 48px;">
+              </div>
+              <% } %>
+            </div>
+            <span class="fs-sm">Currently, <span class="text-primary fw-semibold">100+</span> people are using Astra Bots</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container py-5">
+      <h2 class="h2 mb-4 pt-lg-2 pb-lg-3 py-1 text-center">Top Tags</h2>
+      <ul class="nav nav-tabs justify-content-center">
+        <% tags.slice(0,5).map(tag => { %>
+        <li class="nav-item">
+          <a href="/servers/<%= tag.tag %>" class="nav-link"><%= tag.tag %> <span class="badge bg-faded-primary text-primary mx-1"><%= tag.count %></span></a>
+        </li>
+        <% }) %>
+      </ul>
+      <div class="input-group mb-3">
+        <input class="form-control" type="text" id="searchServer" placeholder="Search for a guild" aria-label="Search for a guild">
+        <button class="btn btn-secondary" type="button" id="searchServerBtn">Search</button>
+      </div>
+      <a href="/allservers" class="btn btn-outline-primary my-1 mb-3 w-100" type="button">View All Servers</a>
+      <div class="accordion" id="foundBot"></div>
+      <script>
+        document.getElementById('searchServerBtn').addEventListener('click', (e) => {
+          let searchServer = document.getElementById('searchServer').value;
+          if (searchServer == '') return document.getElementById('foundBot').innerHTML = '';
+          document.getElementById('searchServerBtn').innerHTML = `<span class="spinner-grow spinner-grow-sm me-2" role="status" aria-hidden="true"><span class="visually-hidden">Searching</span></span>Searching...`;
+          fetch("/servers/find/" + searchServer, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          }).then(res => res.json()).then(data => {
+            if (data.error == false) {
+              document.getElementById('searchServerBtn').innerHTML = 'Search';
+              document.getElementById('foundBot').innerHTML = '';
+              data.servers.map(a => {
+                document.getElementById('foundBot').innerHTML += `
+                  <a href="/server/${a.serverID}" style="text-decoration: none; color: inherit">
+                    <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+                      <figcaption class="card-footer d-flex align-items-center border-0 mt-lg-0" style="padding: 3px;">
+                        <img src="${a.icon}" width="60" class="rounded-circle" alt="${a.name}">
+                        <div class="ps-3">
+                          <h6 class="fw-semibold lh-base mb-0">
+                            <span class="fw-semibold me-2 mb-2">
+                              ${a.name}
+                            </span>
+                            <span class="badge bg-faded-info text-info me-2 mb-2">Votes: ${a.votes}</span>
+                          </h6>
+                          <span class="fs-sm text-muted">${a.shortDesc}</span>
+                        </div>
+                      </figcaption>
+                    </div>
+                  </a>`
+              })
+            } else if (data.error == true) {
+              document.getElementById('searchServerBtn').innerHTML = 'Search';
+              document.getElementById('foundBot').innerHTML = '';
+              document.getElementById('foundBot').innerHTML = '<div class="alert alert-danger" role="alert">' + data.message + '</div>';
+            }
+          });
+        })
+      </script>
+    </section>
+
+    <section class="container">
+      <div class="py-2">
+        <!-- <div class="offset-xl-1"> -->
+        <h1 class="h2 text-left">Top Voted Servers</h1>
+        <span class="fs-sm text-left d-block mb-3">Bots with the most votes</span>
+        <div class="accordion">
+          <% servers.sort((a, b) => b.votes - a.votes).slice(0, 10).map(a => {%>
+          <a href="/server/<%= a.serverID %>" style="text-decoration: none; color: inherit">
+            <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+              <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                <img src="<%= sbot.guilds.cache.get(a.serverID)?.iconURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="<%= a.username %>">
+                <div class="ps-3">
+                  <h6 class="fw-semibold lh-base mb-0">
+                    <span class="fw-semibold me-2 mb-2">
+                      <%= sbot.guilds.cache.get(a.serverID)?.name || 'Unknown' %>
+                    </span>
+                    <span class="badge bg-faded-primary text-primary me-2 mb-2">TOP!</span>
+                    <span class="badge bg-faded-info text-info me-2 mb-2">Votes: <%= a.votes.toLocaleString() %></span>
+                    <% a.tags.slice(0, 3).map(t => { %>
+                    <span class="badge bg-secondary me-2 mb-2"><%= t %></span>
+                    <% }) %>
+                    <% if (a.tags.length > 3) { %>
+                    <span class="badge bg-secondary me-2 mb-2"><i class="bx bx-plus-circle"></i> <%= a.tags.length - 3 %> more</span>
+                    <% } %>
+                  </h6>
+                  <span class="fs-sm text-muted"><%= a.shortDesc %></span>
+                </div>
+              </figcaption>
+            </div>
+          </a>
+          <% }) %>
+        </div>
+        <!-- </div> -->
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="py-2">
+        <!-- <div class="offset-xl-1"> -->
+        <h1 class="h2 text-left">
+          <h1 class="h2 text-left">New Servers</h1>
+          <span class="fs-sm text-left d-block mb-3">Newly added servers</span>
+          <div class="accordion">
+            <% servers.sort((a, b) => b.Date - a.Date).slice(0, 10).map(a => {%>
+            <% if (sbot.guilds.cache.get(a.serverID)) { %>
+            <a href="/server/<%= a.serverID %>" style="text-decoration: none; color: inherit">
+              <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+                <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                  <img src="<%= sbot.guilds.cache.get(a.serverID)?.iconURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="<%= a.username %>">
+                  <div class="ps-3">
+                    <h6 class="fw-semibold lh-base mb-0">
+                      <span class="fw-semibold me-2 mb-2">
+                        <%= sbot.guilds.cache.get(a.serverID)?.name || 'Unknown' %>
+                      </span>
+                      <span class="badge bg-faded-success text-success me-2 mb-2">NEW!</span>
+                      <span class="badge bg-secondary me-2 mb-2">Added <%= a.Date.toLocaleString() %></span>
+                      <span class="badge bg-faded-info text-info me-2 mb-2">Votes: <%= a.votes.toLocaleString() %></span>
+                      <% a.tags.slice(0, 3).map(t => { %>
+                      <span class="badge bg-secondary me-2 mb-2"><%= t %></span>
+                      <% }) %>
+                      <% if (a.tags.length > 3) { %>
+                      <span class="badge bg-secondary me-2 mb-2"><i class="bx bx-plus-circle"></i> <%= a.tags.length - 3 %> more</span>
+                      <% } %>
+                    </h6>
+                    <span class="fs-sm text-muted"><%= a.shortDesc %></span>
+                  </div>
+                </figcaption>
+              </div>
+            </a>
+            <% } %>
+            <% }) %>
+          </div>
+          <!-- </div> -->
+      </div>
+    </section>
+
+  </main>
+
+
+  <%- include('partials/footer') %>
+</body>
+
+</html>

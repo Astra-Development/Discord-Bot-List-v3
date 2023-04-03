@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+  <title>
+    <%= sbot.guilds.cache.get(serverdata.serverID)?.name || "Undefined" %> | Astra Bot List
+  </title>
+  <link rel="shortcut icon" href="<%= sbot.guilds.cache.get(serverdata.serverID)?.iconURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>">
+  <meta property="og:url" content="https://astrabots.xyz/server/<%=serverdata.id%>">
+  <meta property="og:type" content="website">
+  <meta property="og:image:alt" content="<%= sbot.guilds.cache.get(serverdata.serverID)?.name || "Undefined" %>">
+  <meta property="og:title" content="<%= sbot.guilds.cache.get(serverdata.serverID)?.name || "Undefined" %> | astrabots.xyz">
+  <meta property="og:description" content="<%=serverdata.shortDesc%>">
+  <meta property="og:image" content="<%= sbot.guilds.cache.get(serverdata.serverID)?.iconURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>">
+  <meta property="og:site_name" content="astrabots.xyz">
+  <meta property="og:image:type" content="image/png">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#5024f3">
+</head>
+
+<%- include('../partials/head') %>
+
+<body>
+  <%- include('../partials/spinner') %>
+  <main class="page-wrapper">
+    <%- include('../partials/header') %>
+
+    <section class="container mt-4 mb-5 pt-2 pb-lg-5">
+      <div class="row gy-4"></div>
+    </section>
+
+    <section class="container pb-lg-5 border-bottom">
+      <div class="row gy-md-5 gy-4">
+
+        <!-- Player + Timeline -->
+        <div class="col-lg-9 col-md-8 order-md-1">
+          <div class="mb-4 mb-lg-5">
+            <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+              <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                <img src="<%= sbot.guilds.cache.get(serverdata.serverID)?.iconURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="Bot Avatar">
+                <div class="ps-3">
+                  <h6 class="fw-semibold lh-base mb-0">
+                    <%= sbot.guilds.cache.get(serverdata.serverID)?.name || 'Unknown' %>
+                  </h6>
+                  <span class="fs-sm text-muted"><%= serverdata.shortDesc %></span>
+                </div>
+              </figcaption>
+            </div>
+          </div>
+
+          <div class="text-center5">
+            <a href="#serverDetails" class="btn btn-primary fw-semibold w-100 d-md-none mb-3" data-scroll>
+              <i class="bx bxs-chevron-down align-middle me-2 "></i>
+              Click to view server information
+            </a>
+          </div>
+
+          <% if (!sbot.guilds.cache.get(serverdata.serverID)) { %>
+          <div class="card card-body border-0 shadow-sm position-relative overflow-hidden ps-sm-5 mb-5">
+            <div class="position-absolute top-0 start-0 w-3 h-100 bg-danger"></div>
+            <h2 class="h4 fw-normal lh-base">
+              <span class="fw-semibold">This server is not in the bot's cache.</span>
+            </h2>
+            <p class="fs-lg mb-1">
+              This server does not appear in the bot's cache. This indicates that the bot is not connected to the server or that the server is not in the bot's cache. This server will not be seen on the list.
+          </div>
+          <% } %>
+
+          <h3 class="h4 mb-4 pt-2 pt-md-0">Description</h3>
+          <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding:10px;">
+            <p class="card-footer d-flex align-items-center border-0  mt-lg-0">
+              <%- bot.md.render(serverdata.longDesc)
+              .replace(/url\(['"]?(?:(?!['"]?\)).)+['"]?\)/gi, '')
+              .replace(/<iframe/gi, '<iframe style="width: 100%; height:100vh;"')
+              .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+              .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '') %>
+            </p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 order-md-2 position-relative" id="serverDetails">
+          <div class="sticky-top ps-lg-4" style="top: 105px !important;">
+            <div class="d-flex align-items-center position-relative mb-lg-5 mb-4">
+              <img src="<%= sbot.users.cache.get(serverdata.ownerID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" class="rounded-circle me-3" width="60" alt="Avatar">
+              <div>
+                <h4 class="h6 mb-1">Created by</h4>
+                <a href="/profile/<%= serverdata.ownerID %>" class="fw-semibold stretched-link"><%= sbot.users.cache.get(serverdata.ownerID)?.tag || 'Unknown' %></a>
+              </div>
+            </div>
+            <% if (serverdata.inviteURL) { %>
+            <a href="<%= serverdata.inviteURL %>" target="_blank" class="btn btn-lg btn-outline-secondary mb-3" style="width: -webkit-fill-available;">
+              <i class="bx bx-plus me-2 lead"></i>Join Server
+            </a>
+            <% } else { %>
+            <a href="#" target="_blank" class="btn btn-lg btn-outline-secondary mb-3 disabled" style="width: -webkit-fill-available;">
+              <i class="bx bx-plus me-2 lead"></i>Server Link Unavailable
+            </a>
+            <% } %>
+            <button class="btn btn-lg btn-outline-secondary mb-3" id="voteServer" style="width: -webkit-fill-available;">
+              <i class="bx bx-like me-2 lead"></i>Vote
+              <span class="badge bg-primary shadow-primary ms-3"><%= serverdata.votes.toLocaleString() %></span>
+            </button>
+            <div id="result"></div>
+
+            <div class="border rounded-3 mb-4 mb-lg-5">
+              <div class="g-0">
+
+                <div class="col d-flex align-items-center border-end-sm border-bottom p-3">
+                  <i class="bx bx-server text-primary fs-4"></i>
+                  <div class="ps-2 ms-1">
+                    <h3 class="h6 mb-0">Member Count</h3>
+                    <p class="fs-xs mb-0"><%= sbot.guilds.cache.get(serverdata.serverID)?.memberCount.toLocaleString() || 'Unknown' %></p>
+                  </div>
+                </div>
+
+                <div class="col d-flex align-items-center border-end-sm border-bottom p-3">
+                  <i class="bx bx-purchase-tag text-primary fs-4"></i>
+                  <div class="ps-2 ms-1">
+                    <h3 class="h6 mb-0">Tags</h3>
+                    <% serverdata.tags.forEach(tag => { %>
+                    <a href="/servers/<%= tag %>" class="badge bg-secondary me-2 mb-2"><%= tag %></a>
+                    <% }) %>
+                  </div>
+                </div>
+                <div class="col align-items-center border-end-sm border-bottom p-3">
+                  <div class="d-flex">
+                    <i class="bx bx-happy-beaming text-primary fs-4"></i>
+                    <h3 class="h6 mb-0 ps-2 ms-1">Emojis</h3>
+                  </div>
+                  <div class="ps-2 ms-1">
+                    <% sbot.guilds.cache.get(serverdata.serverID).emojis.cache.forEach(e => { %>
+                    <img style="max-width:32px; max-height:32px;" src="<%= e.url %>" />
+                    <% }) %>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+            <% if (req.user) { %>
+            <% if (req.user.id == serverdata.ownerID) { %>
+            <div class="card card-body border-0 shadow-sm position-relative overflow-hidden">
+              <div class="position-absolute top-0 start-0 w-3 h-100 bg-danger"></div>
+              <a href="/servers/edit/<%= serverdata.serverID %>" class="btn btn-lg btn-outline-secondary mb-3" style="width: -webkit-fill-available;">
+                <i class="bx bx-edit me-2 lead"></i>Edit
+              </a>
+              <button type="button" data-bs-toggle="modal" data-bs-target="#deleteServer" class="btn btn-lg btn-outline-secondary mb-3" style="width: -webkit-fill-available;">
+                <i class="bx bx-trash me-2 lead"></i>Delete
+              </button>
+            </div>
+            <% } %>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <% if (req.user) { %>
+    <% if (req.user.id == serverdata.ownerID) { %>
+    <div class="modal fade" id="deleteServer" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Are you sure?</h5>
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>When you delete your server, it is removed from the database and no one will be able to visit it again.</p>
+          </div>
+          <p id="serverDeleteError"></p>
+          <div class="modal-footer">
+            <button class="btn btn-secondary btn-sm" type="button" data-bs-dismiss="modal">Close</button>
+            <button class="btn btn-danger btn-sm" type="button" id="serverdeletebtn">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $('#serverdeletebtn').click(function() {
+        fetch('/servers/delete/<%= serverdata.serverID %>', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json()).then(data => {
+          if (data.error == false) {
+            $('#serverDeleteError').html('<div class="alert alert-success" role="alert">Server deleted successfully! Redirecting in 5 seconds...</div>');
+            setTimeout(function() {
+              window.location.href = '/servers';
+            }, 5000);
+          } else if (data.error == true) {
+            $('#serverDeleteError').html(`<div class="alert alert-danger" role="alert">${data.message}</div>`);
+          }
+        })
+      })
+    </script>
+    <% } %>
+    <% } %>
+
+    <section class="container mb-4 pb-lg-3">
+      <% if (serverdata.rates && serverdata.rates?.length > 0) { %>
+      <h2 class="h1 py-4"><span id="commentsCount"><%= serverdata.rates?.length %></span> Reviews</h2>
+      <% } else { %>
+      <h2 class="h1 py-4"><span id="commentsCount">0</span> Reviews</h2>
+      <% } %>
+      <% if (req.user) { %>
+      <div class="position-relative ps-4 mt-4">
+        <span class="position-absolute top-0 start-0 w-1 h-100 bg-primary"></span>
+        <div class="d-flex align-items-center justify-content-between ps-3 pb-2 mb-1">
+          <div class="d-flex align-items-center me-3">
+            <img src="<%= `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}` %>" class="rounded-circle" width="40" height="40" alt="avatar">
+            <div class="ps-3">
+              <h6 class="fw-semibold mb-0"><%= req.user.username %></h6>
+              <span class="fs-sm text-muted">
+                <a href="#" class="fw-semibold text-decoration-none">@<%- bot.guilds.cache.get(global.config.server.id)?.members.cache.get(req.user.id)?.roles.highest.name || "Default" %></a>
+              </span>
+            </div>
+          </div>
+          <button class="btn btn-outline-secondary my-1 me-1" id="postComment">Post</button>
+        </div>
+        <div class=d-flex align-items-center justify-content-between ps-3 pb-2 mb-1">
+          <div class="rating">
+            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+          </div>
+        </div>
+        <textarea class="form-control" rows="3" name="serverComment" id="serverComment" required></textarea>
+      </div>
+      <% } else { %>
+      <div class="position-relative ps-4 mt-4">
+        <span class="position-absolute top-0 start-0 w-1 h-100 bg-primary"></span>
+        <div class="d-flex align-items-center justify-content-between ps-3 pb-2 mb-1">
+          <div class="d-flex align-items-center me-3">
+            <img src="https://cdn.discordapp.com/embed/avatars/0.png" class="rounded-circle" width="40" height="40" alt="avatar">
+            <div class="ps-3">
+              <h6 class="fw-semibold mb-0">Guest</h6>
+              <span class="fs-sm text-muted"><a href="#" class="fw-semibold text-decoration-none">@Guest</a></span>
+            </div>
+          </div>
+          <button class="btn btn-outline-secondary my-1 me-1" type="button">Post</button>
+        </div>
+        <textarea class="form-control" rows="3" placeholder="You cannot comment because you are not logged in." disabled></textarea>
+      </div>
+      <% } %>
+      <!-- Reviews -->
+      <div class="position-relative ps-4 mt-4">
+        <div id="successComment"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+
+</html>
+
+<style>
+  .rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: left;
+  }
+
+  .rating>input {
+    display: none;
+  }
+
+  .rating>label {
+    position: relative;
+    width: 1.1em;
+    font-size: 30px;
+    color: #FFD700;
+    cursor: pointer;
+  }
+
+  .rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0;
+  }
+
+  .rating>label:hover:before,
+  .rating>label:hover~label:before {
+    opacity: 1 !important;
+  }
+
+  .rating>input:checked~label:before {
+    opacity: 1;
+  }
+
+  .rating:hover>input:checked~label:before {
+    opacity: 0.4;
+  }
+</style>
+
+
+<script>
+  $('#voteServer').click(function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '/server/<%= serverdata.serverID %>/vote',
+      success: function(data) {
+        if (data.error == false) {
+          document.getElementById("voteServer").classList.add("disabled");
+          document.getElementById("voteServer").innerHTML = '<i class="bx bx-like me-2 lead"></i>Voted'
+          $('#result').html('<div class="alert alert-success" role="alert">' + data.message + '</div>');
+          setTimeout(function() {
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("voteServer").classList.remove("disabled");
+            document.getElementById("voteServer").innerHTML = '<i class="bx bx-like me-2 lead"></i>Vote <span class="badge bg-primary shadow-primary ms-3"><%= serverdata.votes + 1 %></span>'
+          }, 5000);
+        } else if (data.error == true) {
+          document.getElementById("voteServer").classList.add("disabled");
+          document.getElementById("voteServer").innerHTML = '<i class="bx bx-like me-2 lead"></i>Voted <span class="badge bg-primary shadow-primary ms-3">Disabled</span>'
+          $('#result').html('<div class="alert alert-danger" role="alert">' + data.message + '</div>');
+          setTimeout(function() {
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("voteServer").classList.remove("disabled");
+            document.getElementById("voteServer").innerHTML = '<i class="bx bx-like me-2 lead"></i>Vote <span class="badge bg-primary shadow-primary ms-3"><%= serverdata.votes %></span>'
+          }, 5000);
+        }
+      },
+    });
+  });
+</script>
+
+<% if (req.user) { %>
+<script>
+  document.onclick = function(e) {
+    if (e.target.id == "postComment") {
+      e.preventDefault();
+      let serverID = '<%= serverdata.serverID %>';
+      let comment = document.getElementById("serverComment").value;
+      let stars = document.querySelector('input[name="rating"]:checked')?.value || "0";
+      fetch("/servers/comment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          serverID,
+          comment,
+          stars
+        })
+      }).then(res => res.json()).then(data => {
+        if (data.error == false) {
+          document.getElementById("successComment").innerHTML = '<div class="alert alert-success alert-dismissible fade show" role="alert"><div class="d-flex align-items-center"><i class="bx bxs-check-circle text-success fs-4 me-2"></i><span>' + data.message + '</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+          document.getElementById("newComment").innerHTML = `
+          <div class="position-relative ps-4 mt-4" id="commentID_${data.id}">
+          <div class="d-flex align-items-center justify-content-between ps-3 pb-2 mb-1">
+            <span class="position-absolute top-0 start-0 w-1 h-100 bg-primary"></span>
+            <div class="d-flex align-items-center me-3">
+              <img src="https://cdn.discordapp.com/avatars/<%= req.user.id %>/<%= req.user.avatar %>.png" class="rounded-circle" width="48" alt="Avatar">
+              <div class="ps-3">
+                <h6 class="fw-semibold mb-0">
+                  <%= req.user.username %>
+                  <span id="newstars"></span>
+                </h6>
+                <span class="fs-sm text-muted"><%= moment().fromNow() %></span>
+              </div>
+            </div>
+          </div>
+          <p class="ps-3 mb-0"><a href="/profile/<%= req.user.id %>" class="fw-semibold text-decoration-none">@<%= req.user.username %></a> ` + comment + `</p>
+          </div>`;
+          document.getElementById("serverComment").value = "";
+          document.getElementById("noReviewsYet")?.remove();
+          document.querySelector('input[name="rating"]:checked').checked = false;
+          data.stars.forEach(star => {
+            document.getElementById(`${star}stars`).style.width = "100%";
+          });
+
+          document.getElementById("commentsCount").innerHTML = parseInt(document.getElementById("commentsCount").innerHTML) + 1;
+          setTimeout(function() {
+            document.getElementById("successComment").classList.add("d-none");
+          }, 5000);
+        } else if (data.error == true) {
+          document.getElementById("successComment").innerHTML = '<div class="alert alert-danger alert-dismissible fade show" role="alert"><div class="d-flex align-items-center"><i class="bx bxs-error-circle text-danger fs-4 me-2"></i><span>' + data.message + '</span></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+        }
+      })
+    }
+  }
+</script>
+<% } %>

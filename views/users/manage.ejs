@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<%- include('../partials/head') %>
+
+<body>
+  <%- include('../partials/spinner') %>
+  <main class="page-wrapper">
+    <%- include('../partials/header') %>
+
+    <section class="container pt-5">
+      <div class="row">
+
+
+        <!-- Sidebar (User info + Account menu) -->
+        <%- include('partials/aside') %>
+
+        <!-- Account details -->
+        <div class="col-md-8 offset-lg-1 pb-5 mb-2 mb-lg-4 pt-md-5 mt-n3 mt-md-0">
+          <div class="ps-md-3 ps-lg-0 mt-md-2 pt-md-4 pb-md-2">
+            <h1 class="h2 pt-xl-1 mb-3 pb-2 pb-lg-3">Manage Bots
+              <h2 class="h5 text-primary mb-4">Manage your added bots</h2>
+              <% bots.map(a => { %>
+              <div class="card d-sm-flex flex-sm-row align-items-sm-center justify-content-between border-0 shadow-sm p-3 p-md-4 mb-4">
+                <div class="d-flex align-items-center pe-sm-3">
+                  <img src="<%= bot.users.cache.get(a.botID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="84" alt="Mastercard">
+                  <div class="ps-3 ps-sm-4">
+                    <h6 class="mb-2"><%= a.username %></h6>
+                    <div class="fs-sm"><%= a.shortDesc %></div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-end pt-3 pt-sm-0">
+                  <a href="/bots/edit/<%= a.botID %>" class="btn btn-outline-secondary px-3 px-xl-4 me-3">
+                    <i class="bx bx-edit fs-xl me-lg-1 me-xl-2"></i>
+                    <span class="d-none d-lg-inline">Edit</span>
+                  </a>
+                  <a href="/bots/delete/<%= a.botID %>" class="btn btn-outline-danger px-3 px-xl-4">
+                    <i class="bx bx-trash-alt fs-xl me-lg-1 me-xl-2"></i>
+                    <span class="d-none d-lg-inline">Delete</span>
+                  </a>
+                </div>
+              </div>
+              <% }) %>
+              <div class=" py-2">
+                <a href="/bots/new" class="btn btn-primary ps-4">
+                  <i class="bx bx-plus fs-xl me-2"></i>
+                  Add new bot
+                </a>
+              </div>
+          </div>
+        </div>
+    </section>
+
+  </main>
+
+
+  <div class="border-top border-light">
+    <%- include('../partials/footer') %>
+  </div>
+
+</body>
+
+</html>

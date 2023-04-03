@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+  <title>Astra Bots | Discord Community</title>
+  <link rel="shortcut icon" href="<%= bot.guilds.cache.get(config.server.id)?.iconURL() || "https://cdn.discordapp.com/embed/avatars/0.png" %>" type="image/x-icon">
+  <meta name="title" content="Astra Bots | Discord Community">
+  <meta name="keywords" content="astrabots, astra. bots. discordbots. astra community, astrabots.xyz, discord bot list, dicord server list, bot list, server list, discord">
+  <meta name="description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta name="theme-color" content="#5024f3">
+  <meta name="og:site_name" content="Astrabots.xyz">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= config.website.url %>">
+  <meta property="og:title" content="Asta Bots | Discord Community">
+  <meta property="og:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="og:image" content="/assets/img/banner.jpg">
+  <meta property="og:image:secure_url" content="/assets/img/banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="<%= config.website.url %>">
+  <meta property="twitter:title" content="Asta Bots | Discord Community">
+  <meta property="twitter:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="twitter:image" content="/assets/img/banner.jpg">
+  <meta property="twitter:image:width" content="1200">
+  <meta property="twitter:image:height" content="360">
+  <meta property="summary_large_image" content="/assets/img/banner.jpg">
+</head>
+
+<%- include('partials/head') %>
+
+<body>
+  <%- include('partials/spinner') %>
+  <main class="page-wrapper">
+    <%- include('partials/header') %>
+
+    <!-- Hero -->
+    <section class="position-relative py-5 border-bottom">
+
+      <div class="container mt-4 mb-lg-5 pt-lg-2">
+        <div class="align-items-end">
+          <h1 class="mb-2 mb-md-0">Website Developers
+            <span class="text-muted"><%= developers.length %></strong> developers found.</span>
+        </div>
+        <p>Here is a list of all the bots on the site.</p>
+        <div class="input-group mb-3">
+          <input class="form-control" type="text" id="searchUser" placeholder="Search for a user or bot" aria-label="Search for a user or bot">
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped-columns">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Developer</th>
+                <th>Owned Bot(s)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (let i = 0; i < developers.length; i++) { %>
+              <tr>
+                <th>
+                  <%= i + 1 %>
+                </th>
+                <td>
+                  <a href="/profile/<%= developers[i].id %>" style="text-decoration: none;">
+                    <img src="<%= developers[i].displayAvatarURL() %>" class="rounded-circle" width="32" height="32" alt="<%= developers[i].username %>">
+                    &nbsp;@<%= developers[i].username %>#<%= developers[i].discriminator %>
+                  </a>
+                  <p class="d-none"><%= developers[i].id %></p>
+                </td>
+                <td>
+                  <%= botsdata.filter(bot => bot.ownerID === developers[i].id || bot.coowners.includes(developers[i].id)).length %>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+          <span id="error"></span>
+        </div>
+        <script>
+          document.getElementById("searchUser").addEventListener("keyup", function() {
+            var value = this.value.toLowerCase().trim().toLowerCase();
+            var users = document.querySelectorAll("tbody tr");
+            users.forEach(function(user) {
+              var found = false;
+              user.querySelectorAll("td").forEach(function(td) {
+                if (td.textContent.toLowerCase().trim().indexOf(value) != -1) {
+                  found = true;
+                  return;
+                }
+              });
+              if (found) {
+                user.style.display = "";
+                document.getElementById("error").innerHTML = "";
+              } else {
+                user.style.display = "none";
+                if (found.length === 0) {
+                  document.getElementById("error").innerHTML = `<div class="alert alert-danger" role="alert">No user found.</div>`;
+                }
+              }
+            });
+          });
+        </script>
+
+    </section>
+    <%- include('partials/footer') %>
+</body>
+
+</html>

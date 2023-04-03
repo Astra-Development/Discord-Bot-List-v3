@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+  <title>Astra Bots | Discord Community</title>
+  <link rel="shortcut icon" href="<%= bot.guilds.cache.get(config.server.id)?.iconURL() || "https://cdn.discordapp.com/embed/avatars/0.png" %>" type="image/x-icon">
+  <meta name="title" content="Astra Bots | Discord Community">
+  <meta name="keywords" content="astrabots, astra. bots. discordbots. astra community, astrabots.xyz, discord bot list, dicord server list, bot list, server list, discord">
+  <meta name="description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta name="theme-color" content="#5024f3">
+  <meta name="og:site_name" content="Astrabots.xyz">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= config.website.url %>">
+  <meta property="og:title" content="Asta Bots | Discord Community">
+  <meta property="og:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="og:image" content="/assets/img/banner.jpg">
+  <meta property="og:image:secure_url" content="/assets/img/banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="<%= config.website.url %>">
+  <meta property="twitter:title" content="Asta Bots | Discord Community">
+  <meta property="twitter:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="twitter:image" content="/assets/img/banner.jpg">
+  <meta property="twitter:image:width" content="1200">
+  <meta property="twitter:image:height" content="360">
+  <meta property="summary_large_image" content="/assets/img/banner.jpg">
+</head>
+
+<%- include('../partials/head') %>
+
+<body>
+  <%- include('../partials/spinner') %>
+  <main class="page-wrapper">
+    <%- include('../partials/header') %>
+
+    <!-- Hero -->
+    <section class="position-relative py-5 border-bottom">
+
+      <div class="container mt-4 mb-lg-5 pt-lg-2 pb-5">
+        <div class="align-items-end gy-3 mb-4 pb-lg-3 pb-1">
+          <h1 class="mb-2 mb-md-0"><%= req.params.tag %> Bots</h1>
+          <span class="text-muted">Find the best <%= req.params.tag %> bots for your server.<strong> <%= bots.length %></strong> bots found with <strong><%= req.params.tag %></strong> tag.</span>
+        </div>
+
+        <div class="accordition" id="bots">
+          <% for (let i = (page - 1) * 10; i < bots.length; i++) {
+            if (i === 10 * page) break;
+            let a = bots.sort((a, b) => b.votes - a.votes)[i] %>
+          <a href="/bot/<%= a.botID %>" style="text-decoration: none; color: inherit">
+            <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+              <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                <img src="<%= bot.users.cache.get(a.botID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="<%= a.username %>">
+                <div class="ps-3">
+                  <h6 class="fw-semibold lh-base mb-0">
+                    <span class="fw-semibold me-2 mb-2">
+                      <%= a.username %>
+                    </span>
+                    <% if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'online') { %>
+                    <span class="badge bg-faded-success text-success me-2 mb-2">Online</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'idle') { %>
+                    <span class="badge bg-faded-warning text-warning me-2 mb-2">Idle</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'dnd') { %>
+                    <span class="badge bg-faded-danger text-danger me-2 mb-2">Do Not Disturb</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'offline') { %>
+                    <span class="badge bg-faded-light text-secondary me-2 mb-2">Offline</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else { %>
+                    <span class="badge bg-faded-light text-secondary me-2 mb-2">Offline</span>&nbsp;|&nbsp;&nbsp;
+                    <% } %>
+                    <% if (a.promote == 'Promoted') { %>
+                    <span class="badge bg-faded-warning text-warning me-2 mb-2">Promoted</span>
+                    <% } %>
+                    <% if (a.Date > Date.now() - 604800000) { %>
+                    <span class="badge bg-faded-success text-success me-2 mb-2">NEW!</span>
+                    <% } %>
+                    <span class="badge bg-faded-info text-info me-2 mb-2">Votes: <%= a.votes.toLocaleString() %></span>
+                    <% a.tags.slice(0, 3).map(t => { %>
+                    <span class="badge bg-secondary me-2 mb-2"><%= t %></span>
+                    <% }) %>
+                    <% if (a.tags.length > 3) { %>
+                    <span class="badge bg-secondary me-2 mb-2"><i class="bx bx-plus-circle"></i> <%= a.tags.length - 3 %> more</span>
+                    <% } %>
+                  </h6>
+                  <span class="fs-sm text-muted"><%= a.shortDesc %></span>
+                </div>
+              </figcaption>
+            </div>
+          </a>
+          <% } %>
+        </div>
+
+        <nav aria-label="Page navigation">
+          <ul class="pagination mb-4" style="justify-content: center">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4793022343319587" crossorigin="anonymous"></script>
+            <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-gw-22-2r-9d+199" data-ad-client="ca-pub-4793022343319587" data-ad-slot="7366836311"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <% if (page != 1) {%>
+            <li class="page-item">
+              <a href="/bots/<%= req.params.tag %>?page=0 %>" class="page-link"><i class="bx bx-chevrons-left ms-n1 me-1"></i></a>
+            </li>
+            <% } else { %>
+            <% if (page > 1) { %>
+            <li class="page-item disabled">
+              <a class="page-link"><i class="bx bx-chevrons-left ms-n1 me-1"></i></a>
+            </li>
+            <% } %>
+            <% } %>
+
+            <% if (page > 1) { %>
+            <li class="page-item">
+              <a class="page-link" href="/bots/<%= req.params.tag %>?<%= page - 1 %>" aria-label="Previous"><i class="bx bx-chevron-left"></i></a>
+            </li>
+            <% } %>
+
+            <% if (page > 1) { %>
+            <li class="page-item">
+              <a href="/bots/<%= req.params.tag %>?page=<%= page - 1 %>" class="page-link">
+                <%= page - 1 %>
+              </a>
+            </li>
+            <% } %>
+            <li class="page-item d-none d-sm-block disabled">
+              <a href="#" class="page-link"><%= page %></a>
+            </li>
+            <% if (page != Math.ceil(bots.length / 10) && bots.length > 0) { %>
+            <li class="page-item d-none d-sm-block">
+              <a href="/bots/<%= req.params.tag %>?page=<%= Number(page)+ Number(1); %>" class="page-link"><%= Number(page)+ Number(1); %></a>
+            </li>
+            <% } %>
+
+            <!-- add next button -->
+            <% if (page != Math.ceil(bots.length / 10) && bots.length > 0) { %>
+            <li class="page-item">
+              <a href="/bots/<%= req.params.tag %>?page=<%= Number(page)+ Number(1); %>" class="page-link"><i class="bx bx-chevron-right"></i>
+              </a>
+            </li>
+            <% } else { %>
+            <li class="page-item disabled">
+              <a class="page-link"><i class="bx bx-chevron-right ms-1 me-n1"></i>
+              </a>
+            </li>
+            <% } %>
+            <% if (page != Math.ceil(bots.length / 10) && bots.length > 0) { %>
+            <li class="page-item">
+              <a href="/bots/<%= req.params.tag %>?page=<%= Math.ceil(bots.length / 10); %>" class="page-link"><i class="bx bx-chevrons-right"></i></a>
+            </li>
+            <% } else { %>
+            <li class="page-item disabled">
+              <a class="page-link"><i class="bx bx-chevrons-right"></i>
+              </a>
+            </li>
+            <% } %>
+          </ul>
+        </nav>
+
+        <ul class="nav nav-tabs mb-3">
+          <% tags.sort((a, b) => b.count - a.count).map(t => { %>
+          <li class="nav-item">
+            <a href="/bots/<%= t.tag %>" class="nav-link"><%= t.tag %> <span class="badge bg-faded-primary text-primary mx-1"><%= t.count %></span></a>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+
+
+    </section>
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4793022343319587" crossorigin="anonymous"></script>
+    <!-- Horizontal Ad -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4793022343319587" data-ad-slot="4795431729" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+
+
+    <%- include('../partials/footer') %>
+</body>
+
+</html>

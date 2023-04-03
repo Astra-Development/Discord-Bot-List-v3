@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+  <title>
+    <%= member.username %> | Discord Profiles
+  </title>
+  <link rel="shortcut icon" href="<%= bot.users.cache.get(member.id)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>">
+  <meta property="og:url" content="https://astrabots.xyz/<%= member.id %>">
+  <meta property="og:type" content="website">
+  <meta property="og:image:alt" content="<%= bot.users.cache.get(member.id)?.username || 'Astra' %>">
+  <meta property="og:title" content="<%=member.username%> | astrabots.xyz">
+  <meta property="og:description" content="<%= pdata ? (pdata?.biography || 'No biography set') : 'No biography set' %>">
+  <meta property="og:image" content="<%= bot.users.cache.get(member.id)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>">
+  <meta property="og:site_name" content="astrabots.xyz">
+  <meta property="og:image:type" content="image/png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@astrabots">
+  <meta name="twitter:title" content="<%=member.username%> | astrabots.xyz">
+  <meta name="twitter:description" content="<%= pdata ? (pdata?.biography || 'No biography set') : 'No biography set' %>">
+  <meta name="twitter:image" content="<%= bot.users.cache.get(member.id)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>">
+  <meta name="theme-color" content="#5024f3">
+  <link ref="stylesheet" href="./profile.css">
+</head>
+
+<%- include('../partials/head') %>
+
+<body>
+  <%- include('../partials/spinner') %>
+  <main class="page-wrapper border-bottom">
+    <%- include('../partials/header') %>
+
+    <section class="container pt-5">
+      <div class="row">
+
+        <!-- Sidebar (User info + Account menu) -->
+        <%- include('partials/aside') %>
+
+        <!-- Account details -->
+        <div class="col-md-8 offset-lg-1 pb-5 mb-2 mb-lg-4 pt-md-5 mt-n3 mt-md-0">
+          <div class="ps-md-3 ps-lg-0 mt-md-2 py-md-4">
+            <h1 class="h2 pt-xl-1 pb-3">Account Details</h1>
+            <!-- Basic info -->
+            <h2 class="h5 text-primary mb-4">Basic info</h2>
+            <form class="needs-validation border-bottom pb-3 pb-lg-4">
+              <div class="row pb-2">
+                <div class="col-12">
+                  <label class="form-label fs-base">Bio <small class="text-muted">(optional)</small></label>
+                  <% if (user && req.user.id == member.id) { %>
+                  <textarea name="biography" id="biography" class="form-control form-control-lg" rows="4" placeholder="Type something..."><%= pdata?.biography || '' %></textarea>
+                  <% } else { %>
+                  <textarea name="biography" id="biography" class="form-control form-control-lg" rows="4" placeholder="Type something..." disabled></textarea>
+                  <% } %>
+                </div>
+              </div>
+              <% if (user && req.user.id == member.id) { %>
+              <div id="result"></div>
+              <div class="d-flex mb-3">
+                <button id="editBio" class="btn btn-primary">Save changes</button>
+              </div>
+              <% } %>
+            </form>
+
+            <script>
+              document.onclick = function(e) {
+                if (e.target.id == 'editBio') {
+                  e.preventDefault();
+                  var bio = document.getElementById('biography').value ? document.getElementById('biography').value : '';
+                  fetch('/profile/<%= member.id %>/edit/bio', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                      biography: bio
+                    })
+                  }).then(res => res.json()).then(data => {
+                    if (data.error == false) {
+                      document.getElementById("editBio").innerHTML = '<i class="bx bx-like me-2 lead"></i>Updated'
+                      $('#result').html('<div class="alert alert-success" role="alert">' + data.message + '</div>');
+                      document.getElementById("editBio").disabled = true;
+                      setTimeout(function() {
+                        document.getElementById("editBio").innerHTML = 'Save changes'
+                        document.getElementById("editBio").disabled = false;
+                      }, 3000);
+                    } else if (data.error == true) {
+                      document.getElementById("editBio").innerHTML = '<i class="bx bx-like me-2 lead"></i>Canceled'
+                      $('#result').html('<div class="alert alert-danger" role="alert">' + data.message + '</div>');
+                      document.getElementById("editBio").disabled = true;
+                      setTimeout(function() {
+                        document.getElementById("editBio").innerHTML = 'Save changes'
+                        document.getElementById("editBio").disabled = false;
+                      }, 3000);
+                    }
+                  });
+                }
+              };
+            </script>
+
+
+            <!-- Bots -->
+            <h2 class="h5 text-primary pt-1 pt-lg-3 my-4">Owned Bots</h2>
+            <div class="accordion">
+              <% if (bots.length > 0) {%>
+              <% bots.map(a => { %>
+              <a href="/bot/<%= a.botID %>" style="text-decoration: none; color: inherit">
+                <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+                  <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                    <img src="<%= bot.users.cache.get(a.botID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="<%= a.username %>">
+                    <div class="ps-3">
+                      <h6 class="fw-semibold lh-base mb-0">
+                        <%= a.username %>
+                        <% if (a.promote === 'Promoted') { %>
+                        <span class="badge bg-faded-warning text-warning mx-1">Promoted</span>
+                        <% } %>
+                        <span class="badge bg-faded-info text-info me-2 mb-2">Votes: <%= a.votes.toLocaleString() %></span>
+                        <% a.tags.slice(0, 3).map(t => { %>
+                        <span class="badge bg-secondary me-2 mb-2"><%= t %></span>
+                        <% }) %>
+                        <% if (a.tags.length > 3) { %>
+                        <span class="badge bg-secondary me-2 mb-2"><i class="bx bx-plus-circle"></i> <%= a.tags.length - 3 %> more</span>
+                        <% } %>
+                      </h6>
+                      <span class="fs-sm text-muted"><%= a.shortDesc %></span>
+                    </div>
+                  </figcaption>
+                </div>
+              </a>
+              <% }) %>
+              <% } else { %>
+              <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+                <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                  <div class="ps-3">
+                    <h6 class="fw-semibold lh-base mb-0">
+                      There are no bots owned by this user.
+                    </h6>
+                  </div>
+                </figcaption>
+                <% } %>
+              </div>
+
+              <h2 class="h5 text-primary pt-1 pt-lg-3 my-4">Owned Servers</h2>
+              <div class="accordion">
+                <% if (servers.length > 0) {%>
+                <% servers.map(a => { %>
+                <a href="/server/<%= a.serverID %>" style="text-decoration: none; color: inherit">
+                  <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+                    <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                      <img src="<%= server.guilds.cache.get(a.serverID)?.iconURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="<%= a.name %>">
+                      <div class="ps-3">
+                        <h6 class="fw-semibold lh-base mb-0">
+                          <%= a.name %>
+                          <span class="badge bg-faded-info text-info me-2 mb-2">Votes: <%= a.votes.toLocaleString() %></span>
+                          <% a.tags.slice(0, 3).map(t => { %>
+                          <span class="badge bg-secondary me-2 mb-2"><%= t %></span>
+                          <% }) %>
+                          <% if (a.tags.length > 3) { %>
+                          <span class="badge bg-secondary me-2 mb-2"><i class="bx bx-plus-circle"></i> <%= a.tags.length - 3 %> more</span>
+                          <% } %>
+                        </h6>
+                        <span class="fs-sm text-muted"><%= a.shortDesc %></span>
+                      </div>
+                    </figcaption>
+                  </div>
+                </a>
+                <% }) %>
+                <% } else { %>
+                <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+                  <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                    <div class="ps-3">
+                      <h6 class="fw-semibold lh-base mb-0">
+                        There are no servers owned by this user.
+                      </h6>
+                    </div>
+                  </figcaption>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <div class="border-top border-light">
+    <%- include('../partials/footer') %>
+  </div>
+
+</body>
+
+</html>

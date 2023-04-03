@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+  <title>Astra Bots | Discord Community</title>
+  <link rel="shortcut icon" href="<%= bot.guilds.cache.get(config.server.id)?.iconURL() || "https://cdn.discordapp.com/embed/avatars/0.png" %>" type="image/x-icon">
+  <meta name="title" content="Astra Bots | Discord Community">
+  <meta name="keywords" content="astrabots, astra. bots. discordbots. astra community, astrabots.xyz, discord bot list, dicord server list, bot list, server list, discord">
+  <meta name="description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta name="theme-color" content="#5024f3">
+  <meta name="og:site_name" content="Astrabots.xyz">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= config.website.url %>">
+  <meta property="og:title" content="Asta Bots | Discord Community">
+  <meta property="og:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="og:image" content="/assets/img/banner.jpg">
+  <meta property="og:image:secure_url" content="/assets/img/banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="<%= config.website.url %>">
+  <meta property="twitter:title" content="Asta Bots | Discord Community">
+  <meta property="twitter:description" content="We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.">
+  <meta property="twitter:image" content="/assets/img/banner.jpg">
+  <meta property="twitter:image:width" content="1200">
+  <meta property="twitter:image:height" content="360">
+  <meta property="summary_large_image" content="/assets/img/banner.jpg">
+</head>
+
+<%- include('partials/head') %>
+
+<body>
+  <%- include('partials/spinner') %>
+  <main class="page-wrapper border-bottom">
+    <%- include('partials/header') %>
+
+    <!-- Hero -->
+    <section class="position-relative py-5">
+
+      <!-- Gradient BG -->
+      <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-primary opacity-10"></div>
+
+      <!-- Content -->
+      <div class="container position-relative zindex-2 py-lg-4" style="text-align: center">
+        <div class="d-flex flex-column pt-lg-4 pt-xl-5">
+          <h5 class="my-2">Welcome!</h5>
+          <h1 class="display-3 mb-4">Start using <span class="text-primary">Astra Bots</span> with No Limits</h1>
+          <p class="fs-lg mb-5">Astra Bots is a free platform to advertise your Discord bots and servers. We provide a simple and easy to use interface to help you get started.</p>
+          <div class="d-flex align-items-center mb-3 mb-lg-0 pb-4 pb-lg-0 pb-xl-5" style="justify-content: center; flex-wrap: wrap;">
+            <div class="d-flex me-3">
+              <% for (let i = 0; i < 3; i++) { %>
+              <div class="d-flex align-items-center justify-content-center bg-light rounded-circle" style="width: 52px; height: 52px;">
+                <img src="<%= bot.users.cache.filter(u => !u.bot && u.avatar).random().displayAvatarURL({ format: 'png', size: 128 }) %>" class="rounded-circle" style="width: 48px; height: 48px;">
+              </div>
+              <% } %>
+            </div>
+            <span class="fs-sm">Currently, <span class="text-primary fw-semibold">100+</span> people are using Astra Bots</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container py-5">
+      <h2 class="h2 mb-4 pt-lg-2 pb-lg-3 py-1 text-center">Top Tags</h2>
+      <ul class="nav nav-tabs justify-content-center">
+        <% tags.slice(0,5).map(tag => { %>
+        <li class="nav-item">
+          <a href="/bots/<%= tag.tag %>" class="nav-link"><%= tag.tag %> <span class="badge bg-faded-primary text-primary mx-1"><%= tag.count %></span></a>
+        </li>
+        <% }) %>
+      </ul>
+      <div class="input-group mb-3">
+        <input class="form-control" type="text" id="searchBot" placeholder="Search for a bot" aria-label="Search for a bot">
+        <button class="btn btn-secondary" type="button" id="searchBotBtn">Search</button>
+      </div>
+      <a href="/allbots" class="btn btn-outline-primary my-1 mb-3 w-100" type="button">View All Bots</a>
+      <div class="accordion" id="foundBot"></div>
+      <script>
+        document.getElementById('searchBotBtn').addEventListener('click', (e) => {
+          let searchBot = document.getElementById('searchBot').value;
+          if (searchBot == '') return document.getElementById('foundBot').innerHTML = '';
+          document.getElementById('searchBotBtn').innerHTML = `<span class="spinner-grow spinner-grow-sm me-2" role="status" aria-hidden="true"><span class="visually-hidden">Searching</span></span>Searching...`;
+          fetch("/bots/find/" + searchBot, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          }).then(res => res.json()).then(data => {
+            if (data.error == false) {
+              document.getElementById('searchBotBtn').innerHTML = 'Search';
+              document.getElementById('foundBot').innerHTML = '';
+              data.bots.map(a => {
+                document.getElementById('foundBot').innerHTML += `
+                  <a href="/bot/${a.botID}" style="text-decoration: none; color: inherit">
+                    <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+                      <figcaption class="card-footer d-flex align-items-center border-0 mt-lg-0" style="padding: 3px;">
+                        <img src="${a.avatar ?? 'https://cdn.discordapp.com/embed/avatars/0.png'}" width="60" class="rounded-circle" alt="${a.username}">
+                        <div class="ps-3">
+                          <h6 class="fw-semibold lh-base mb-0">
+                            <span class="fw-semibold me-2 mb-2">
+                              ${a.username}
+                            </span>
+                            <span class="badge bg-faded-info text-info me-2 mb-2">Votes: ${a.votes}</span>
+                          </h6>
+                          <span class="fs-sm text-muted">${a.shortDesc}</span>
+                        </div>
+                      </figcaption>
+                    </div>
+                  </a>`
+              })
+            } else if (data.error == true) {
+              document.getElementById('searchBotBtn').innerHTML = 'Search';
+              document.getElementById('foundBot').innerHTML = '';
+              document.getElementById('foundBot').innerHTML = '<div class="alert alert-danger" role="alert">' + data.message + '</div>';
+            }
+          });
+        })
+      </script>
+    </section>
+
+
+    <section class="container">
+      <div class="py-2 py-md-4">
+        <!-- <div class="offset-xl-1"> -->
+        <h1 class="h2 text-left">Promoted Bots</h1>
+        <span class="fs-sm text-left d-block mb-3">Bots who won a giveaway or made a donation to the server</span>
+        <div class="accordion">
+          <% bots.filter(bot => bot.promote == 'Promoted').sort((a, b) => b.votes - a.votes).slice(0, 10).map(a => {%>
+          <a href="/bot/<%= a.botID %>" style="text-decoration: none; color: inherit">
+            <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+              <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                <img src="<%= bot.users.cache.get(a.botID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="<%= a.username %>">
+                <div class="ps-3">
+                  <h6 class="fw-semibold lh-base mb-0">
+                    <span class="fw-semibold me-2 mb-2">
+                      <%= a.username %>
+                    </span>
+                    <% if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'online') { %>
+                    <span class="badge bg-faded-success text-success me-2 mb-2">Online</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'idle') { %>
+                    <span class="badge bg-faded-warning text-warning me-2 mb-2">Idle</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'dnd') { %>
+                    <span class="badge bg-faded-danger text-danger me-2 mb-2">Do Not Disturb</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'offline') { %>
+                    <span class="badge bg-faded-light text-secondary me-2 mb-2">Offline</span>&nbsp;|&nbsp;&nbsp;
+                    <% } %>
+                    <span class="badge bg-faded-warning text-warning me-2 mb-2">Promoted</span>
+                    <span class="badge bg-faded-info text-info me-2 mb-2">Votes: <%= a.votes.toLocaleString() %></span>
+                    <% a.tags.slice(0, 3).map(t => { %>
+                    <span class="badge bg-secondary me-2 mb-2"><%= t %></span>
+                    <% }) %>
+                    <% if (a.tags.length > 3) { %>
+                    <span class="badge bg-secondary me-2 mb-2"><i class="bx bx-plus-circle"></i> <%= a.tags.length - 3 %> more</span>
+                    <% } %>
+                  </h6>
+                  <span class="fs-sm text-muted"><%= a.shortDesc %></span>
+                </div>
+              </figcaption>
+            </div>
+          </a>
+          <% }) %>
+        </div>
+        <!-- </div> -->
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="py-2">
+        <!-- <div class="offset-xl-1"> -->
+        <h1 class="h2 text-left">Top Voted Bots</h1>
+        <span class="fs-sm text-left d-block mb-3">Bots with the most votes</span>
+        <div class="accordion">
+          <% bots.filter(a=> a.promote != 'Promoted').sort((a, b) => b.votes - a.votes).slice(0, 10).map(a => {%>
+          <a href="/bot/<%= a.botID %>" style="text-decoration: none; color: inherit">
+            <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+              <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
+                <img src="<%= bot.users.cache.get(a.botID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="<%= a.username %>">
+                <div class="ps-3">
+                  <h6 class="fw-semibold lh-base mb-0">
+                    <span class="fw-semibold me-2 mb-2">
+                      <%= a.username %>
+                    </span>
+                    <% if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'online') { %>
+                    <span class="badge bg-faded-success text-success me-2 mb-2">Online</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'idle') { %>
+                    <span class="badge bg-faded-warning text-warning me-2 mb-2">Idle</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'dnd') { %>
+                    <span class="badge bg-faded-danger text-danger me-2 mb-2">Do Not Disturb</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'offline') { %>
+                    <span class="badge bg-faded-light text-secondary me-2 mb-2">Offline</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else { %>
+                    <span class="badge bg-faded-light text-secondary me-2 mb-2">Offline</span>&nbsp;|&nbsp;&nbsp;
+                    <% } %>
+                    <span class="badge bg-faded-primary text-primary me-2 mb-2">TOP!</span>
+                    <span class="badge bg-faded-info text-info me-2 mb-2">Votes: <%= a.votes.toLocaleString() %></span>
+                    <% a.tags.slice(0, 3).map(t => { %>
+                    <span class="badge bg-secondary me-2 mb-2"><%= t %></span>
+                    <% }) %>
+                    <% if (a.tags.length > 3) { %>
+                    <span class="badge bg-secondary me-2 mb-2"><i class="bx bx-plus-circle"></i> <%= a.tags.length - 3 %> more</span>
+                    <% } %>
+                  </h6>
+                  <span class="fs-sm text-muted"><%= a.shortDesc %></span>
+                </div>
+              </figcaption>
+            </div>
+          </a>
+          <% }) %>
+        </div>
+        <!-- </div> -->
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="py-2">
+        <!-- <div class="offset-xl-1"> -->
+        <h1 class="h2 text-left">Moderation Bots</h1>
+        <span class="fs-sm text-left d-block mb-3">Bots that help you moderate your server</span>
+        <div class="accordion">
+          <% bots.filter(a => a.tags.includes('Moderation')).sort((a, b) => b.votes - a.votes).slice(0, 10).map(a => {%>
+          <a href="/bot/<%= a.botID %>" style="text-decoration: none; color: inherit">
+            <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+              <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 5px;">
+                <img src="<%= bot.users.cache.get(a.botID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="<%= a.username %>">
+                <div class="ps-3">
+                  <h6 class="fw-semibold lh-base mb-0">
+                    <span class="fw-semibold me-2 mb-2">
+                      <%= a.username %>
+                    </span>
+                    <% if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'online') { %>
+                    <span class="badge bg-faded-success text-success me-2 mb-2">Online</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'idle') { %>
+                    <span class="badge bg-faded-warning text-warning me-2 mb-2">Idle</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'dnd') { %>
+                    <span class="badge bg-faded-danger text-danger me-2 mb-2">Do Not Disturb</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'offline') { %>
+                    <span class="badge bg-faded-light text-secondary me-2 mb-2">Offline</span>&nbsp;|&nbsp;&nbsp;
+                    <% } %>
+                    <span class="badge bg-secondary me-2 mb-2"><%= a.tags.find(t => t.toLowerCase().includes("moderation")) %></span>
+                    <span class="badge bg-faded-info text-info me-2 mb-2">Votes: <%= a.votes.toLocaleString() %></span>
+                  </h6>
+                  <span class="fs-sm text-muted"><%= a.shortDesc %></span>
+                </div>
+              </figcaption>
+            </div>
+          </a>
+          <% }) %>
+        </div>
+        <% if (bots.filter(bot => bot.tags.includes('moderation')).length > 10) { %>
+        <a href="/bots/Moderation" class="btn btn-outline-primary my-1 me-1 w-100" type="button">View More</a>
+        <% } %>
+        <!-- </div> -->
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="py-2">
+        <!-- <div class="offset-xl-1"> -->
+        <h1 class="h2 text-left">Fun Bots</h1>
+        <span class="fs-sm text-left d-block mb-3">Bots that help you have fun with your friends</span>
+        <div class="accordion">
+          <% bots.filter(a => a.tags.includes('Fun') && !a.tags.includes('Moderation')).sort((a, b) => b.votes - a.votes).slice(0, 10).map(a => {%>
+          <a href="/bot/<%= a.botID %>" style="text-decoration: none; color: inherit">
+            <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+              <figcaption class="card-footer d-flex align-items-center border-0 mt-lg-0" style="padding: 5px;">
+                <img src="<%= bot.users.cache.get(a.botID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="<%= a.username %>">
+                <div class="ps-3">
+                  <h6 class="fw-semibold lh-base mb-0">
+                    <span class="fw-semibold me-2 mb-2">
+                      <%= a.username %>
+                    </span>
+                    <% if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'online') { %>
+                    <span class="badge bg-faded-success text-success me-2 mb-2">Online</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'idle') { %>
+                    <span class="badge bg-faded-warning text-warning me-2 mb-2">Idle</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'dnd') { %>
+                    <span class="badge bg-faded-danger text-danger me-2 mb-2">Do Not Disturb</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'offline') { %>
+                    <span class="badge bg-faded-light text-secondary me-2 mb-2">Offline</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else { %>
+                    <span class="badge bg-faded-light text-secondary me-2 mb-2">Offline</span>&nbsp;|&nbsp;&nbsp;
+                    <% } %>
+                    <span class="badge bg-secondary me-2 mb-2"><%= a.tags.find(t => t.toLowerCase().includes("fun")) %></span>
+                    <span class="badge bg-faded-info text-info me-2 mb-2">Votes: <%= a.votes.toLocaleString() %></span>
+                  </h6>
+                  <span class="fs-sm text-muted"><%= a.shortDesc %></span>
+                </div>
+              </figcaption>
+            </div>
+          </a>
+          <% }) %>
+        </div>
+        <% if (bots.filter(bot => bot.tags.includes('fun') && !a.tags.includes('Moderation')).length > 10) { %>
+        <a href="/bots/Fun" class="btn btn-outline-primary my-1 me-1 w-100" type="button">View More</a>
+        <% } %>
+        <!-- </div> -->
+      </div>
+    </section>
+
+
+    <section class="container">
+      <div class="py-2">
+        <!-- <div class="offset-xl-1"> -->
+        <h1 class="h2 text-left">Recently Added Bots</h1>
+        <span class="fs-sm text-left d-block mb-3">Bots that were recently added to the list</span>
+        <div class="accordion">
+          <% bots.sort((a, b) => b.Date - a.Date).slice(0, 10).map(a => {%>
+          <a href="/bot/<%= a.botID %>" style="text-decoration: none; color: inherit">
+            <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
+              <figcaption class="card-footer d-flex align-items-center border-0 pt-0  mt-lg-0" style="padding: 3px;">
+                <img src="<%= bot.users.cache.get(a.botID)?.displayAvatarURL() || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" width="60" class="rounded-circle" alt="<%= a.username %>">
+                <div class="ps-3">
+                  <h6 class="fw-semibold lh-base mb-0">
+                    <span class="fw-semibold me-2 mb-2">
+                      <%= a.username %>
+                    </span>
+                    <% if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'online') { %>
+                    <span class="badge bg-faded-success text-success me-2 mb-2">Online</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'idle') { %>
+                    <span class="badge bg-faded-warning text-warning me-2 mb-2">Idle</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'dnd') { %>
+                    <span class="badge bg-faded-danger text-danger me-2 mb-2">Do Not Disturb</span>&nbsp;|&nbsp;&nbsp;
+                    <% } else if (bot.guilds.cache.get(config.server.id).members.cache.get(a.botID)?.presence?.status == 'offline') { %>
+                    <span class="badge bg-faded-light text-secondary me-2 mb-2">Offline</span>&nbsp;|&nbsp;&nbsp;
+                    <% } %>
+                    <span class="badge bg-faded-success text-success me-2 mb-2">NEW!</span>
+                    <span class="badge bg-secondary me-2 mb-2">Added <%= a.Date.toLocaleString() %></span>
+                    <span class="badge bg-faded-info text-info me-2 mb-2">Votes: <%= a.votes.toLocaleString() %></span>
+                  </h6>
+                  <span class="fs-sm text-muted"><%= a.shortDesc %></span>
+                </div>
+              </figcaption>
+            </div>
+          </a>
+          <% }) %>
+        </div>
+        <% if (bots.length > 10) { %>
+        <a href="/bots" class="btn btn-outline-primary my-1 me-1 w-100" type="button">View More</a>
+        <% } %>
+        <!-- </div> -->
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="container py-5 mb-lg-2">
+      <h1 class="h2 text-center pb-4">Frequently asked questions</h1>
+      <hr class="mx-auto" style="max-width: 60px;">
+      <div class="py-2 py-md-4 py-lg-5">
+        <div class="accordion" id="faq">
+          <div class="accordion-item border-0 rounded-3 shadow-sm mb-3">
+            <h2 class="accordion-header" id="q1-heading">
+              <button class="accordion-button shadow-none rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q1" aria-expanded="true" aria-controls="q1">
+                How quickly will my bot get approved?
+              </button>
+            </h2>
+            <div id="q1" class="accordion-collapse collapse" aria-labelledby="q1-heading" data-bs-parent="#faq">
+              <div class="accordion-body fs-sm pt-0">
+                <p>We have a group of individuals that test your bots; if your bot is correctly running without bugs or other issues, it will be authorized in a short period of time.</p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item border-0 rounded-3 shadow-sm mb-3">
+            <h2 class="accordion-header" id="q2-heading">
+              <button class="accordion-button shadow-none rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2" aria-expanded="false" aria-controls="q2">
+                How do I get my bot on the list?
+              </button>
+            </h2>
+            <div id="q2" class="accordion-collapse collapse" aria-labelledby="q2-heading" data-bs-parent="#faq">
+              <div class="accordion-body fs-sm pt-0">
+                <p>Go to the <a href="/bots/new">add bot</a> page and fill out the form with your bot's information. Once you submit the form, our team will review your bot and approve it if it meets our requirements.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container py-5 my-1 my-md-4 my-lg-5">
+      <div class="row">
+        <div class="col-lg-7 mb-4 mb-lg-0">
+          <div class="pe-lg-4 me-lg-3 pe-xl-0 me-xl-0">
+            <h2 class="h1 mb-4">About</h2>
+            <p class="fs-lg mb-0">We are a small community that tries to assist individuals expand their discord bots as well as their discord servers; we have a decent website, a good staff, and a solid membership. Don't forget to join us and become one of our most valuable members.</p>
+          </div>
+        </div>
+        <div class="col-lg-5 col-xl-4 offset-xl-1 border-start-lg">
+          <div class="ps-lg-4 ms-lg-3">
+            <h3 class="h5 d-flex align-items-center">
+              <i class="bx bx-help-circle text-primary fs-4 me-2"></i>
+              Challenge
+            </h3>
+            <p class="pb-4 mb-0 mb-lg-3">As, the difficulty is to keep consumers satisfied with our services.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+
+</html>

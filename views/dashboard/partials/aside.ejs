@@ -1,0 +1,59 @@
+<aside class="dark-mode">
+  <div id="docsNav" class="offcanvas-lg offcanvas-start d-flex flex-column position-fixed top-0 start-0 vh-100 bg-dark border-end-lg" style="width: 21rem; z-index: 1045;">
+    <div class="offcanvas-header d-none d-lg-flex justify-content-start">
+      <a href="/dashboard" class="navbar-brand text-dark d-none d-lg-flex py-0">
+        <img src="<%= bot.guilds.cache.get(global.config.server.id)?.iconURL() %>" width="47" alt="logo">
+        Astra Dash
+      </a>
+    </div>
+    <div class="offcanvas-header d-block d-lg-none border-bottom">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h5 class="d-lg-none mb-0">Menu</h5>
+        <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas" data-bs-target="#docsNav"></button>
+      </div>
+      <div class="list-group list-group-flush mx-n4">
+        <a href="/dashboard" class="list-group-item list-group-item-action d-flex align-items-center border-0 py-2 px-4">
+          <i class="bx bx-desktop fs-lg opacity-80 me-2"></i>
+          Home
+        </a>
+      </div>
+    </div>
+    <div class="offcanvas-body p-4">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide h-auto">
+          <h3 class="fs-lg">Content</h3>
+          <div class="list-group list-group-flush mx-n4 pb-2">
+            <% if (req.url == '/dashboard') { %>
+            <a href="/dashboard" class="list-group-item list-group-item-action border-0 py-2 px-4 active">Dashboard</a>
+            <% } else { %>
+            <a href="/dashboard" class="list-group-item list-group-item-action border-0 py-2 px-4">Dashboard</a>
+            <% } %>
+            <% if (req.url == '/dashboard/bots') { %>
+            <a href="/dashboard/bots" class="list-group-item list-group-item-action border-0 py-2 px-4 active">Discord Bots</a>
+            <% } else { %>
+            <a href="/dashboard/bots" class="list-group-item list-group-item-action border-0 py-2 px-4">Discord Bots</a>
+            <% } %>
+            <% if (req.url == '/dashboard/servers') { %>
+            <a href="/dashboard/servers" class="list-group-item list-group-item-action border-0 py-2 px-4 active">Discord Servers</a>
+            <% } else { %>
+            <a href="/dashboard/servers" class="list-group-item list-group-item-action border-0 py-2 px-4">Discord Servers</a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-scrollbar end-0"></div>
+
+    </div>
+    <div class="offcanvas-header border-top">
+      <a href="/" class="btn btn-secondary w-100" target="_blank" rel="noopener">
+        &nbsp;Leave Dashboard
+      </a>
+    </div>
+    <div class="offcanvas-header border-top">
+      <a href="/logout" class="btn btn-primary w-100" target="_blank" rel="noopener">
+        <i class="bx bx-log-out fs-4 lh-1 me-1"></i>
+        &nbsp;Sign Out
+      </a>
+    </div>
+  </div>
+</aside>
