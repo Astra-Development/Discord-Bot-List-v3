@@ -18,6 +18,13 @@ Our Discord Bot List v3 project is a comprehensive and feature-rich platform for
 
 <a href="https://discord.gg/sQQFSnQhdt"><img src="https://discordapp.com/api/guilds/793149744847257600/widget.png?style=banner2"/></a>
 
+# Startup
+- Clone repository
+- fill the `config.js` file
+- `npm install`
+- `node index`
+**Have Fun**, Don't forget to leave a star to expand our services
+
 ### Theme-Options
 
 <img src="https://user-images.githubusercontent.com/39243722/219464103-51f0253f-452a-4b2a-a62a-b2ca7b132a88.png" width="600" />
