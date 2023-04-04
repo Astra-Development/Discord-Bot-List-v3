@@ -43,12 +43,35 @@ client.md = require('markdown-it')({
     require(`./discord/botlist/handlers/${handler}`)(client);
 });
 
-client.on("ready", async () => {
-    client.channels.cache.get('1030503213125873748')?.setName("Website Visitors: "  + Object.values((await siteanalytics.find())[0].country[0]).reduce((c, d) => c + d, 0) ?? 0);
-    setInterval(async () => {
-        client.channels.cache.get('1030503213125873748')?.setName("Website Visitors: "  + Object.values((await siteanalytics.find())[0].country[0]).reduce((c, d) => c + d, 0) ?? 0);
-    }, 60000 * 5);
+const connectToDatabase = async () => {
+    await require('./database/connect.js')(client);
+};
+
+const clientReady = new Promise(resolve => {
+    client.on("ready", async () => {
+        await require('./index.js')(client);
+        await connectToDatabase();
+        resolve();
+    });
 });
+
+const startSClient = async () => {
+    await clientReady;
+
+    try {
+        let voiceChannel = client.channels.cache.get(config.server.voiceChannelStatistics)
+        if (voiceChannel) {
+            client.channels.cache.get(voiceChannel).setName("Website Visitors: " + Object.values((await siteanalytics.find())[0].country[0]).reduce((c, d) => c + d, 0) ?? 0);
+            setInterval(async () => {
+                client.channels.cache.get(voiceChannel).setName("Website Visitors: " + Object.values((await siteanalytics.find())[0].country[0]).reduce((c, d) => c + d, 0) ?? 0);
+            }, 60000 * 5);
+        }
+    } catch (e) {
+        console.log(e)
+    }
+};
+
+startSClient();
 
 client.login(global.config.client.token).catch(() => {
     console.error('Invalid token.');
@@ -78,7 +101,3 @@ serverClient.slashCommands = new Map();
 serverClient.login(global.config.serverClient.token).catch(() => {
     console.error('Invalid token.');
 });
-
-// Calling Server
-require('./index.js')(client);
-require('./database/connect.js')(client);

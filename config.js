@@ -89,21 +89,22 @@ module.exports = {
     server: {
         id: '793149744847257600',
         channels: {
-            errors: '1023887120533823519',
-            login: '850254765941325835',
+            errors: '1023887120533823519', // Sends errors to this channel
+            login: '850254765941325835', // Sends login logs to this channel (member login)
             botlogs: '850303116393185290', // Bot Add, Remove, Approve, Deny, Edit
-            votes: '',
-            serverlogs: '',
+            votes: '', // Bot votes channel
+            serverlogs: '', // Server Add, Remove, Approve, Deny, Edit
             welcome: '804721971593478164', // welcome logs channel Member/Bot join & leave logs
             schedules: '1025000823790501949', // New schedule logs channel
+
+            voiceChannelStatistics: '', // Voice channel statistics channel "Website Visitors: 1365"
         },
         roles: {
-            botReviewer: '822476027824963584',
+            botReviewer: '822476027824963584', // Bot reviewer role
+            botDeveloper: '808682198101262378', // Bot developer role
 
-            botDeveloper: '808682198101262378',
-
-            verifiedBot: '816650236733685784',
-            unverifiedBot: '816638129225596968',
+            verifiedBot: '816650236733685784', // Verified bot role
+            unverifiedBot: '816638129225596968', // Unverified bot role
         }
     },
 
