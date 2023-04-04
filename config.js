@@ -87,7 +87,10 @@ module.exports = {
     },
 
     server: {
+        // Server ID
         id: '793149744847257600',
+
+        // Channel IDs
         channels: {
             errors: '1023887120533823519', // Sends errors to this channel
             login: '850254765941325835', // Sends login logs to this channel (member login)
@@ -99,6 +102,8 @@ module.exports = {
 
             voiceChannelStatistics: '', // Voice channel statistics channel "Website Visitors: 1365"
         },
+
+        // Role IDs
         roles: {
             botReviewer: '822476027824963584', // Bot reviewer role
             botDeveloper: '808682198101262378', // Bot developer role
