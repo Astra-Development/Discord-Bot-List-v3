@@ -207,21 +207,31 @@ module.exports = async (client) => {
         } else {
             res.redirect("/");
         }
-        var getIP = require('ipware')()?.get_ip;
-        var ipInfo = getIP(req);
-        var geoip = require('geoip-lite');
-        var ip = ipInfo.clientIp;
-        var geo = geoip.lookup(ip);
-        const lookup = require('country-code-lookup')
-        const code = lookup.byIso(geo?.country)
-        let countryName = code?.country
-        const embed = {};
-        embed.author = {
-            name: `${req.user.username}#${req.user.discriminator}`,
-            icon_url: `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`
+
+        let countryMessage;
+        try {
+            var getIP = require('ipware')()?.get_ip;
+            var ipInfo = getIP(req);
+            var geoip = require('geoip-lite');
+            var ip = ipInfo.clientIp;
+            var geo = geoip.lookup(ip);
+            const lookup = require('country-code-lookup')
+            let countryCode = lookup?.byIso(geo.country) ?? null
+            let countryName = countryCode.country
+            countryMessage = `:flag_${geo.country.toLowerCase()}: (${geo.country}) ${countryName}`
+        } catch (e) {
+            countryMessage = "Unknown"
+        }
+
+        const embed = {
+            author: {
+                name: `${req.user.username}#${req.user.discriminator}`,
+                icon_url: `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`
+            },
+            description: `[${req.user.username}#${req.user.discriminator}](${global.config.website.url}/profile/${req.user.id}) has logged in from ${countryMessage}`,
+            color: 0x00FF00
         };
-        embed.description = `[${req.user.username}#${req.user.discriminator}](${global.config.website.url}/profile/${req.user.id}) has logged in from ${geo?.country?.toLowerCase() ? `:flag_${geo.country.toLowerCase()}:` : ""} (${geo.country}) ${countryName ? countryName : "Unknown"}`;
-        embed.color = 0x00FF00;
+
         client.channels.cache.get(config.server.channels.login).send({
             embeds: [embed],
             allowedMentions: { parse: ['users', 'roles'] }
