@@ -65,12 +65,11 @@
               Profile
             </a>
           </li>
-          <% if (req.user.id == "857177733398265876") { %>
-          <li>
-            <a href="/dashboard" class="dropdown-item d-flex align-items-center">
-              <i class="bx bx-cog fs-base opacity-60 me-2"></i>
-              Dashboard
-            </a>
+          <% if (bot.members.cache.get(user.id)?.roles.cache.has(global.config.server.roles.botReviewer) || global.config.client.owners.includes(user.id)) { %>
+          <a href="/dashboard" class="dropdown-item d-flex align-items-center">
+            <i class="bx bx-cog fs-base opacity-60 me-2"></i>
+            Dashboard
+          </a>
           </li>
           <% } %>
           <li class="dropdown-divider"></li>
