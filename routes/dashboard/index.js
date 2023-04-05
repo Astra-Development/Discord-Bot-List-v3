@@ -19,27 +19,33 @@ app.get("/dashboard", async (req, res) => {
         message: "You cannot access this page."
     });
 
-    let analytics = await global.siteanalytics.findOne({ id: global.config.client.id });
-    let countries = Object.keys(analytics.country[0]).sort((a, b) => analytics.country[0][b] - analytics.country[0][a]).map((c) => {
-        return {
-            name: c,
-            value: analytics.country[0][c]
-        }
-    });
+    let analytics;
+    let countries;
+    let newcountries = [];
+    try {
+        analytics = await global.siteanalytics.findOne({ id: global.config.client.id });
+        countries = Object.keys(analytics.country[0]).sort((a, b) => analytics.country[0][b] - analytics.country[0][a]).map((c) => {
+            return {
+                name: c,
+                value: analytics.country[0][c]
+            }
+        });
 
-    newcountries = [];
-    const lookup = require('country-code-lookup')
-    await Promise.all(countries.map(async (c) => {
-        let code = c.name;
-        let country = lookup.byIso(code);
-        newcountries.push({
-            code: code,
-            name: country.country,
-            visitors: c.value
-        })
-    }));
-    // sort newcountries by visitors (descending)
-    newcountries.sort((a, b) => b.visitors - a.visitors);
+        const lookup = require('country-code-lookup')
+        await Promise.all(countries.map(async (c) => {
+            let code = c.name;
+            let country = lookup.byIso(code);
+            newcountries.push({
+                code: code,
+                name: country.country,
+                visitors: c.value
+            })
+        }));
+        // sort newcountries by visitors (descending)
+        newcountries.sort((a, b) => b.visitors - a.visitors);
+    } catch (e) {
+        null;
+    }
 
     res.render("dashboard/index", {
         bot: await global.client ? global.client : null,
