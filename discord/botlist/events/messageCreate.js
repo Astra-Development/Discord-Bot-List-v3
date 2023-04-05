@@ -8,7 +8,7 @@ module.exports = {
         if (message.partial) await message.fetch();
         if (message.channel.partial) await message.channel.fetch();
 
-        if (message.guild.id != global.config.server.id && message.guild.id != "828666967028006982") return;
+        if (message.guild.id != global.config.server.id && message.guild.id != global.config.server.id) return;
 
         const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\s*`);
         if (!prefixRegex.test(message.content)) return;
