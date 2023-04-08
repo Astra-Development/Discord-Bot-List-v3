@@ -56,24 +56,6 @@
               </div>
             </div>
           </li>
-          <!-- <li class="nav-item">
-            <a href="/docs" class="nav-link">Documentation</a>
-          </li> -->
-
-          <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Add</a>
-            <div class="dropdown-menu">
-              <div class="d-lg-flex pt-lg-3">
-                <div class="mega-dropdown-column">
-                  <h6 class="px-3 mb-2">Add Something New!</h6>
-                  <ul class="list-unstyled mb-3">
-                    <li><a href="/bots/new" class="dropdown-item py-1">Discord Bot</a></li>
-                    <li><a href="/servers/new" class="dropdown-item py-1">Discord Server</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
         </ul>
       </div>
       <div class="offcanvas-header border-top">
@@ -92,8 +74,6 @@
     </div>
     <div class="form-check form-switch mode-switch pe-lg-1 ms-auto me-4" data-bs-toggle="mode">
       <input type="checkbox" class="form-check-input" id="theme-mode">
-      <!-- <label class="form-check-label d-none d-sm-block" for="theme-mode">Light</label>
-      <label class="form-check-label d-none d-sm-block" for="theme-mode">Dark</label> -->
     </div>
     <button type="button" class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -112,6 +92,18 @@
           <a href="/profile" class="dropdown-item d-flex align-items-center">
             <i class="bx bx-user-circle fs-base opacity-60 me-2"></i>
             Profile
+          </a>
+        </li>
+        <li>
+          <a href="/bots/new" class="dropdown-item d-flex align-items-center">
+            <i class="bx bx-plus fs-base opacity-60 me-2"></i>
+            Submit Bot
+          </a>
+        </li>
+        <li>
+          <a href="/servers/new" class="dropdown-item d-flex align-items-center">
+            <i class="bx bx-plus fs-base opacity-60 me-2"></i>
+            Submit Server
           </a>
         </li>
         <% if (global.config.client.owners.includes(user.id)) { %>
