@@ -7,21 +7,21 @@
       <h2 class="h5 mb-1"><%= member.username %></h2>
       <p class="mb-3"><%= member.id %></p>
       <% if (config.client.owners.includes(member.id)) { %>
-      <span class="badge bg-faded-danger text-danger mb-3">Website Owner</span>
+      <span class="badge bg-faded-danger text-danger mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Owner"><i class="bx bx-crown me-2"></i>Bot Owner</span>
       <% } %>
 
       <% let cache = bot.guilds.cache.get(config.server.id).members.cache.get(member.id) %>
       <% if (cache) { %>
       <% if (cache.permissions.bitfield & 8n) { %>
-      <span class="badge bg-faded-warning text-warning mb-3">Administrator</span>
+      <span class="badge bg-faded-warning text-warning mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Administrator"><i class="bx bx-shield-alt-2 me-2"></i>Administrator</span>
       <% } %>
       <% let botReviewer = cache.roles.cache.get(config.server.roles.botReviewer); %>
       <% let botDeveloper = cache.roles.cache.get(config.server.roles.botDeveloper); %>
       <% if (botReviewer) { %>
-      <span class="badge bg-faded-info text-info mb-3">Bot Reviewer</span>
+      <span class="badge bg-faded-info text-info mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Bot Reviewer"><i class="bx bx-user-check me-2"></i>Bot Reviewer</span>
       <% } %>
       <% if (botDeveloper) { %>
-      <span class="badge bg-faded-success text-success mb-3">Bot Developer</span>
+      <span class="badge bg-faded-success text-success mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Bot Developer"><i class="bx bx-code-alt me-2"></i>Bot Developer</span>
       <% } %>
       <% } %>
 
