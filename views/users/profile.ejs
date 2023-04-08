@@ -47,11 +47,20 @@
             <form class="needs-validation border-bottom pb-3 pb-lg-4">
               <div class="row pb-2">
                 <div class="col-12">
-                  <label class="form-label fs-base">Bio <small class="text-muted">(optional)</small></label>
                   <% if (user && req.user.id == member.id) { %>
+                  <label class="form-label fs-base">Biography <small class="text-muted">(optional)</small></label>
                   <textarea name="biography" id="biography" class="form-control form-control-lg" rows="4" placeholder="Type something..."><%= pdata?.biography || '' %></textarea>
                   <% } else { %>
-                  <textarea name="biography" id="biography" class="form-control form-control-lg" rows="4" placeholder="Type something..." disabled></textarea>
+                  <% if (!pdata?.biography) { %>
+                  <div class="alert d-flex alert-danger" role="alert">
+                    <i class="bx bx-block lead me-3"></i>
+                    <div>
+                      This user has not set a biography yet.
+                    </div>
+                  </div>
+                  <% } else { %>
+                  <label class="form-label fs-base">Biography:</label> <%= pdata?.biography %>
+                  <% } %>
                   <% } %>
                 </div>
               </div>
