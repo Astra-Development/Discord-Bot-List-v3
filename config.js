@@ -24,10 +24,10 @@ module.exports = {
         port: port,
         url: 'https://astrabots.xyz', // default url
         callback: 'https://astrabots.xyz/callback', // default callback url
-
+a
         // testingURL: 'http://localhost:' + port, // default testing url
         // testingCallback: 'http://localhost:' + port + '/callback', // default testing callback url
-        
+
         support: 'https://discord.gg/sQQFSnQhdt', // discord support server
         roles: {
             administrator: ["857177733398265876"]
