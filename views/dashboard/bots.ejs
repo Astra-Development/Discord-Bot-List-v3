@@ -50,7 +50,44 @@
         </div>
       </div>
 
-      <h2 class="h3 pt-3">Bot List</h2>
+      <h2 class="h3 pt-3">Bots in Queue</h2>
+      <p>Here is a list of all the bots in the queue.</p>
+      <% if (botsdata.filter(b => b.status != 'Approved').length < 1) { %>
+      <div class="alert d-flex alert-warning" role="alert">
+        <i class="bx bx-error lead me-3"></i>
+        <div>
+          <h6 class="alert-heading">No bots in queue!</h6>
+          <p>There are no bots in the queue at the moment.</p>
+        </div>
+      </div>
+      <% } else { %>
+      <div class="table-responsive">
+        <table class="table table-striped-columns">
+          <thead;>
+            <tr>
+              <th>#</th>
+              <th>Bot</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+              <% botsdata.filter(b => b.status != 'Approved').map(bot => { %>
+              <tr>
+                <th scope="row"><%= i + 1 %></th>
+                <td>
+                  <%- bot.botID %>
+                </td>
+                <td style="text-align: center;">
+                  <a href="/bot/<%= bot.botID %>" class="badge bg-faded-success text-success" style="width: 100%">View Profile</a>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+        </table>
+      </div>
+      <% } %>
+
+      <h2 class="h3 pt-3">Approved Bots List</h2>
       <p>Here is a list of all the bots on the site.</p>
       <div class="input-group mb-3">
         <input class="form-control" type="text" id="searchUser" placeholder="Search for a user or bot" aria-label="Search for a user or bot">
@@ -60,27 +97,28 @@
           <thead;>
             <tr>
               <th>#</th>
-              <th>Developer</th>
               <th>Bot</th>
+              <th>Status</th>
               <th>Action</th>
             </tr>
             </thead>
             <tbody>
-              <% for (let i = 0; i < developers.length; i++) { %>
-              <tr id="user<%= developers[i].id %>">
-                <th scope="row"><%= i + 1 %></th>
+              <% let i = 0; %>
+              <% botsdata.filter(b => b.status == 'Approved').map(bot => { %>
+              <tr id="user<%= i++ %>">
+                <th scope="row"><%= i %></th>
                 <td>
-                  <%= developers[i].username %>
-                  <p class="d-none"><%= developers[i].id %></p>
+                  <%= bot.username %>
+                  <p class="d-none"><%= bot.ownerID %></p>
                 </td>
                 <td>
-                  <%- botsdata.filter(b => b.ownerID == developers[i].id || b.coowners.includes(developers[i].id)).map(b => `${b.username} <p class="d-none">${b.botID}</p>`).join(', ') %>
+                  <%- bot.status == "Approved" ? '<span class="badge bg-primary">Approved</span>' : '<span class="badge bg-warning">Unapproved</span>' %>
                 </td>
                 <td style="text-align: center;">
-                  <a href="/profile/<%= developers[i].id %>" class="badge bg-faded-success text-success">View Profile</a>
+                  <a href="/bot/<%= bot.botID %>" class="badge bg-faded-success text-success" style="width: 100%">View Profile</a>
                 </td>
               </tr>
-              <% } %>
+              <% }) %>
             </tbody>
         </table>
       </div>
