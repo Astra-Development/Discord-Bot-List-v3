@@ -1,5 +1,5 @@
 console.clear();
-require("cute-logs")
+require("cute-logs");
 const url = require("url");
 const ejs = require("ejs");
 const path = require("path");
