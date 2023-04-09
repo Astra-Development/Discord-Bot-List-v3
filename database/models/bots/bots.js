@@ -5,6 +5,7 @@ let hm = new mongoose.Schema({
     ownerID: String,
     coowners: Array,
     username: String,
+    avatar: String,
 
     prefix: String,
 

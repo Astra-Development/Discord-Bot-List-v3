@@ -152,6 +152,7 @@ app.post('/bots/new', async (req, res) => {
             username: botUser.username,
             botID: botID,
             ownerID: req.user.id,
+            avatar: botUser.displayAvatarURL({ format: 'png', size: 512 }) ?? 'https://cdn.discordapp.com/embed/avatars/0.png',
             coowners: coowners,
             prefix: prefix,
             inviteURL: inviteURL,
@@ -162,7 +163,6 @@ app.post('/bots/new', async (req, res) => {
             shortDesc: shortDesc,
             longDesc: longDesc,
             tags: tags,
-            status: 'unverified',
             date: Date.now(),
             token: require('crypto').randomBytes(64).toString('hex'), // Random token of 128 characters
         }).save();
