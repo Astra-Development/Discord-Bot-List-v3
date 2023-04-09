@@ -49,8 +49,8 @@ app.get("/dashboard/bots", async (req, res) => {
 });
 
 app.post("/dashboard/bot/approve", async (req, res) => {
-    if (!req.user) return error(req, "You need to be logged in to view this page.");
-    if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(req, "You do not have permission to approve bots.");
+    if (!req.user) return error(res, "You need to be logged in to view this page.");
+    if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(res, "You do not have permission to approve bots.");
     let {
         botID
     } = req.body;
@@ -59,8 +59,8 @@ app.post("/dashboard/bot/approve", async (req, res) => {
         botID: botID
     });
 
-    if (!botdata) return error(req, "The bot you are trying to approve does not exist.");
-    if (botdata.status == "Approved") return error(req, "You cannot approve a bot that is already approved.");
+    if (!botdata) return error(res, "The bot you are trying to approve does not exist.");
+    if (botdata.status == "Approved") return error(res, "You cannot approve a bot that is already approved.");
 
     res.json({
         success: true,
@@ -78,8 +78,8 @@ app.post("/dashboard/bot/approve", async (req, res) => {
 });
 
 app.post("/dashboard/bot/decline", async (req, res) => {
-    if (!req.user) return error(req, "You need to be logged in to view this page.");
-    if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(req, "You do not have permission to decline bots.");
+    if (!req.user) return error(res, "You need to be logged in to view this page.");
+    if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(res, "You do not have permission to decline bots.");
     let {
         botID,
         reason
@@ -90,11 +90,11 @@ app.post("/dashboard/bot/decline", async (req, res) => {
     });
 
     reason.trim();
-    if (!reason) return error(req, "You must provide a reason for declining this bot.");
-    if (reason.length < 10) return error(req, "The reason must be at least 10 characters long for specifying a reason.");
+    if (!reason) return error(res, "You must provide a reason for declining this bot.");
+    if (reason.length < 10) return error(res, "The reason must be at least 10 characters long for specifying a reason.");
 
     if (!botdata) return res.redirect("/dashboard/bots");
-    if (botdata.status !== "unverified") return error(req, "You cannot decline a bot that is not unverified.");
+    if (botdata.status !== "unverified") return error(res, "You cannot decline a bot that is not unverified.");
 
     res.json({
         success: true,
