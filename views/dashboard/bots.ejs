@@ -42,8 +42,8 @@
               </tr>
               <tr>
                 <th scope="row">4</th>
-                <td>Unapproved Bots</td>
-                <td><%= botsdata.filter(b => b.status == "UnApproved" || b.status == "unverified").length ? botsdata.filter(b => b.status == "UnApproved" || b.status == "unverified").length : 0 %></td>
+                <td>unverified Bots</td>
+                <td><%= botsdata.filter(b => b.status == "unverified" || b.status == "unverified").length ? botsdata.filter(b => b.status == "unverified" || b.status == "unverified").length : 0 %></td>
               </tr>
             </tbody>
           </table>
@@ -73,13 +73,56 @@
             <tbody>
               <% let i = 0; %>
               <% botsdata.filter(b => b.status != 'Approved').map(bot => { %>
-              <tr>
+              <tr id="unverified_<%= bot.botID %>">
                 <th scope="row"><%= i + 1 %></th>
-                <td>
-                  <%- bot.botID %>
+                <td class="f-flex">
+                  <img src="<%= bot.avatar %>" class="rounded-circle me-2" width="20" height="20" alt="<%- bot.username %>" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                  <%- bot.username %>
                 </td>
-                <td style="text-align: center;">
-                  <a href="/bot/<%= bot.botID %>" class="badge bg-faded-success text-success" style="width: 100%">View Profile</a>
+                <td class="d-flex" style="text-align: center;">
+                  <a class="badge bg-faded-success text-success me-2" type="button" data-bs-toggle="modal" data-bs-target="#approve_<%= bot.botID %>" style="width: 100%;">Approve</a>
+                  <a class="badge bg-faded-danger text-danger me-2" type="button" data-bs-toggle="modal" data-bs-target="#decline_<%= bot.botID %>" style="width: 100%;">Decline</a>
+
+                  <div class="modal fade" id="approve_<%= bot.botID %>" tabindex="-1" style="display: none; text-align:left" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Approving <%= bot.username %>?</h5>
+                          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <span>By approving this bot, means that you have checked the bot and it is safe to use.</span>
+                        </div>
+                        <div id="approveError_<%= bot.botID %>"></div>
+                        <div class="modal-footer">
+                          <button class="btn btn-secondary btn-sm" type="button" data-bs-dismiss="modal">Close</button>
+                          <button class="btn btn-primary btn-sm" onclick="approve(`<%= bot.botID %>`)">Approve</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="decline_<%= bot.botID %>" tabindex="-1" style="display: none; text-align:left" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Declining <%= bot.username %>?</h5>
+                          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <span>By declining this bot, means that you have checked the bot and it is not safe to use.</span>
+                          <textarea class="form-control" id="declineReason_<%= bot.botID %>" placeholder="Reason for declining the bot" style="height: 100px"></textarea>
+                        </div>
+                        <div id="declineError_<%= bot.botID %>"></div>
+                        <div class="modal-footer">
+                          <button class="btn btn-secondary btn-sm" type="button" data-bs-dismiss="modal">Close</button>
+                          <button class="btn btn-danger btn-sm" onclick="decline(`<%= bot.botID %>`, document.getElementById('declineReason_<%= bot.botID %>').value)">Decline</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <a href="/bot/<%= bot.botID %>" class="badge bg-faded-primary text-primary" style="width: 100%">View Profile</a>
                 </td>
               </tr>
               <% }) %>
@@ -87,6 +130,51 @@
         </table>
       </div>
       <% } %>
+
+      <script>
+        function approve(id) {
+          event.preventDefault();
+          if (!id) return document.getElementById('approveError_' + id).innerHTML = '<div class="alert alert-danger" role="alert">Please provide a bot ID.</div>';
+
+          fetch('/dashboard/bot/approve', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              botID: id
+            })
+          }).then(res => res.json()).then(data => {
+            if (data.error) return document.getElementById('approveError_' + id).innerHTML = '<div class="alert alert-danger" role="alert">' + data.error + '</div>';
+            else if (data.success) {
+              document.getElementById('approveError_' + id).innerHTML = '<div class="alert alert-success" role="alert">' + data.message + '</div>';
+              document.getElementById('unverified_' + id).remove();
+            }
+          })
+        }
+        function decline(id, reason) {
+          event.preventDefault();
+          if (!id) return document.getElementById('declineError_' + id).innerHTML = '<div class="alert alert-danger" role="alert">Please provide a bot ID.</div>';
+          if (!reason) return document.getElementById('declineError_' + id).innerHTML = '<div class="alert alert-danger" role="alert">Please provide a reason for declining the bot.</div>';
+          
+          fetch('/dashboard/bot/decline', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              botID: id,
+              reason: reason
+            })
+          }).then(res => res.json()).then(data => {
+            if (data.error) return document.getElementById('declineError_' + id).innerHTML = '<div class="alert alert-danger" role="alert">' + data.error + '</div>';
+            else if (data.success) {
+              document.getElementById('declineError_' + id).innerHTML = '<div class="alert alert-success" role="alert">' + data.message + '</div>';
+              document.getElementById('unverified_' + id).remove();
+            }
+          })
+        }
+      </script>
 
       <h2 class="h3 pt-3">Approved Bots List</h2>
       <p>Here is a list of all the bots on the site.</p>
@@ -108,13 +196,14 @@
               <% botsdata.filter(b => b.status == 'Approved').map(bot => { %>
               <tr id="user<%= i++ %>">
                 <th scope="row"><%= i %></th>
-                <td>
-                  <%= bot.username %>
-                  <p class="d-none"><%= bot.ownerID %></p>
+                <td class="f-flex">
+                  <img src="<%= bot.avatar %>" class="rounded-circle me-2" width="20" height="20" alt="<%- bot.username %>" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                  <%- bot.username %>
                 </td>
                 <td>
-                  <%- bot.status == "Approved" ? '<span class="badge bg-primary">Approved</span>' : '<span class="badge bg-warning">Unapproved</span>' %>
+                  <%- bot.status == "Approved" ? '<span class="badge bg-primary">Approved</span>' : '<span class="badge bg-warning">unverified</span>' %>
                 </td>
+
                 <td style="text-align: center;">
                   <a href="/bot/<%= bot.botID %>" class="badge bg-faded-success text-success" style="width: 100%">View Profile</a>
                 </td>
@@ -147,3 +236,5 @@
 </body>
 
 </html>
+
+<div class="modal-backdrop fade show d-none"></div>

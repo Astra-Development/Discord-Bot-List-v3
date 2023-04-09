@@ -48,4 +48,66 @@ app.get("/dashboard/bots", async (req, res) => {
     });
 });
 
+app.post("/dashboard/bot/approve", async (req, res) => {
+    if (!req.user) return error(req, "You need to be logged in to view this page.");
+    if (!global.client.members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(req, "You do not have permission to approve bots.");
+    let {
+        botID
+    } = req.body;
+
+    let botdata = await botsdata.findOne({
+        botID: botID
+    });
+
+    if (botdata) return error(req, "This bot is already approved.");
+    if (botdata.status == "Approved") return error(req, "You cannot approve a bot that is already approved.");
+
+    res.json({
+        success: true,
+        message: `You have successfully approved ${botdata.username} bot.`,
+    });
+
+    global.client.channels.cache.get(config.server.channels.botlogs).send(`<:db_verified:826375752840249365> | <@${botID}> by <@${botdata.ownerID}>${botdata.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''}'s has been approved by <@${req.user.id}>.\n<${global.config.website.url}/bot/${botID}>`);
+    await botsdata.findOneAndUpdate({
+        botID: botID
+    }, {
+        $set: {
+            status: "Approved"
+        },
+    });
+});
+
+app.post("/dashboard/bot/decline", async (req, res) => {
+    if (!req.user) return error(req, "You need to be logged in to view this page.");
+    if (!global.client.members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(req, "You do not have permission to decline bots.");
+    let {
+        botID,
+        reason
+    } = req.body;
+
+    let botdata = await botsdata.findOne({
+        botID: botID
+    });
+
+    reason.trim();
+    if (!reason) return error(req, "You must provide a reason for declining this bot.");
+    if (reason.length < 10) return error(req, "The reason must be at least 10 characters long for specifying a reason.");
+
+    if (!botdata) return res.redirect("/dashboard/bots");
+    if (botdata.status !== "unverified") return error(req, "You cannot decline a bot that is not unverified.");
+
+    res.json({
+        success: true,
+        message: `You have successfully declined ${botdata.username} bot.`,
+    });
+
+    global.client.users.fetch(botID).then(bota => {
+        global.client.channels.cache.get(config.server.channels.botlogs).send(`<:db_delete:816717275431174144> <@${botdata.ownerID}>${botdata.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''}'s bot named <@${botID}> has been declined by <@${req.user.id}>.\n**Reason:** ${reason}`);
+    });
+
+    await botsdata.findOneAndDelete({
+        botID: botID
+    });
+});
+
 module.exports = app;
