@@ -144,7 +144,7 @@
               botID: id
             })
           }).then(res => res.json()).then(data => {
-            if (data.error) return document.getElementById('approveError_' + id).innerHTML = '<div class="alert alert-danger" role="alert">' + data.error + '</div>';
+            if (data.error) return document.getElementById('approveError_' + id).innerHTML = '<div class="alert alert-danger" role="alert">' + data.message + '</div>';
             else if (data.success) {
               document.getElementById('approveError_' + id).innerHTML = '<div class="alert alert-success" role="alert">' + data.message + '</div>';
               document.getElementById('unverified_' + id).remove();
