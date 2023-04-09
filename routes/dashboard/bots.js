@@ -51,6 +51,7 @@ app.get("/dashboard/bots", async (req, res) => {
 app.post("/dashboard/bot/approve", async (req, res) => {
     if (!req.user) return error(res, "You need to be logged in to view this page.");
     if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(res, "You do not have permission to approve bots.");
+    if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.body.botID)) return error(res, "The bot you are trying to approve is not in the main server. Invite the bot by clicking the <a href='https://discord.com/oauth2/authorize?client_id=" + req.body.botID + "&scope=bot&permissions=0' target='_blank'>invite link (0 Permissions for security reasons)</a> and try again.");
     let {
         botID
     } = req.body;
