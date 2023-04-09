@@ -71,6 +71,7 @@
             </tr>
             </thead>
             <tbody>
+              <% let i = 0; %>
               <% botsdata.filter(b => b.status != 'Approved').map(bot => { %>
               <tr>
                 <th scope="row"><%= i + 1 %></th>
