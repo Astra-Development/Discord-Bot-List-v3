@@ -59,7 +59,7 @@ app.post("/dashboard/bot/approve", async (req, res) => {
         botID: botID
     });
 
-    if (botdata) return error(req, "This bot is already approved.");
+    if (!botdata) return error(req, "The bot you are trying to approve does not exist.");
     if (botdata.status == "Approved") return error(req, "You cannot approve a bot that is already approved.");
 
     res.json({
