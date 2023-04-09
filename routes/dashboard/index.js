@@ -11,7 +11,7 @@ app.get("/dashboard", async (req, res) => {
         message: "You need to be logged in to view this page."
     });
 
-    if (!global.config.client.owners.includes(req.user.id)) return res.render("404", {
+    if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return res.render("404", {
         bot: global.client ? global.client : null,
         path: req.path,
         user: req.isAuthenticated() ? req.user : null,
