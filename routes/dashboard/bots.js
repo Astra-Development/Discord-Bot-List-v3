@@ -50,7 +50,7 @@ app.get("/dashboard/bots", async (req, res) => {
 
 app.post("/dashboard/bot/approve", async (req, res) => {
     if (!req.user) return error(req, "You need to be logged in to view this page.");
-    if (!global.client.members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(req, "You do not have permission to approve bots.");
+    if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(req, "You do not have permission to approve bots.");
     let {
         botID
     } = req.body;
@@ -79,7 +79,7 @@ app.post("/dashboard/bot/approve", async (req, res) => {
 
 app.post("/dashboard/bot/decline", async (req, res) => {
     if (!req.user) return error(req, "You need to be logged in to view this page.");
-    if (!global.client.members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(req, "You do not have permission to decline bots.");
+    if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(req, "You do not have permission to decline bots.");
     let {
         botID,
         reason
