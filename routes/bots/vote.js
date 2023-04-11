@@ -28,12 +28,7 @@ app.post('/bot/:id/vote', async (req, res) => {
             message: "The bot you are looking for does not exist."
         });
 
-        if (botdata.status != "Approved") {
-            return res.json({
-                error: true,
-                message: `You cannot vote for a bot before it is approved.`
-            })
-        };
+        if (botdata.status != "Approved") return error(res, "The current bot you are attempting to vote with has not yet been approved.");
 
         let voted = await votes.findOne({ userID: req.user.id, botID: req.params.id });
         if (voted) {
