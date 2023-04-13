@@ -106,7 +106,7 @@
             Submit Server
           </a>
         </li>
-        <% if (global.config.client.owners.includes(user.id)) { %>
+        <% if (global.config.client.owners.includes(user.id) || global.client.guilds.cache.get(global.config.server.id).members.cache.get(user.id).roles.cache.has(global.config.server.roles.botReviewer)) { %>
         <li>
           <a href="/dashboard" class="dropdown-item d-flex align-items-center">
             <i class="bx bx-cog fs-base opacity-60 me-2"></i>
