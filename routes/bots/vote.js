@@ -28,6 +28,8 @@ app.post('/bot/:id/vote', async (req, res) => {
             message: "The bot you are looking for does not exist."
         });
 
+        if (botdata.status != "Approved") return error(res, "The current bot you are attempting to vote with has not yet been approved.");
+
         let voted = await votes.findOne({ userID: req.user.id, botID: req.params.id });
         if (voted) {
             let timeLeft = 10800000 - (Date.now() - voted.Date); // 3 hours
