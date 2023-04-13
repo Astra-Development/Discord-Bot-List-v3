@@ -151,6 +151,7 @@ app.post('/bots/new', async (req, res) => {
         await new botsdata({
             username: botUser.username,
             botID: botID,
+            appID: appID,
             ownerID: req.user.id,
             avatar: botUser.displayAvatarURL({ format: 'png', size: 512 }) ?? 'https://cdn.discordapp.com/embed/avatars/0.png',
             coowners: coowners,
