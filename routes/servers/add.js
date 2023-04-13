@@ -114,7 +114,7 @@ app.post('/servers/new', async (req, res) => {
         });
     } catch (e) {
         error(res, 'it seems like an error has occured, please try again later. (The administrators have been notified).');
-        concole.log(e.stack)
+        console.log(e.stack)
     }
 });
 
