@@ -11,7 +11,7 @@ app.get("/dashboard/bots", async (req, res) => {
         message: "You need to be logged in to view this page."
     });
 
-    if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return res.render("404", {
+    if (!config.server.owners.includes(req.user.id) && !global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return res.render("404", {
         bot: global.client ? global.client : null,
         path: req.path,
         user: req.isAuthenticated() ? req.user : null,
@@ -50,7 +50,10 @@ app.get("/dashboard/bots", async (req, res) => {
 
 app.post("/dashboard/bot/approve", async (req, res) => {
     if (!req.user) return error(res, "You need to be logged in to view this page.");
-    if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(res, "You do not have permission to approve bots.");
+    if (!config.server.owners.includes(req.user.id) &&
+        !global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer))
+        return error(res, "You do not have permission to approve bots.");
+
     if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.body.botID)) return error(res, "The bot you are trying to approve is not in the main server. Invite the bot by clicking the <a href='https://discord.com/oauth2/authorize?client_id=" + req.body.botID + "&scope=bot&permissions=0' target='_blank'>invite link (0 Permissions for security reasons)</a> and try again.");
     let {
         botID
@@ -80,7 +83,9 @@ app.post("/dashboard/bot/approve", async (req, res) => {
 
 app.post("/dashboard/bot/decline", async (req, res) => {
     if (!req.user) return error(res, "You need to be logged in to view this page.");
-    if (!global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer)) return error(res, "You do not have permission to decline bots.");
+    if (!config.server.owners.includes(req.user.id) &&
+        !global.client.guilds.cache.get(config.server.id).members.cache.get(req.user.id).roles.cache.has(config.server.roles.botReviewer))
+        return error(res, "You do not have permission to decline bots.");
     let {
         botID,
         reason
