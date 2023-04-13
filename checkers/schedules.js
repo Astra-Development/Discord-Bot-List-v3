@@ -44,7 +44,7 @@ const moment = require('moment');
                         value: `- Mod: <@${moderator.id}> (${moderator.id})\n- From Date: ${new Date(schedule.fromDate).toLocaleString()}\n- To Date: **${new Date(schedule.toDate).toLocaleString()}**`
                     });
                     client.channels.cache.get(global.config.server.channels.schedules).send({
-                        content: `The schedule for <@${schedule.botID} has ended.`,
+                        content: `The schedule for <@${schedule.botID}> has ended.`,
                         embeds: [embed],
                         allowedMentions: { parse: ['users', 'roles'] }
                     });
