@@ -2,7 +2,6 @@
     const botdata = await botsdata.find();
     const roles = global.config.server.roles;
 
-    const reviewer = roles.botReviewer;
     const developer = roles.botDeveloper;
     const verifiedBot = roles.verifiedBot;
     const unverifiedBot = roles.unverifiedBot;
