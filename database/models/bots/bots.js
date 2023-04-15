@@ -25,8 +25,8 @@ let hm = new mongoose.Schema({
     },
 
     promote: {
-        type: String,
-        default: ''
+        type: Boolean,
+        default: false
     },
 
     rates: Object,

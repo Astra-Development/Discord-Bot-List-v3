@@ -121,7 +121,7 @@
                     <div class="ps-3">
                       <h6 class="fw-semibold lh-base mb-0">
                         <%= a.username %>
-                        <% if (a.promote === 'Promoted') { %>
+                        <% if (a.promote === true) { %>
                         <span class="badge bg-faded-warning text-warning mx-1">Promoted</span>
                         <% } %>
                         <span class="badge bg-faded-info text-info me-2 mb-2">Votes: <%= a.votes.toLocaleString() %></span>
