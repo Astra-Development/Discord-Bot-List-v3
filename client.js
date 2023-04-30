@@ -61,8 +61,12 @@ const startSClient = async () => {
     try {
         let voiceChannel = client.channels.cache.get(config.server.voiceChannelStatistics)
 
-        const countryData = (await siteanalytics.find())[0]?.country[0];
+
+        const data = await siteanalytics.find();
+        const countryData = data[0] && data[0].country && data[0].country[0];
         const count = countryData ? Object.values(countryData).reduce((c, d) => c + d, 0) : 0;
+
+
         if (voiceChannel) {
             client.channels.cache.get(voiceChannel).setName("Website Visitors: " + count)
             setInterval(async () => {
