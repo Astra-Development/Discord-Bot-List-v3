@@ -60,10 +60,13 @@ const startSClient = async () => {
 
     try {
         let voiceChannel = client.channels.cache.get(config.server.voiceChannelStatistics)
+
+        const countryData = (await siteanalytics.find())[0]?.country[0];
+        const count = countryData ? Object.values(countryData).reduce((c, d) => c + d, 0) : 0;
         if (voiceChannel) {
-            client.channels.cache.get(voiceChannel).setName("Website Visitors: " + Object.values((await siteanalytics.find())[0].country[0]).reduce((c, d) => c + d, 0) ?? 0);
+            client.channels.cache.get(voiceChannel).setName("Website Visitors: " + count)
             setInterval(async () => {
-                client.channels.cache.get(voiceChannel).setName("Website Visitors: " + Object.values((await siteanalytics.find())[0].country[0]).reduce((c, d) => c + d, 0) ?? 0);
+                client.channels.cache.get(voiceChannel).setName("Website Visitors: " + count)
             }, 60000 * 5);
         }
     } catch (e) {
