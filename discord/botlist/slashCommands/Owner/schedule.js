@@ -111,7 +111,7 @@ module.exports = {
                 type: status
             })).save();
 
-            await botsdata.findOneAndUpdate({ botID: bot.id }, { promote: 'Promoted' });
+            await botsdata.findOneAndUpdate({ botID: bot.id }, { promote: true });
 
             interaction.reply({
                 content: `Successfully scheduled ${bot.tag} to ${status} for **${timeNumber}${timeType === 'm' ? ' minute' : timeType === 'h' ? ' hour' : timeType === 'd' ? ' day' : timeType === 'w' ? ' week' : timeType === 'mo' ? ' month' : ''}${timeNumber > 1 ? 's' : ''}**.`

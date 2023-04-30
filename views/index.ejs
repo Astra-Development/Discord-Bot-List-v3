@@ -129,7 +129,7 @@
         <h1 class="h2 text-left">Promoted Bots</h1>
         <span class="fs-sm text-left d-block mb-3">Bots who won a giveaway or made a donation to the server</span>
         <div class="accordion">
-          <% bots.filter(bot => bot.promote == 'Promoted').sort((a, b) => b.votes - a.votes).slice(0, 10).map(a => {%>
+          <% bots.filter(bot => bot.promote == true).sort((a, b) => b.votes - a.votes).slice(0, 10).map(a => {%>
           <a href="/bot/<%= a.botID %>" style="text-decoration: none; color: inherit">
             <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
               <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">
@@ -174,7 +174,7 @@
         <h1 class="h2 text-left">Top Voted Bots</h1>
         <span class="fs-sm text-left d-block mb-3">Bots with the most votes</span>
         <div class="accordion">
-          <% bots.filter(a=> a.promote != 'Promoted').sort((a, b) => b.votes - a.votes).slice(0, 10).map(a => {%>
+          <% bots.filter(a=> a.promote == false).sort((a, b) => b.votes - a.votes).slice(0, 10).map(a => {%>
           <a href="/bot/<%= a.botID %>" style="text-decoration: none; color: inherit">
             <div class="accordion-item border-0 rounded-3 shadow-sm mb-3" style="padding: 10px;">
               <figcaption class="card-footer d-flex align-items-center border-0  mt-lg-0" style="padding: 3px;">

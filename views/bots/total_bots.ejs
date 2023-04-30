@@ -118,7 +118,7 @@
                     <% } else { %>
                     <span class="badge bg-faded-light text-secondary me-2 mb-2">Offline</span>&nbsp;|&nbsp;&nbsp;
                     <% } %>
-                    <% if (a.promote == 'Promoted') { %>
+                    <% if (a.promote == true) { %>
                     <span class="badge bg-faded-warning text-warning me-2 mb-2">Promoted</span>
                     <% } %>
                     <% if (a.Date > Date.now() - 604800000) { %>
