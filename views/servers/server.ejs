@@ -140,8 +140,7 @@
 
 
             </div>
-            <% if (req.user) { %>
-            <% if (req.user.id == serverdata.ownerID) { %>
+            <% if (req.user && req.user.id == serverdata.ownerID) { %>
             <div class="card card-body border-0 shadow-sm position-relative overflow-hidden">
               <div class="position-absolute top-0 start-0 w-3 h-100 bg-danger"></div>
               <a href="/servers/edit/<%= serverdata.serverID %>" class="btn btn-lg btn-outline-secondary mb-3" style="width: -webkit-fill-available;">
@@ -152,14 +151,12 @@
               </button>
             </div>
             <% } %>
-            <% } %>
           </div>
         </div>
       </div>
     </section>
 
-    <% if (req.user) { %>
-    <% if (req.user.id == serverdata.ownerID) { %>
+    <% if (req.user && req.user.id == serverdata.ownerID) { %>
     <div class="modal fade" id="deleteServer" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -197,7 +194,6 @@
         })
       })
     </script>
-    <% } %>
     <% } %>
 
     <section class="container mb-4 pb-lg-3">
