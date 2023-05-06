@@ -21,6 +21,7 @@ client.aliases = new Map();
 client.categories = fs.readdirSync('./discord/botlist/commands/');
 client.cooldowns = new Map();
 client.slashCommands = new Map();
+
 client.md = require('markdown-it')({
     html: true, // Enable HTML tags in source
     linkify: true, // autoconvert links

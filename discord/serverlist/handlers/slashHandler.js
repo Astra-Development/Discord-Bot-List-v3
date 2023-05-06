@@ -10,7 +10,6 @@ module.exports = async (serverClient) => {
             const command = require(`../slashCommands/${folder}/${file}`);
             if (command.name) {
                 serverClient.slashCommands.set(command.name, command);
-                console.log(command.name)
                 slash.push(command)
             } else {
                 continue;
