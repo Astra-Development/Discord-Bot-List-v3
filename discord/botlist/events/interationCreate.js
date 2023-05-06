@@ -10,6 +10,8 @@ module.exports = {
                     content: 'Command not found.'
                 });
             } else {
+                if (command.category == "Owner" && !global.config.client.owners.includes(interaction.user.id)) return;
+
                 const args = (value) => {
                     try {
                         const options = interaction.options._hoistedOptions;
