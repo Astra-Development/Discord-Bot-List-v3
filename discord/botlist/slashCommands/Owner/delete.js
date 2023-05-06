@@ -184,7 +184,7 @@ module.exports = {
                     embeds: [
                         {
                             title: '${global.config.server.emojis.error} `` Deletion Confirmation ``',
-                            description: `Are you sure you want to delete ${await sclient?.guilds?.fetch(server).then((g) => g.name) || server} (\`${server}\`) from the database?`,
+                            description: `Are you sure you want to delete ${await serverClient?.guilds?.fetch(server).then((g) => g.name) || server} (\`${server}\`) from the database?`,
                             footer: {
                                 text: 'This confirmation will expire in 15 seconds.'
                             }
@@ -227,7 +227,7 @@ module.exports = {
                             embeds: [
                                 {
                                     title: '${global.config.server.emojis.success} `` Deletion Confirmation ``',
-                                    description: `${await sclient?.guilds?.fetch(server).then((g) => g.name) || server} (\`${server}\`) has been deleted from the database.`,
+                                    description: `${await serverClient?.guilds?.fetch(server).then((g) => g.name) || server} (\`${server}\`) has been deleted from the database.`,
                                     footer: null
                                 }
                             ],
@@ -238,7 +238,7 @@ module.exports = {
                             embeds: [
                                 {
                                     title: '${global.config.server.emojis.error} `` Deletion Cancelled ``',
-                                    description: `${await sclient?.guilds?.fetch(server).then((g) => g.name) || server} (\`${server}\`) has not been deleted from the database.`,
+                                    description: `${await serverClient?.guilds?.fetch(server).then((g) => g.name) || server} (\`${server}\`) has not been deleted from the database.`,
                                     footer: null
                                 }
                             ],
@@ -253,7 +253,7 @@ module.exports = {
                             embeds: [
                                 {
                                     title: '${global.config.server.emojis.error} `` Deletion Cancelled ``',
-                                    description: `${await sclient?.guilds?.fetch(server).then((g) => g.name) || server} (\`${server}\`) has not been deleted from the database.`,
+                                    description: `${await serverClient?.guilds?.fetch(server).then((g) => g.name) || server} (\`${server}\`) has not been deleted from the database.`,
                                     footer: {
                                         text: 'This confirmation has expired.'
                                     }
