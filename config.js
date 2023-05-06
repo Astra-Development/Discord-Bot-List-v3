@@ -1,36 +1,45 @@
-const port = 4777;
-
 module.exports = {
+    // Client will be the bot that you will use for the main purpose of the website and commands.
     client: {
-        id: '857185961280929813',
-        token: '',
-        secret: '',
-        prefix: 'a!',
-        owners: ["857177733398265876", "594638372996251655"],
+        id: '857185961280929813', // Bot ID
+        token: '', // Bot token
+        secret: '', // Bot secret
+        prefix: 'a!', // Bot prefix
+        owners: ["857177733398265876", "594638372996251655"], // Bot owner(s) ID, can be multiple owners separated by comma 
     },
 
+    // ServerClient will be the bot that will be used for the server list/server commands 
+    // and the bot that will be public to everyone so they can invite it to their server.
     serverClient: {
-        id: '860206392652595281',
-        prefix: 's!',
-        token: '',
-        invite: 'https://discord.com/oauth2/authorize?client_id=860206392652595281&scope=bot%20identify&permissions=19473'
+        id: '860206392652595281', // Server Bot ID
+        prefix: 's!', // Server Bot prefix
+        token: '', // Server Bot token
+
+        // Replace the REPLACEME with your client ID
+        invite: 'https://discord.com/oauth2/authorize?client_id=REPLACEME&scope=bot%20identify&permissions=19473'
     },
 
     database: {
-        url: '', // Mongo url
+        url: '', // Mongo url (eg. mongodb+srv://<username>:<password>@<host>/<database>)
+        // 
     },
 
     website: {
-        port: port,
+        port: 4777,
+        // Localhost Example:
+        // url: 'http://localhost:4777', // default url
+        // callback: 'http://localhost:4777/callback', // default callback url
+
+        // Example with domain:
         url: 'https://astrabots.xyz', // default url
         callback: 'https://astrabots.xyz/callback', // default callback url
 
-        // testingURL: 'http://localhost:' + port, // default testing url
-        // testingCallback: 'http://localhost:' + port + '/callback', // default testing callback url
+        // For login issues about the callback url, please join the support server and check the #support channel pinned messages.
+        // If you still can't fix it, feel free to open a ticket in the support server.
 
         support: 'https://discord.gg/sQQFSnQhdt', // discord support server
         roles: {
-            administrator: ["857177733398265876"]
+            administrator: ["857177733398265876"] // administrator role id(s)
         },
         botTags: [ // Botlist tags
             "Fun",
@@ -93,8 +102,7 @@ module.exports = {
     },
 
     server: {
-        // Server ID
-        id: '793149744847257600',
+        id: '793149744847257600', // Server ID
 
         // Channel IDs
         channels: {
