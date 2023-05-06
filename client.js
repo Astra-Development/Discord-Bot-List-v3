@@ -61,17 +61,15 @@ const startSClient = async () => {
     try {
         let voiceChannel = client.channels.cache.get(config.server.voiceChannelStatistics)
 
-
         const data = await siteanalytics.find();
         const countryData = data[0] && data[0].country && data[0].country[0];
         const count = countryData ? Object.values(countryData).reduce((c, d) => c + d, 0) : 0;
 
-
-        if (voiceChannel) {
-            client.channels.cache.get(voiceChannel).setName("Website Visitors: " + count)
+        if (voiceChannel && count > 0) {
+            client.channels.cache.get(voiceChannel).setName("Website Visitors: " + count.toLocaleString())
             setInterval(async () => {
-                client.channels.cache.get(voiceChannel).setName("Website Visitors: " + count)
-            }, 60000 * 5);
+                client.channels.cache.get(voiceChannel).setName("Website Visitors: " + count.toLocaleString())
+            }, 1 * 60 * 60000); // 1 hour (Careful! API limits)
         }
     } catch (e) {
         console.log(e)
@@ -80,9 +78,7 @@ const startSClient = async () => {
 
 startSClient();
 
-client.login(global.config.client.token).catch(() => {
-    console.error('Invalid token.');
-});
+client.login(global.config.client.token).catch(() => { console.error('Invalid token.'); });
 
 const serverClient = (global.serverClient = new Client({
     fetchAllMembers: true,
@@ -105,6 +101,4 @@ serverClient.slashCommands = new Map();
 ['eventHandler', 'commandHandler', 'slashHandler'].forEach(handler => {
     require(`./discord/serverlist/handlers/${handler}`)(serverClient);
 });
-serverClient.login(global.config.serverClient.token).catch(() => {
-    console.error('Invalid token.');
-});
+serverClient.login(global.config.serverClient.token).catch(() => { console.error('Invalid token.'); });
