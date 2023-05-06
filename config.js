@@ -103,6 +103,13 @@ module.exports = {
     server: {
         id: '793149744847257600', // Server ID
 
+        emojis: {
+            "approve": "<:db_verified:826375752840249365>", 
+            "decline": "<:db_delete:816717275431174144>",
+            "success": "✅",
+            "error": "❌",
+        },
+
         // Channel IDs
         channels: {
             errors: '1023887120533823519', // Sends errors to this channel

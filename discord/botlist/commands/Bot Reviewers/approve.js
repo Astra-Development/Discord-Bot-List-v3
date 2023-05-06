@@ -42,14 +42,14 @@ module.exports = {
         guild1.members.cache.get(botdata.botID).roles.add(roles.verifiedBot);
 
         client.users.fetch(bot.id).then((bota) => {
-          client.channels.cache.get(config.server.channels.botlogs).send(`<:db_verified:826375752840249365> | <@${bota.id}> by <@${botdata.ownerID}>${botdata.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''}'s has been approved by <@${message.author.id}>.\n<${global.config.website.url}/bot/${bota.id}>`);
+          client.channels.cache.get(config.server.channels.botlogs).send(`${global.config.server.emojis.approve} | <@${bota.id}> by <@${botdata.ownerID}>${botdata.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''}'s has been approved by <@${message.author.id}>.\n<${global.config.website.url}/bot/${bota.id}>`);
           if (client.users.cache.get(botdata.ownerID)) {
-            client.users.cache.get(botdata.ownerID).send(`<:db_verified:826375752840249365> | Your bot named **${bota.tag}** has been approved! :tada:`);
+            client.users.cache.get(botdata.ownerID).send(`${global.config.server.emojis.approve} | Your bot named **${bota.tag}** has been approved! :tada:`);
             guild1.members.cache.get(botdata.ownerID).roles.add(roles.botDeveloper);
           }
           for (coowner of botdata.coowners) {
             if (client.users.cache.get(coowner)) {
-              client.users.cache.get(coowner).send(`<:db_verified:826375752840249365> | Your bot named **${bota.tag}** has been approved! :tada:`);
+              client.users.cache.get(coowner).send(`${global.config.server.emojis.approve} | Your bot named **${bota.tag}** has been approved! :tada:`);
               guild1.members.cache.get(coowner).roles.add(roles.botDeveloper);
             }
           }

@@ -71,7 +71,7 @@ app.post("/dashboard/bot/approve", async (req, res) => {
         message: `You have successfully approved ${botdata.username} bot.`,
     });
 
-    global.client.channels.cache.get(config.server.channels.botlogs).send(`<:db_verified:826375752840249365> | <@${botID}> by <@${botdata.ownerID}>${botdata.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''}'s has been approved by <@${req.user.id}>.\n<${global.config.website.url}/bot/${botID}>`);
+    global.client.channels.cache.get(config.server.channels.botlogs).send(`${global.config.server.emojis.approve} | <@${botID}> by <@${botdata.ownerID}>${botdata.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''}'s has been approved by <@${req.user.id}>.\n<${global.config.website.url}/bot/${botID}>`);
     await botsdata.findOneAndUpdate({
         botID: botID
     }, {
@@ -108,7 +108,7 @@ app.post("/dashboard/bot/decline", async (req, res) => {
     });
 
     global.client.users.fetch(botID).then(bota => {
-        global.client.channels.cache.get(config.server.channels.botlogs).send(`<:db_delete:816717275431174144> <@${botdata.ownerID}>${botdata.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''}'s bot named <@${botID}> has been declined by <@${req.user.id}>.\n**Reason:** ${reason}`);
+        global.client.channels.cache.get(config.server.channels.botlogs).send(`${global.config.server.emojis.decline} <@${botdata.ownerID}>${botdata.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''}'s bot named <@${botID}> has been declined by <@${req.user.id}>.\n**Reason:** ${reason}`);
     });
 
     await botsdata.findOneAndDelete({

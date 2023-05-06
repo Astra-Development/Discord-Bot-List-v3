@@ -40,7 +40,7 @@ module.exports = {
                 }
 
                 client.users.fetch(bot.id).then(bota => {
-                    client.channels.cache.get(config.server.channels.botlogs).send(`<:db_delete:816717275431174144> <@${botdata.ownerID}>${botdata.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''}'s bot named <@${bota.id}> has been declined by <@${message.author.id}>.\n**Reason:** ${reason}`);
+                    client.channels.cache.get(config.server.channels.botlogs).send(`${global.config.server.emojis.decline} <@${botdata.ownerID}>${botdata.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''}'s bot named <@${bota.id}> has been declined by <@${message.author.id}>.\n**Reason:** ${reason}`);
                 });
                 await botsdata.findOneAndDelete({
                     botID: bot.id

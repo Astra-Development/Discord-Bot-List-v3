@@ -55,7 +55,7 @@ module.exports = {
 
             for (const b of deletedBots) {
                 let botdata = await botsdata.findOne({ botID: b });
-                client.channels.cache.get(global.config.server.channels.botlogs).send(`<:db_delete:816717275431174144> <@${botdata.ownerID}>${b.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''} the bot **${botdata.botID}** has been removed!\n**Reason:** [Auto] The bot was automatically deleted, since it was also deleted from Discord.`);
+                client.channels.cache.get(global.config.server.channels.botlogs).send(`${global.config.server.emojis.decline} <@${botdata.ownerID}>${b.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''} the bot **${botdata.botID}** has been removed!\n**Reason:** [Auto] The bot was automatically deleted, since it was also deleted from Discord.`);
                 await botsdata.findOneAndDelete({ botID: b });
             }
 
