@@ -21,11 +21,10 @@ module.exports = {
 
     database: {
         url: '', // Mongo url (eg. mongodb+srv://<username>:<password>@<host>/<database>)
-        // 
     },
 
     website: {
-        port: 4777,
+        port: 4777, // The port that the website will be on (default: 4777)
         // Localhost Example:
         // url: 'http://localhost:4777', // default url
         // callback: 'http://localhost:4777/callback', // default callback url
