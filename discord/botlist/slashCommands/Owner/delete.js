@@ -38,7 +38,7 @@ module.exports = {
                 if (!bot) return interaction.reply({
                     embeds: [
                         {
-                            title: '${global.config.server.emojis.error} `` Deletion Error ``',
+                            title: `${global.config.server.emojis.error}` + ' `` Deletion Error ``',
                             description: 'You must provide a bot to delete.',
                             footer: null
                         }
@@ -49,7 +49,7 @@ module.exports = {
                 if (!bot.bot) return interaction.reply({
                     embeds: [
                         {
-                            title: '${global.config.server.emojis.error} `` Deletion Error ``',
+                            title: `${global.config.server.emojis.error}` + ' `` Deletion Error ``',
                             description: 'The user is not a bot.',
                             footer: null
                         }
@@ -61,7 +61,7 @@ module.exports = {
                 if (!botData) return interaction.reply({
                     embeds: [
                         {
-                            title: '${global.config.server.emojis.error} `` Deletion Error ``',
+                            title: `${global.config.server.emojis.error}` + ' `` Deletion Error ``',
                             description: 'This bot does not exist in the database.',
                             footer: null
                         }
@@ -88,19 +88,13 @@ module.exports = {
                                     type: 2,
                                     style: 3,
                                     label: 'Confirm',
-                                    custom_id: 'bot_deletion_confirm',
-                                    emoji: {
-                                        name: '${global.config.server.emojis.success}'
-                                    }
+                                    custom_id: 'bot_deletion_confirm'
                                 },
                                 {
                                     type: 2,
                                     style: 4,
                                     label: 'Cancel',
-                                    custom_id: 'bot_deletion_cancel',
-                                    emoji: {
-                                        name: '${global.config.server.emojis.error}'
-                                    }
+                                    custom_id: 'bot_deletion_cancel'
                                 }
                             ]
                         }
@@ -126,7 +120,7 @@ module.exports = {
                         await interaction.editReply({
                             embeds: [
                                 {
-                                    title: '${global.config.server.emojis.error} `` Deletion Cancelled ``',
+                                    title: `${global.config.server.emojis.error}` + ' `` Deletion Cancelled ``',
                                     description: `<@${bot.id}> (\`${bot.id}\`) has not been deleted from the database.`,
                                     footer: null
                                 }
@@ -141,7 +135,7 @@ module.exports = {
                         await interaction.editReply({
                             embeds: [
                                 {
-                                    title: '${global.config.server.emojis.error} `` Deletion Cancelled ``',
+                                    title: `${global.config.server.emojis.error}` + ' `` Deletion Cancelled ``',
                                     description: `<@${bot.id}> (\`${bot.id}\`) has not been deleted from the database.`,
                                     footer: {
                                         text: 'This confirmation has expired.'
@@ -159,7 +153,7 @@ module.exports = {
                 if (!server) return interaction.reply({
                     embeds: [
                         {
-                            title: '${global.config.server.emojis.error} `` Deletion Error ``',
+                            title: `${global.config.server.emojis.error}` + ' `` Deletion Error ``',
                             description: 'You must provide a server to delete.',
                             footer: null
                         }
@@ -172,7 +166,7 @@ module.exports = {
                 if (!serverData) return interaction.reply({
                     embeds: [
                         {
-                            title: '${global.config.server.emojis.error} `` Deletion Error ``',
+                            title: `${global.config.server.emojis.error}` + ' `` Deletion Error ``',
                             description: 'This server does not exist in the database.',
                             footer: null
                         }
@@ -183,7 +177,7 @@ module.exports = {
                 const confirm = await interaction.reply({
                     embeds: [
                         {
-                            title: '${global.config.server.emojis.error} `` Deletion Confirmation ``',
+                            title: `${global.config.server.emojis.error}` + ' `` Deletion Confirmation ``',
                             description: `Are you sure you want to delete ${await serverClient?.guilds?.fetch(server).then((g) => g.name) || server} (\`${server}\`) from the database?`,
                             footer: {
                                 text: 'This confirmation will expire in 15 seconds.'
@@ -199,19 +193,13 @@ module.exports = {
                                     type: 2,
                                     style: 3,
                                     label: 'Confirm',
-                                    custom_id: 'server_deletion_confirm',
-                                    emoji: {
-                                        name: '${global.config.server.emojis.success}'
-                                    }
+                                    custom_id: 'server_deletion_confirm'
                                 },
                                 {
                                     type: 2,
                                     style: 4,
                                     label: 'Cancel',
-                                    custom_id: 'server_deletion_cancel',
-                                    emoji: {
-                                        name: '${global.config.server.emojis.error}'
-                                    }
+                                    custom_id: 'server_deletion_cancel'
                                 }
                             ]
                         }
@@ -226,7 +214,7 @@ module.exports = {
                         await interaction.editReply({
                             embeds: [
                                 {
-                                    title: '${global.config.server.emojis.success} `` Deletion Confirmation ``',
+                                    title: `${global.config.server.emojis.success}` + ' `` Deletion Confirmation ``',
                                     description: `${await serverClient?.guilds?.fetch(server).then((g) => g.name) || server} (\`${server}\`) has been deleted from the database.`,
                                     footer: null
                                 }
@@ -237,7 +225,7 @@ module.exports = {
                         await interaction.editReply({
                             embeds: [
                                 {
-                                    title: '${global.config.server.emojis.error} `` Deletion Cancelled ``',
+                                    title: `${global.config.server.emojis.error}` + ' `` Deletion Cancelled ``',
                                     description: `${await serverClient?.guilds?.fetch(server).then((g) => g.name) || server} (\`${server}\`) has not been deleted from the database.`,
                                     footer: null
                                 }
@@ -252,7 +240,7 @@ module.exports = {
                         await interaction.editReply({
                             embeds: [
                                 {
-                                    title: '${global.config.server.emojis.error} `` Deletion Cancelled ``',
+                                    title: `${global.config.server.emojis.error}` + ' `` Deletion Cancelled ``',
                                     description: `${await serverClient?.guilds?.fetch(server).then((g) => g.name) || server} (\`${server}\`) has not been deleted from the database.`,
                                     footer: {
                                         text: 'This confirmation has expired.'
@@ -266,7 +254,10 @@ module.exports = {
             }
         } catch (err) {
             console.log(err);
-            interaction.reply({ content: 'An error occurred while using the delete command. ```bash\n' + err + '```' });
+            interaction.reply({
+                content: 'An error occurred while using the delete command. ```bash\n' + err + '```',
+                ephemeral: true
+            });
         }
     }
 }
