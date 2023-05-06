@@ -70,8 +70,6 @@ module.exports = {
     ],
     run: async (interaction, client) => {
         try {
-            if (!global.config.client.owners.includes(interaction.user.id)) return;
-
             const bot = interaction.options.get('bot').user;
             let time = interaction.options.get('time').value;
             let status = interaction.options.getString('status').value ? interaction.options.getString('status').value : 'promote';
