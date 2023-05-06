@@ -2,10 +2,9 @@ module.exports = {
     name: 'delete',
     category: 'Owner',
     description: 'Delete a bot or a server from the database',
-    // make two options for a bot or a string
     options: [
         {
-            name: "delete",
+            name: "bot",
             type: 1,
             description: "Delete a bot or a server from the database",
             options: [
@@ -13,12 +12,19 @@ module.exports = {
                     name: "bot",
                     type: 6,
                     description: "The botId or @mention of the bot you want to delete",
-                    required: false
-                }, {
+                    required: true
+                }
+            ]
+        }, {
+            name: "server",
+            type: 1,
+            description: "Delete a bot or a server from the database",
+            options: [
+                {
                     name: "server",
                     type: 3,
                     description: "The serverID of the server you want to delete",
-                    required: false
+                    required: true
                 }
             ]
         }
