@@ -72,7 +72,7 @@ module.exports = {
                 const confirm = await interaction.reply({
                     embeds: [
                         {
-                            title: '${global.config.server.emojis.error} `` Deletion Confirmation ``',
+                            title: `${global.config.server.emojis.error}` + ' `` Deletion Confirmation ``',
                             description: `Are you sure you want to delete <@${bot.id}> (\`${bot.id}\`) from the database?`,
                             footer: {
                                 text: 'This confirmation will expire in 15 seconds.'
@@ -109,13 +109,14 @@ module.exports = {
                         await interaction.editReply({
                             embeds: [
                                 {
-                                    title: '${global.config.server.emojis.success} `` Deletion Confirmation ``',
+                                    title: `${global.config.server.emojis.success}` + ' `` Deletion Confirmation ``',
                                     description: `<@${bot.id}> (\`${bot.id}\`) has been deleted from the database.`,
                                     footer: null
                                 }
                             ],
                             components: []
                         });
+                        collector.stop(); // stop the collector
                     } else if (i.customId === 'bot_deletion_cancel') {
                         await interaction.editReply({
                             embeds: [
@@ -127,6 +128,7 @@ module.exports = {
                             ],
                             components: []
                         });
+                        collector.stop(); // stop the collector
                     }
                 });
 
@@ -221,6 +223,7 @@ module.exports = {
                             ],
                             components: []
                         });
+                        collector.stop(); // stop the collector
                     } else if (i.customId === 'server_deletion_cancel') {
                         await interaction.editReply({
                             embeds: [
@@ -232,6 +235,7 @@ module.exports = {
                             ],
                             components: []
                         });
+                        collector.stop(); // stop the collector
                     }
                 });
 
