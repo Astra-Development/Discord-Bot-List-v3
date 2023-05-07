@@ -105,7 +105,7 @@ module.exports = {
                 const collector = confirm.createMessageComponentCollector({ filter, time: 15000 });
                 collector.on('collect', async (i) => {
                     if (i.customId === 'bot_deletion_confirm') {
-                        await botsdata.deleteOne({ botID: bot.id });
+                        await botsdata.findOneAndDelete({ botID: bot.id });
                         await interaction.editReply({
                             embeds: [
                                 {
@@ -212,7 +212,7 @@ module.exports = {
                 const collector = confirm.createMessageComponentCollector({ filter, time: 15000 });
                 collector.on('collect', async (i) => {
                     if (i.customId === 'server_deletion_confirm') {
-                        await serversdata.deleteOne({ serverID: server });
+                        await serversdata.findOneAndDelete({ serverID: server });
                         await interaction.editReply({
                             embeds: [
                                 {
