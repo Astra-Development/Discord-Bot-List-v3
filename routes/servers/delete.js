@@ -37,7 +37,7 @@ app.post("/servers/delete/:id", async (req, res) => {
         });
 
         global.client.channels.cache.get(global.config.server.channels.botlogs).send({
-            content: `${global.config.server.emojis.decline} <@${req.user.id}> deleted server **${req.params.id}**`
+            content: `${global.config.server.emojis.decline ?? "❌"} <@${req.user.id}> deleted server **${req.params.id}**`
         });
 
         return res.json({

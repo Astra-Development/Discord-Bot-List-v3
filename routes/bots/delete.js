@@ -33,7 +33,7 @@ app.post("/bots/delete/:id", async (req, res) => {
         });
 
         global.client.channels.cache.get(global.config.server.channels.botlogs).send({
-            content: `${global.config.server.emojis.decline} | <@${req.user.id}>${botdata.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''} deleted bot **${botdata.botID}**`,
+            content: `${global.config.server.emojis.decline ?? "❌"} | <@${req.user.id}>${botdata.coowners?.length ? `, ${botdata.coowners.map(u => `<@${u}>`).join(', ')}` : ''} deleted bot **${botdata.botID}**`,
         });
 
         await botsdata.deleteOne({
