@@ -122,7 +122,7 @@ module.exports = {
             welcome: '804721971593478164', // welcome logs channel Member/Bot joins the server
             leave: '804721971593478164', // Leave logs channel Member/Bot leaves the server
 
-            schedules: '1025000823790501949', // New schedule logs channel
+            schedules: '1025000823790501949', // New schedule logs channel when you want to schedule a promotion
 
             voiceChannelStatistics: '', // Voice channel statistics channel "Website Visitors: 1365"
         },
