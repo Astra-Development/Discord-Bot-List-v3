@@ -31,7 +31,7 @@ const ratelimitMap = new Map();
 global.ratelimitMap = ratelimitMap;
 
 botsdata.watch().on("change", data => {
-    global.client.channels.cache.get("1024335635756105878").send({
+    global.client.channels.cache.get(config.server.channels.database.logs).send({
         content: `**Bot Data Changed** [${data.operationType} - ${data.documentKey._id}]`,
         files: [{
             attachment: Buffer.from(JSON.stringify(data.fullDocument ? data.fullDocument : data, null, 4)),
@@ -41,7 +41,7 @@ botsdata.watch().on("change", data => {
 });
 
 serversdata.watch().on("change", data => {
-    global.client.channels.cache.get("1024335635756105878").send({
+    global.client.channels.cache.get(config.server.channels.database.logs).send({
         content: `**Server Data Changed** [${data.operationType} - ${data.documentKey._id}]`,
         files: [{
             attachment: Buffer.from(JSON.stringify(data.fullDocument ? data.fullDocument : data, null, 4)),

@@ -124,6 +124,11 @@ module.exports = {
 
             schedules: '1025000823790501949', // New schedule logs channel when you want to schedule a promotion
 
+            // Mongo Logs
+            database: {
+                logs: '1023887120533823519', // Channel ID to store database changes
+            },
+
             voiceChannelStatistics: '', // Voice channel statistics channel "Website Visitors: 1365"
         },
 
