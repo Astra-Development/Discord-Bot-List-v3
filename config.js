@@ -117,7 +117,11 @@ module.exports = {
             botlogs: '850303116393185290', // Bot Add, Remove, Approve, Deny, Edit
             votes: '', // Bot votes channel
             serverlogs: '', // Server Add, Remove, Approve, Deny, Edit
-            welcome: '804721971593478164', // welcome logs channel Member/Bot join & leave logs
+            
+            // Greetings
+            welcome: '804721971593478164', // welcome logs channel Member/Bot joins the server
+            leave: '804721971593478164', // Leave logs channel Member/Bot leaves the server
+
             schedules: '1025000823790501949', // New schedule logs channel
 
             voiceChannelStatistics: '', // Voice channel statistics channel "Website Visitors: 1365"
