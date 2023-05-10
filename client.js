@@ -60,16 +60,16 @@ const startSClient = async () => {
     await clientReady;
 
     try {
-        let voiceChannel = client.channels.cache.get(config.server.voiceChannelStatistics)
+        let voiceChannel = client.channels.cache.get(config.server.channels.voiceChannelStatistics);
 
         const data = await siteanalytics.find();
         const countryData = data[0] && data[0].country && data[0].country[0];
         const count = countryData ? Object.values(countryData).reduce((c, d) => c + d, 0) : 0;
 
         if (voiceChannel && count > 0) {
-            client.channels.cache.get(voiceChannel).setName("Website Visitors: " + count.toLocaleString())
+            voiceChannel.setName("Website Visitors: " + count.toLocaleString())
             setInterval(async () => {
-                client.channels.cache.get(voiceChannel).setName("Website Visitors: " + count.toLocaleString())
+                voiceChannel.setName("Website Visitors: " + count.toLocaleString())
             }, 1 * 60 * 60000); // 1 hour (Careful! API limits)
         }
     } catch (e) {
