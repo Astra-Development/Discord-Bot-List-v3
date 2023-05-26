@@ -1,5 +1,7 @@
 # Welcome to the Discord Bot List v3 Repository!
 
+Creator Yusu & Luck
+
 We are excited to announce that we will be sharing the source code of our project with the Discord community. This will be a valuable asset for anyone looking to create or improve their own Discord bot list, and we can't wait to see what amazing things you'll create with it!
 
 ## About the Project
