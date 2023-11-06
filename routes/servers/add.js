@@ -66,7 +66,7 @@ app.post('/servers/new', async (req, res) => {
         if (!serverID) return error(res, 'Please provide a server ID.');
         let guildCache = global.serverClient.guilds.cache.get(serverID);
         if (!guildCache) return error(res, `It seems like our bot is not in this server. You must invite me to the server before adding it. <a href="${global.config.serverClient.invite}&disable_guild_select=true&guild_id=${serverID}" target="_blank">Invite me</a>`);
-        if (!guildCache.members.cache.get(req.user.id).permissions.has("MANAGE_GUILD")) return error(res, 'You do not have the required permissions to add this server. <strong>[MANAGE_GUILD]</strong>');
+       // if (!guildCache.members.cache.get(req.user.id).permissions.has("MANAGE_GUILDS")) return error(res, 'You do not have the required permissions to add this server. <strong>[MANAGE_GUILD]</strong>'); fixed the manage_gulds not something i forgot but fixed this you can change to manage_guilds to perms depends on the intents which type of u using
 
         if (serverdata) return error(res, 'This server is already in the database.');
         if (!inviteURL) return error(res, '<strong>[Invite URL]</strong> is required.');
@@ -86,7 +86,7 @@ app.post('/servers/new', async (req, res) => {
         if (!longDesc || typeof (longDesc) !== "string") return error(res, '<strong>[Long Description]</strong> is required.');
 
         if (shortDesc.length < 50 || shortDesc.length > 200) return error(res, '<strong>[Short Description]</strong> must be between 50 and 200 characters.');
-        if (longDesc.length < 500 || longDesc.length > 5000) return error(res, '<strong>[Long Description]</strong> must be between <strong>500</strong> and <strong>5000</strong> characters.');
+        if (longDesc.length < 100 || longDesc.length > 5000) return error(res, '<strong>[Long Description]</strong> must be between <strong>500</strong> and <strong>5000</strong> characters.');
 
         if (!tags || typeof (tags) != 'object' || !Array.isArray(tags)) return error(res, '<strong>[Tags]</strong> is required.');
         if (!tags.every(tag => config.website.serverTags.includes(tag))) return error(res, `<strong>[Tags]</strong> must be one of the following: ${config.website.serverTags.map(tag => `<code>${tag}</code>`).join(', ')}`);
