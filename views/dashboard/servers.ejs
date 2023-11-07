@@ -2,6 +2,7 @@
 
 <%- include('../partials/head.ejs') %>
 
+
 <body>
 
   <%- include('./partials/header.ejs') %>
@@ -41,38 +42,31 @@
       </div>
       <div class="table-responsive">
         <table class="table table-striped-columns">
-          <thead>
+          <thead;>
             <tr>
               <th>#</th>
               <th>Developer</th>
               <th>Servers</th>
               <th>Action</th>
             </tr>
-          </thead>
-          <tbody>
-            <% for (let i = 0; i < serversdata.length; i++) { %>
-            <tr id="user<%= serversdata[i].ownerID %>">
-              <th scope="row"><%= i + 1 %></th>
-              <td>
-                <%= sbot.users.cache.get(serversdata[i].ownerID) ? sbot.users.cache.get(serversdata[i].ownerID).tag : "Unknown" %>
-                <span class="fs-xs mb-md-0">(<%= serversdata[i].ownerID %>)</span>
-              </td>
-              <td>
-                <%- serversdata
-                  .filter(b => b.ownerID == serversdata[i].ownerID)
-                  .map(b => {
-                    const guild = sbot.guilds.cache.get(b.serverID);
-                    return guild ? `${guild.name} <span class="fs-xs mb-md-0">(${b.serverID})</span>` : 'Unknown Guild';
-                  })
-                  .join(', ')
-                %>
-              </td>
-              <td style="text-align: center;">
-                <a href="/profile/<%= serversdata[i].ownerID %>" class="badge bg-faded-success text-success">View Profile</a>
-              </td>
-            </tr>
-            <% } %>
-          </tbody>
+            </thead>
+            <tbody>
+              <% for (let i = 0; i < serversdata.length; i++) { %>
+              <tr id="user<%= serversdata[i].ownerID %>">
+                <th scope="row"><%= i + 1 %></th>
+                <td>
+                  <%= sbot.users.cache.get(serversdata[i].ownerID) ? sbot.users.cache.get(serversdata[i].ownerID).tag : "Unknown" %>
+                  <span class="fs-xs mb-md-0">(<%= serversdata[i].ownerID %>)</span>
+                </td>
+                <td>
+                  <%- serversdata.filter(b => b.ownerID == serversdata[i].ownerID).map(b => `${sbot.guilds.cache.get(b.serverID).name} <span class="fs-xs mb-md-0">(${b.serverID})</span>`).join(', ') %>
+                </td>
+                <td style="text-align: center;">
+                  <a href="/profile/<%= serversdata[i].ownerID %>" class="badge bg-faded-success text-success">View Profile</a>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
         </table>
       </div>
       <script>
