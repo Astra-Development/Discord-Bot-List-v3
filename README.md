@@ -15,6 +15,7 @@ Our Discord Bot List v3 project is a comprehensive and feature-rich platform for
     - [Add Bot](#add-bot-form)
     - [Dashboard](#dashboard)
 - [Discord Server](https://discord.gg/sQQFSnQhdt)
+- [Disclaimer](#disclaimer)
 
 <a href="https://discord.gg/sQQFSnQhdt"><img src="https://discordapp.com/api/guilds/793149744847257600/widget.png?style=banner2"/></a>
 
@@ -56,3 +57,22 @@ We have spent countless hours developing and improving this project, and we beli
 If you're interested in using our code, or if you have any ideas or suggestions, feel free to open an issue on our [GitHub repository](https://github.com/Astra-Development/Discord-Bot-List-v3/issues). Additionally, if you'd like to get notified of any updates or progress, be sure to start starring our repository at [https://github.com/Astra-Development/Discord-Bot-List-v3](https://github.com/Astra-Development/Discord-Bot-List-v3).
 
 Finally, we want to thank you for your interest in our project. We will be here to support each one of you as you work with our code, and we can't wait to see what amazing things you'll create! Don't hesitate to reach out if you need any help or support. Happy coding!
+
+## Disclaimer
+**Important: Please Read Before Use**
+
+Before you begin using this repository, we want to emphasize the following disclaimers:
+
+1. **No Warranties or Guarantees:** This code is provided on an as-is basis, without any warranties or guarantees. It is crucial to understand that using it is at your own risk.
+
+2. **Respect for Credits:** You are not allowed to remove any credits from this repository. Doing so is discouraged and considered unethical. It is a sign of respect for the original creators' work and the open-source community.
+
+3. **Ethical Contribution:** We strongly discourage anyone from attempting to remove or alter credits. This practice shows a lack of respect for the hard work put into this project and the open-source community. Be a responsible and ethical contributor to the open-source community!
+
+## Contributors
+We extend our sincere appreciation to the following individuals who have made valuable contributions to this project:
+
+<a href="https://github.com/Astra-Development/Discord-Bot-List-v3/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=Astra-Development/Discord-Bot-List-v3" /></a>
+
+Please feel free to contribute to the project responsibly and in accordance with open-source principles.
