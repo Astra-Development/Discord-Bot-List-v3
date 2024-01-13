@@ -324,7 +324,7 @@
         body: JSON.stringify(data)
       }).then(res => res.json()).then(json => {
         if (json.error == false) {
-          document.getElementById('results').innerHTML = `<div class="alert alert-success" role="alert">${json.message}</div>`;
+          window.location.href = `/bot/${json.botID}`;
         } else if (json.error == true) {
           document.getElementById('results').innerHTML = `<div class="alert alert-danger" role="alert">${json.message}</div>`;
         }
