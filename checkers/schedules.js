@@ -49,7 +49,7 @@ const moment = require('moment');
                         allowedMentions: { parse: ['users', 'roles'] }
                     });
 
-                    await botsdata.findOneAndUpdate({ botID: botdata.botID }, { promote: false });
+                    await botsdata.findOneAndUpdate({ botID: botdata.botID }, { $set: { promote: false } });
                     await schedule.deleteOne({ botID: botdata.botID, type: 'promote' });
                 }
             }, time);

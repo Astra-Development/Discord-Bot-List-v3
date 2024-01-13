@@ -109,7 +109,7 @@ module.exports = {
                 type: status
             })).save();
 
-            await botsdata.findOneAndUpdate({ botID: bot.id }, { promote: true });
+            await botsdata.findOneAndUpdate({ botID: bot.id }, { $set: { promote: true } });
 
             interaction.reply({
                 content: `Successfully scheduled ${bot.tag} to ${status} for **${timeNumber}${timeType === 'm' ? ' minute' : timeType === 'h' ? ' hour' : timeType === 'd' ? ' day' : timeType === 'w' ? ' week' : timeType === 'mo' ? ' month' : ''}${timeNumber > 1 ? 's' : ''}**.`
@@ -156,7 +156,7 @@ module.exports = {
                     allowedMentions: { parse: ['users', 'roles'] }
                 });
 
-                await botsdata.findOneAndUpdate({ botID: bot.id }, { promote: '' });
+                await botsdata.findOneAndUpdate({ botID: bot.id }, { $set: { promote: false } });
                 await botSchedules.deleteOne({ botID: bot.id, type: status });
             }, time);
         } catch (err) {
