@@ -110,10 +110,12 @@
           </a>
         </li>
         <%
-const userIsOwner = global.config.client.owners.includes(user.id);
-const userIsBotReviewer = global.client.guilds.cache.get(global.config.server.id).members.cache.get(user.id)?.roles.cache.has(global.config.server.roles.botReviewer);
+if (global.config && global.config.client && global.config.client.owners && global.client.guilds.cache) {
+  const userIsOwner = global.config.client.owners.includes(user.id);
+  const guild = global.client.guilds.cache.get(global.config.server.id);
+  const userIsBotReviewer = guild && guild.members.cache.get(user.id)?.roles.cache.has(global.config.server.roles.botReviewer);
 
-if (userIsOwner || userIsBotReviewer) {
+  if (userIsOwner || userIsBotReviewer) {
 %>
 <li>
   <a href="/dashboard" class="dropdown-item d-flex align-items-center">
@@ -122,8 +124,10 @@ if (userIsOwner || userIsBotReviewer) {
   </a>
 </li>
 <%
+  }
 }
 %>
+
 
         <li class="dropdown-divider"></li>
         <li>
