@@ -1,7 +1,7 @@
 // Enter the port that you want the website to be on.
 // Default port is 4777, if you want to change it, you can change it here.
 // If the hosting provider doesn't allow you to use the port 4777, you can change it to what the hosting provider allows you to use.
-const port = 4777;
+const port = 3000;
 
 // Enter the domain that you will use for the website.
 const domain = 'https://astrabots.xyz';
