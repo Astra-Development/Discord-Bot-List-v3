@@ -17,7 +17,9 @@ Our Discord Bot List v3 project is a comprehensive and feature-rich platform for
     - [User-Profile](#user-profile)
     - [Add-Bot-Form](#add-bot-form)
     - [Dashboard](#dashboard)
-  - [Common Issues](#common-issues)
+  - [Config Setup (Easy)](#config-setup-easy)
+      - [Running The website locally](#running-the-website-locally)
+      - [Running The website on a server](#running-the-website-on-a-server)
   - [How to Get Involved](#how-to-get-involved)
   - [Disclaimer](#disclaimer)
   - [Contributors](#contributors)
@@ -51,17 +53,20 @@ Our Discord Bot List v3 project is a comprehensive and feature-rich platform for
 
 We have spent countless hours developing and improving this project, and we believe that it has the potential to be a game-changer for anyone looking to create a Discord bot list. Now, we want to share this project with you.
 
-## Common Issues
-Here are the steps you should follow in order to start successfully using our code:
+## Config Setup (Easy)
+You should only need to change the port if you are using a different port for your server.
 
-Step 1:
-![Config Step 1](https://github.com/Astra-Development/Discord-Bot-List-v3/assets/39243722/aae26383-3fb4-42e8-86e0-7ae3df125703)
+#### Running The website locally
+```javascript
+const localhosting = true; // If you are hosting on localhost, set this to true
+```
 
-Step 2:
-![Config Step 2](https://github.com/Astra-Development/Discord-Bot-List-v3/assets/39243722/6b302308-1ea8-4180-97b5-d264cf8eccce)
+#### Running The website on a server
+```javascript
+const localhosting = false; // If you are hosting on a server,set this to false
+```
 
-Step 3:
-![Config Step 3](https://github.com/Astra-Development/Discord-Bot-List-v3/assets/39243722/f68bae0b-b9f4-4da1-b048-a36e25728e21)
+---
 
 
 ## How to Get Involved
