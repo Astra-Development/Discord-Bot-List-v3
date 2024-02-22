@@ -14,7 +14,7 @@ const localhosting = true;
 module.exports = {
     // Client will be the bot that you will use for the main purpose of the website and commands.
     client: {
-        id: '857185961280929813', // Bot ID
+        id: '', // Bot ID
         token: '', // Bot token
         secret: '', // Bot secret
         prefix: 'a!', // Bot prefix
@@ -24,7 +24,7 @@ module.exports = {
     // ServerClient will be the bot that will be used for the server list/server commands 
     // and the bot that will be public to everyone so they can invite it to their server.
     serverClient: {
-        id: '860206392652595281', // Server Bot ID
+        id: '', // Server Bot ID
         prefix: 's!', // Server Bot prefix
         token: '', // Server Bot token
 
