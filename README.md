@@ -26,6 +26,9 @@ Our Discord Bot List v3 project is a comprehensive and feature-rich platform for
 
 
 ## Website Design Example
+> [!NOTE]
+> The following images are in grid format. If you are or smaller device, you may need to scroll to see all the images.
+> 
 | Website Design Example | Website Design Example |
 | -------------- | -------------- |
 | <img src="https://user-images.githubusercontent.com/39243722/219464103-51f0253f-452a-4b2a-a62a-b2ca7b132a88.png" width="400" /> | test <img src="https://user-images.githubusercontent.com/39243722/219459487-22a5ea91-0086-432e-80c9-585e12eb4289.gif" width="400" /> |
