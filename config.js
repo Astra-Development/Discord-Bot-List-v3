@@ -6,8 +6,10 @@ const port = 4777;
 // Enter the domain that you will use for the website.
 const domain = 'https://astrabots.xyz';
 
-// If you are hosting the website locally, you can use the localhost domain.
-const localhostDomain = `http://localhost:${port}`;
+// Are you going to localhost the website or host it on a server?
+// Set to "true" if you are localhosting.
+// Set to "false" if you are hosting it on a server.
+const localhosting = true;
 
 module.exports = {
     // Client will be the bot that you will use for the main purpose of the website and commands.
@@ -37,13 +39,8 @@ module.exports = {
     website: {
         port: port, // Website port
 
-        // Local Hosting Example:
-        // url: localhostDomain, // default url
-        // callback: localhostDomain + '/callback', // default callback url
-
-        // Server Hosting With Custom Domain Example:
-        url: domain, // domain is the custom domain on the top
-        callback: domain + '/callback', // callback url
+        url: localhosting ? 'http://localhost:' + port : domain, // Website url
+        callback: localhosting ? 'http://localhost:' + port + '/callback' : domain + '/callback', // Website callback url
 
         // For login issues about the callback url, please join the support server and check the #support channel pinned messages.
         // If you still can't fix it, feel free to open a ticket in the support server.
