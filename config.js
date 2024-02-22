@@ -39,6 +39,9 @@ module.exports = {
     website: {
         port: port, // Website port
 
+        // DO NOT CHANGE "localhosting"
+        localhosting: localhosting,
+
         url: localhosting ? 'http://localhost:' + port : domain, // Website url
         callback: localhosting ? 'http://localhost:' + port + '/callback' : domain + '/callback', // Website callback url
 

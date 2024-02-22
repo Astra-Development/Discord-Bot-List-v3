@@ -341,6 +341,6 @@ module.exports = async (client) => {
 
     const http = require("http").createServer(app);
     http.listen(config.website.port, () => {
-        console.success(`[Website] Website is online on port ${config.website.port}.`);
+        console.success(`[Website] Website is online with url: ${config.website.url}`.green);
     });
 }
