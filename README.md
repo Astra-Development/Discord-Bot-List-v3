@@ -78,6 +78,7 @@ const localhosting = false; // If you are hosting on a server, set this to false
 ```
 
 ##### Discord Developer Portal (Required)
+![Config Step 3](https://github.com/Astra-Development/Discord-Bot-List-v3/assets/39243722/a47b429c-1319-4a9f-a748-8f4e9eb1f924)
 
 
 ## How to Get Involved
