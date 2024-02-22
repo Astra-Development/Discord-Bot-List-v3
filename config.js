@@ -1,3 +1,14 @@
+// Enter the port that you want the website to be on.
+// Default port is 4777, if you want to change it, you can change it here.
+// If the hosting provider doesn't allow you to use the port 4777, you can change it to what the hosting provider allows you to use.
+const port = 4777;
+
+// Enter the domain that you will use for the website.
+const domain = 'https://astrabots.xyz';
+
+// If you are hosting the website locally, you can use the localhost domain.
+const localhostDomain = `http://localhost:${port}`;
+
 module.exports = {
     // Client will be the bot that you will use for the main purpose of the website and commands.
     client: {
@@ -24,14 +35,15 @@ module.exports = {
     },
 
     website: {
-        port: 4777, // The port that the website will be on (default: 4777)
-        // Localhost Example:
-        // url: 'http://localhost:4777', // default url
-        // callback: 'http://localhost:4777/callback', // default callback url
+        port: port, // Website port
 
-        // Example with domain:
-        url: 'https://astrabots.xyz', // default url
-        callback: 'https://astrabots.xyz/callback', // default callback url
+        // Local Hosting Example:
+        // url: localhostDomain, // default url
+        // callback: localhostDomain + '/callback', // default callback url
+
+        // Server Hosting With Custom Domain Example:
+        url: domain, // domain is the custom domain on the top
+        callback: domain + '/callback', // callback url
 
         // For login issues about the callback url, please join the support server and check the #support channel pinned messages.
         // If you still can't fix it, feel free to open a ticket in the support server.
@@ -104,7 +116,7 @@ module.exports = {
         id: '793149744847257600', // Server ID
 
         emojis: {
-            "approve": "<:db_verified:826375752840249365>", 
+            "approve": "<:db_verified:826375752840249365>",
             "decline": "<:db_delete:816717275431174144>",
             "success": "✅",
             "error": "❌",
@@ -117,7 +129,7 @@ module.exports = {
             botlogs: '850303116393185290', // Bot Add, Remove, Approve, Deny, Edit
             votes: '', // Bot votes channel
             serverlogs: '', // Server Add, Remove, Approve, Deny, Edit
-            
+
             // Greetings
             welcome: '804721971593478164', // welcome logs channel Member/Bot joins the server
             leave: '804721971593478164', // Leave logs channel Member/Bot leaves the server
