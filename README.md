@@ -103,17 +103,17 @@ Before you begin using this repository, we want to emphasize the following discl
 > [!WARNING]
 > **Important Notice: Changes to Support Policy**
 > 
-> Thank you for using our open-source project. To better > streamline support and foster a collaborative community, we > have made adjustments to our support policy.
+> Thank you for using our open-source project. To better streamline support and foster a collaborative community, we have made adjustments to our support policy.
 > 
-> We no longer offer 100% free support due to the observation > that some users were seeking finalized solutions without > actively contributing to the codebase. This shift aims to > encourage a more engaged and collaborative environment.
+> We no longer offer 100% free support due to the observation that some users were seeking finalized solutions without actively contributing to the codebase. This shift aims to encourage a more engaged and collaborative environment.
 > 
-> If you encounter any issues or have questions, we kindly ask > you to open an issue on our [GitHub repository](https://> github.com/your-repository). This allows our community to > address concerns collectively.
+> If you encounter any issues or have questions, we kindly ask  you to open an issue on our [GitHub repository](https://github.com/Astra-Development/Discord-Bot-List-v3). This allows our community to address concerns collectively.
 > 
-> For immediate assistance, you can also visit our [Discord > Server](https://discord.gg/sQQFSnQhdt) and seek help in the > #support channel. While we cannot guarantee full support, > we'll do our best to assist you.
+> For immediate assistance, you can also visit our [Discord Server](https://discord.gg/sQQFSnQhdt) and seek help in the #support channel. While we cannot guarantee full support, we'll do our best to assist you.
 > 
-> Should you require more personalized and advanced support > for your project, we offer professional services. Feel free > to reach out for tailored assistance, and we'll be delighted > to collaborate on your project's success.
+> Should you require more personalized and advanced support for your project, we offer professional services. Feel free to reach out for tailored assistance, and we'll be delighted to collaborate on your project's success.
 > 
-> We appreciate your understanding and continued involvement > in our open-source community.
+> We appreciate your understanding and continued involvement in our open-source community.
 
 ## Contributors
 We extend our sincere appreciation to the following individuals who have made valuable contributions to this project:
